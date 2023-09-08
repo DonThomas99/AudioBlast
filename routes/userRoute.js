@@ -85,5 +85,9 @@ user_route.get('/user-dashboard/editAddress/:id',userController2.editAddress)
 user_route.post('/user-dashboard/editAddress/:id',userController2.updateAddress)
 user_route.get('/user-dashboard/deleteAddress/:id',userController2.deleteAddress)
 
+//Wallet 
+user_route.get('/user-dashboard/walletHistory',userController2.loadWalletHistory)
+
+
 
 module.exports = user_route

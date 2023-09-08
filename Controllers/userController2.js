@@ -914,3 +914,14 @@ exports.deleteAddress = async(req,res) =>{
 
 }
 
+exports.loadWalletHistory = async(req, res) => {
+  try {
+    const userId = req.session.user_id
+    const userData = await User.findById({_id: userId})
+    const walletHistory = userData.wallet.transactions.reverse()
+    console.log(walletHistory);
+    
+  } catch (error) {
+    console.log(error.message);
+  }
+}
