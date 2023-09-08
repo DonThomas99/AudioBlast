@@ -226,7 +226,7 @@ console.log("is_blocked:",user.is_blocked);
     console.log('user not found');
   }
   
-res.redirect('/admin/userslist')
+res.redirect('/admin/userslist');
 } catch (error) {
   console.log(error.message);
        }
