@@ -1,0 +1,191 @@
+<%- include('../layouts/header.ejs') -%>
+
+<!-- Offcanvas Menu Begin -->
+<div class="offcanvas-menu-overlay"></div>
+<div class="offcanvas-menu-wrapper">
+    <div class="offcanvas__close">+</div>
+    <ul class="offcanvas__widget">
+        <li><span class="icon_search search-switch"></span></li>
+        <li><a href="#"><span class="icon_heart_alt"></span>
+            <div class="tip">2</div>
+        </a></li>
+        <li><a href="#"><span class="icon_bag_alt"></span>
+            <div class="tip">2</div>
+        </a></li>
+    </ul>
+
+<!-- Offcanvas Menu End -->
+<div class="offcanvas__logo">
+    <a href="#"><img src="" alt=""></a>
+</div>
+<div id="mobile-menu-wrap"></div>
+
+</div>
+<!-- Header Section Begin -->
+<header class="header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-3 col-lg-2">
+                <div class="header__logo">
+                    <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-7">
+                <nav class="header__menu">
+                    <ul>
+                        <li class="active"><a href="/">Home</a></li>
+                        <li><a href="/shop">Shop</a></li>
+                      <% if (user) { %>
+                        <li><a href="/cart">Cart</a></li>
+                      <% } else { %>
+                       <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                        cart
+                       </a></li>
+                        <%}%>
+                       
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <div class="header__right">
+                    <div class="header__right__auth">
+                        <% if(user) { %>
+                            <div class="user-profile" style="display: flex; align-items: baseline;">
+                                <a href="/user-dashboard" >Profile</a>
+                                <a href="#"><%= user.name%></a>
+                           
+                            </div>
+                        <% } else { %>
+                            <div class="auth-links">
+                                <a href="/login">Login</a>
+                                <a href="/register">Register</a>
+                            </div>
+                        <% } %>
+                    </div>
+                    <ul class="header__right__widget">
+                        <% if (user) { %>
+                            <li>     <form action="/logout" method="POST">
+                                <button class="btn" type="submit">  <i class="fa-solid fa-right-from-bracket"></i></button>
+                            </form></li>
+                        <% } %>
+                        <% if (user) { %>
+                            <li><a href="/wishlist"><span class="icon_heart_alt"></span></a></li>
+                            <li><a href="/cart"><span class="icon_bag_alt"></span></a></li>
+                       <% } else { %>
+                        <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                            <span class="icon_heart_alt"></span>
+                           </a></li>
+                           <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                            <span class="icon_bag_alt"></span>
+                           </a></li>
+                            <% } %>
+                  
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="canvas__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+
+
+
+
+<section>
+    <div class="container">
+        <div class="mt-5">
+
+            <% 
+            if(orderData && orderData.length>0){
+                
+                orderData.forEach((order) => {
+                    %>
+                    <div class="card mb-5 p-2">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-5 my-2  ">
+
+                                    <% 
+                                    order.products.forEach((pdt) => {
+                                        %>
+                                        
+                                        <div class="d-flex my-2">
+                                            <div class="mx-3">
+                                                <img src="/static/product_Images/<%= pdt.productId.image[0].filename %>" class="img-fluid"
+                                                    style="width: 3rem;">
+                                            </div>
+                                            <div>
+                                                <h6 class="card-title"><%= pdt.productId.productName %></h6>
+                                                <span style="color: rgb(99, 99, 99);">Quantity : <%= pdt.quantity %></span>
+                                            </div>
+                                        </div>
+                                        <%  
+                                    })
+                                    %>
+
+                                </div>
+                                <% 
+                                //let totalPaid = order.productPrice*order.quantity // - (order.discountPrice*order.quantity)
+                                %>
+                                <div class="col-md-3 text-center mt-3 d-flex flex-column justify-content-center  align-items-center">
+                                    <h6 class="card-text">Amount: ₹ <%= order.orderTotal %></h6>
+                                    <h6 class="card-text">via : <%= order.PaymentMethod %></h6>
+                                </div>
+                                <div class="col-md-2 text-center mt-3 d-flex flex-column justify-content-center align-items-center">
+                                    <% 
+                                        const dd = order.createdAt.getDate();
+                                        const mm = order.createdAt.getMonth() + 1;
+                                        const yyyy = order.createdAt.getFullYear();
+                                        
+                                        const formattedDate = `${dd}-${mm}-${yyyy}`; 
+                                        %>
+                               
+                                    <h6 class="card-text">Date: <%= formattedDate %> </h6>
+                                    <h6 class="card-text" 
+                                    
+                                    <% 
+                                    if(order.status == 'Order Confirmed' || order.status == 'Shipped' || order.status == 'Out For Delivery' || order.status == 'Delivered'){
+                                        %>
+                                        style='color: green;'
+                                        <%  
+                                    }else if(order.status == 'Cancelled' || order.status == 'Cancelled By Admin'){
+                                        %>
+                                        style='color: red;'
+                                        <%  
+                                    }else{
+                                        %>
+                                        style='color: orange;'
+                                        <%  
+                                    }
+                                    %>
+
+                                    ><%= order.status %></h6>
+                                </div>
+                                <div class="col-md-2 text-center mt-3 justify-content-center d-flex align-items-center">
+                                    <a href="/orderDetail/<%= order._id %>" class="btn btn-dark">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%  
+
+                })
+            }else{
+                %>
+                <h3>You ordered nothing yet  </h3>
+                <%  
+            }
+            %>
+
+        </div>
+    </div>
+</section>
+
+
+
+
+<%- include('../layouts/footer.ejs') -%>

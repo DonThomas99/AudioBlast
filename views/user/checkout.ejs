@@ -1,0 +1,319 @@
+<%- include('../layouts/header.ejs') -%>
+
+
+
+<!-- Offcanvas Menu Begin -->
+<div class="offcanvas-menu-overlay"></div>
+<div class="offcanvas-menu-wrapper">
+    <div class="offcanvas__close">+</div>
+    <ul class="offcanvas__widget">
+        <li><span class="icon_search search-switch"></span></li>
+        <li><a href="#"><span class="icon_heart_alt"></span>
+            <div class="tip">2</div>
+        </a></li>
+        <li><a href="#"><span class="icon_bag_alt"></span>
+            <div class="tip">2</div>
+        </a></li>
+    </ul>
+
+<!-- Offcanvas Menu End -->
+<div class="offcanvas__logo">
+    <a href="#"><img src="" alt=""></a>
+</div>
+<div id="mobile-menu-wrap"></div>
+
+</div>
+
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-3 col-lg-2">
+                    <div class="header__logo">
+                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-7">
+                    <nav class="header__menu">
+                        <ul>
+                            <li class="active"><a href="/">Home</a></li>
+                            <li><a href="/shop">Shop</a></li>
+                          
+                            <li><a href="/cart">Cart</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3">
+                    <div class="header__right">
+                        <div class="header__right__auth">
+                            <% if(user) { %>
+                                <div class="user-profile" style="display: flex; align-items: baseline;">
+                                    <a href="/user-dashboard" >Profile</a>
+                                    <a href="#"><%= user.name%></a>
+                               
+                                </div>
+                            <% } else { %>
+                                <div class="auth-links">
+                                    <a href="/login">Login</a>
+                                    <a href="/register">Register</a>
+                                </div>
+                            <% } %>
+                        </div>
+                        <ul class="header__right__widget">
+                            <% if (user) { %>
+                                <li>     <form action="/logout" method="POST">
+                                    <button class="btn" type="submit">  <i class="fa-solid fa-right-from-bracket"></i></button>
+                                </form></li>
+                            <% } %>
+                            <li><a href="/wishlist"><span class="icon_heart_alt"></span></a></li>
+                            <li><a href="/cart"><span class="icon_bag_alt"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="canvas__open">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="/"><i class="fa fa-home"></i> Home</a>
+                        <span>Shopping cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Checkout Section Begin -->
+    <section>
+        <div class="container">
+            <div class="my-5">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-6" >
+                            <h2 class="">Billing Details</h2>
+                            <hr>
+                            <div class="cart__discount">
+                                <h6>Apply Coupons</h6>
+                                <div style="margin-top: 5px;">
+                                    <form action="" id="applyCoupon" method="" class="form-group d-flex applyCoupon">
+                                        <input type="text" name="code" class="form-group rounded-0 flex-grow-1 border border-bottom-1" style="height: 40px; border-bottom: 1;" placeholder="Enter Coupon code">
+                                        <button type="submit" class="btn btn-dark rounded-0" style="margin-left: -5px; height: 40px;">Apply</button>
+                                    </form>
+                                </div>
+                             
+                                <div style="position: relative;margin-bottom: 10px;">
+                                    <a class="text-primary" style="cursor: pointer;" data-toggle="modal" data-target="#exploreCouponsModal">
+                                        Explore Coupons
+                                    </a>
+                                    <h6 class="text-danger" id="couponErr"></h6>
+                                </div>
+                            </div>
+
+                <form action="/cart/placeOrder" method="post" id="checkout-form">
+                            <% 
+                            if(user){
+                                user.addresses.forEach((address) => {
+                                    %>
+                                    <div class="card mb-3">
+                                        <div class="card-body d-flex">
+                                            <div class="mx-3">
+                                                <input type="radio" name="address" id="<%= address._id %>" value="<%= address._id %>" checked>
+                                            </div>
+                                            <div>
+                                                <h5 class="card-title"><%= address.userName %> <%= address.mobile %></h5>
+                                                <p><%= address.email %></p>
+                                                <p class="card-text"> 
+                                                    <%= 
+                                                    address.town+' '+address.state+" "+address.country+" "+address.zip+' \n '+address.address
+                                                    %>
+                                                </p>
+                                               
+                                                <a href="/user--dashboard/editAddress/<%= address._id %>?returnPage=checkout">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <%  
+                                })
+                            }
+
+                            if(user.addresses.length >= 5){
+                                %>
+                                <div class="row d-flex justify-content-end mx-3">
+                                    <p>You can add max of 5 Addresses</p>
+                                </div>
+                                <%
+                            }else{
+                                %>
+                                <div class="row d-flex justify-content-end mx-3">
+                                    <a href="/user-dashboard/addAddress?returnPage=checkout" class="btn btn-dark"  >Add Address</a>
+                                </div>
+                                <%
+                            }
+                            %>
+
+
+                        </div>
+
+                        <!-- right side -->
+                        <div class="col-lg-4 col-md-6 mt-5 ps-2">
+
+
+
+                            <div class="px-3 pt-3 pb-5 mb-3" style="background-color: #EBEFF1;">
+                                <div class="">
+                                    <div>
+                                        <h3>Your Order</h3>
+                                    </div>
+                                    <hr>
+                                    <div class="">
+
+
+                                        <% 
+
+                                        cartItems.forEach((pdt) => {
+                                            %>
+                                            <% console.log(pdt) %>
+                                        
+                                            <div class="row">
+                                                <div class="col-8">
+                                                    <div class="mt-3 pb-2">
+                                                        <span ><%= pdt.productId.productName %>  <span style="font-weight: bold;">X</span> <%= pdt.quantity %></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="mt-3 pb-2">
+                                                        <span>₹ <%= pdt.productId.price*pdt.quantity %></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% 
+                                        })
+                                        
+                                        %>
+
+
+
+                                        
+                                    </div>
+                                    <div class="mt-4 mb-4">
+                                        <hr>
+                                    </div>
+
+                                <% let totalPrice =0 %>
+                                <% for( let i = 0; i < cartItems.length; i++ ) { %>
+                     <% totalPrice+= cartItems[i].quantity*cartItems[i].price %>
+                     <%}%>
+
+
+
+
+                                    <% let totalAmount=0 %>
+                     <% for( let i = 0; i < cartItems.length; i++ ) { %>
+                     <% totalAmount+= cartItems[i].quantity*cartItems[i].discountPrice %>
+
+                     <%discount = totalPrice - totalAmount %>
+                    
+
+                     <% } %>
+                     <% console.log(totalAmount) %>
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="mb-3">
+                                                <span><strong>SubTotal</strong></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <span><strong>Discount</strong></span>
+                                            </div>
+                                            <div class="mb-3" id="couponDiscountLabelDiv" hidden>
+                                                <span>
+                                                    <strong>Coupon Discount</strong>
+                                                    <a href="" onclick="removeCoupon()">remove</a>
+                                                </span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <span><strong>Total</strong></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="mb-3">
+                                                <span>₹ <%= totalPrice %></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <span style="color: rgb(0, 164, 19);">-₹ <%= discount %></span>
+                                            </div>
+                                            <div class="mb-3" id="couponDiscountDiv" hidden>
+                                                <span id="couponDiscount" style="color: rgb(0, 164, 19);"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                          
+                                                <span id="payAmount"><strong>₹ <%= totalAmount %></strong> </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    
+                
+                                
+                                        <input type="radio" name="payment" id="COD"  value="COD" class="mx-2"><label for="payment">COD</label><br>
+
+                                        <input type="radio" name="payment" id="Razorpay"  value="Razorpay" class="mx-2" ><label for="payment">Razorpay</label><br>
+
+                                   
+
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit"class="btn rounded-pill w-100 btn-dark" <% if(!user.addresses.length){  %> disabled <%  } %>>Place Order</button>
+                                    <% if(!user.addresses.length){  %> <p>Add address to place order</p> <%  } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+        <!-- Checkout Section End -->
+
+       
+
+    <!-- Js Plugins -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/jquery.countdown.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.nicescroll.min.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script src="js/cart_qty.js"></script>
+</body>
+
+</html>
+
+
+
+
+<%- include('../layouts/footer.ejs') -%>

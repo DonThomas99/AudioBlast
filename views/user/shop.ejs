@@ -1,0 +1,346 @@
+<%- include('../layouts/header.ejs') -%>
+
+
+
+
+<!-- Offcanvas Menu Begin -->
+<div class="offcanvas-menu-overlay"></div>
+<div class="offcanvas-menu-wrapper">
+    <div class="offcanvas__close">+</div>
+    <ul class="offcanvas__widget">
+        <li><span class="icon_search search-switch"></span></li>
+        <li><a href="#"><span class="icon_heart_alt"></span>
+            <div class="tip">2</div>
+        </a></li>
+        <li><a href="#"><span class="icon_bag_alt"></span>
+            <div class="tip">2</div>
+        </a></li>
+    </ul>
+
+<!-- Offcanvas Menu End -->
+<div class="offcanvas__logo">
+    <a href="#"><img src="" alt=""></a>
+</div>
+<div id="mobile-menu-wrap"></div>
+
+</div>
+<!-- Header Section Begin -->
+<header class="header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-3 col-lg-2">
+                <div class="header__logo">
+                    <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-7">
+                <nav class="header__menu">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li  class="active"><a href="/shop">Shop</a></li>
+                      <% if (user) { %>
+                        <li><a href="/cart">Cart</a></li>
+                      <% } else { %>
+                       <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                        cart
+                       </a></li>
+                        <%}%>
+                       
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <div class="header__right">
+                    <div class="header__right__auth">
+                        <% if(user) { %>
+                            <div class="user-profile" style="display: flex; align-items: baseline;">
+                                <a href="/user-dashboard" >Profile</a>
+                                <a href="#"><%= user.name%></a>
+                           
+                            </div>
+                        <% } else { %>
+                            <div class="auth-links">
+                                <a href="/login">Login</a>
+                                <a href="/register">Register</a>
+                            </div>
+                        <% } %>
+                    </div>
+                    <ul class="header__right__widget">
+                        <% if (user) { %>
+                            <li>     <form action="/logout" method="POST">
+                                <button class="btn" type="submit">  <i class="fa-solid fa-right-from-bracket"></i></button>
+                            </form></li>
+                        <% } %>
+                        <% if (user) { %>
+                            <li><a href="/wishlist"><span class="icon_heart_alt"></span></a></li>
+                            <li><a href="/cart"><span class="icon_bag_alt"></span></a></li>
+                       <% } else { %>
+                        <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                            <span class="icon_heart_alt"></span>
+                           </a></li>
+                           <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                            <span class="icon_bag_alt"></span>
+                           </a></li>
+                            <% } %>
+                  
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="canvas__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="/"><i class="fa fa-home"></i> Home</a>
+                    <a href="/shop">Shop</a>
+                    <% if (category) { %>
+                     <span><%=category.name%></span>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Shop Section Begin -->
+<section class="shop spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3">
+                <div class="shop__sidebar">
+                    <div class="sidebar__categories">
+                        <div class="section-title">
+                            <h4>Categories</h4>
+                        </div>
+                        <div class="categories__accordion">
+                            <div class="accordion" id="accordionExample">
+                                <div class="card">
+                                    <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <ul>
+                                                <% category.forEach(element => { %>
+                                                    <li><a href="/shop?category=<%= element._id %>"><%= element.name %></a></li>
+                                                 
+                                                <% }) %>
+                                              
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                               
+                            </div>
+                        </div>
+                    
+                
+                    <div class="sidebar__sizes">
+                        <div class="section-title">
+                            <h4>Shop by price</h4>
+                        </div>
+                        <div class="size__list">
+                         <ul class="list-group">
+                            <li class="list-group-item">
+                                <a href="/shop?min=100&max=999&category=<%= selectedCat %>">₹100 - ₹999</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/shop?min=1000&max=1999&category=<%= selectedCat %>">₹1000 - ₹1999</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/shop?min=2000&max=2999&category=<%= selectedCat %>">₹2000 - ₹2999</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/shop?min=3000&max=3999&category=<%= selectedCat %>">₹3000 - ₹3999</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/shop?min=4000&max=4999&category=<%= selectedCat %>">₹4000 - ₹4999</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/shop?min=5000&category=<%= selectedCat %>">Above ₹5000</a>
+                            </li>
+                         </ul>
+                        </div>
+                    </div>
+                   
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9">
+                <div class="row">
+                    <% if(pdts.length>0) {%>
+                      <% pdts.forEach(item=>{ %>
+                    <div class="col-lg-4 col-md-6 p-3">
+                        <div class="border"> 
+                        <div class="product__item sale">
+                            <div class="product__item__pic set-bg img-fluid" data-setbg="/static/Product_Images/<%= item.image[0].filename %>">
+                                
+                                <ul class="product__hover">
+                                    <li><a href="/static/Product_Images/<%= item.image[0].filename %>" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                    
+                                    
+                                    
+                                    <li>
+                                        <a href="/addToCart/<%=item._id%>"><span class="icon_bag_alt"></span>
+                                        
+                                        </a></li>
+                                </ul>
+                            </div>
+                            <div class="product__item__text">
+                                <h6><a href="/loadProductDetail/<%=item._id%>"><%= item.productName%></a></h6>
+                                <h6><a href="/loadProductDetail/<%=item._id%>"><%= item.category.name%></a></h6>
+                            
+                                <div class="product__price">₹<%= item.discountPrice%><span>₹<%=item.price%></span></div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <%}) %>
+                    <% }else{ %>
+                        <h1>No products to show</h1>
+                        <% } %>
+                        <div class="col-lg-12 text-center">
+                            <div class="pagination__option">
+                                <% if (currentPage > 1) { %>
+                                    <a href="/shop?page=<%= currentPage - 1 %>"><i class="fa fa-angle-left"></i></a>
+                                <% } %>
+                                <% for (let i = 1; i <= totalPages; i++) { %>
+                                    <a href="/shop?page=<%= i %>" <% if (i === currentPage) { %>class="active"<% } %>><%= i %></a>
+                                <% } %>
+                                <% if (currentPage < totalPages) { %>
+                                  
+                                    <a href="/shop?page=<%= parseInt(currentPage) + 1 %>"><i class="fa fa-angle-right"></i></a>
+                                <% } %>
+                            </div>
+                        </div>
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form" method ="post" action="/search">
+                <input type="hidden" name="category" value="<%= selectedCat %>">
+                <input type="text" name="search" id="search-input" placeholder="Search here.....">
+            </form>
+        </div>
+    </div>
+<!-- Shop Section End -->
+<!-- 
+Instagram Begin -->
+<!--
+<div class="instagram">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="img/instagram/insta-1.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="img/instagram/insta-2.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="img/instagram/insta-3.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="img/instagram/insta-4.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="img/instagram/insta-5.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="img/instagram/insta-6.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+<!-- Instagram End -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Oops...</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="text-align: center;">
+            <div style="align-items:baseline;" class="auth-links">
+                <a href="/login" 
+                style="text-decoration: none;
+                color: rgb(126, 3, 3);"
+                >Login</a>
+                <a 
+                style="text-decoration: none;
+                color:black;"
+                href="#"> / </a>
+                <a href="/register"
+                style="text-decoration: none;
+                color:rgb(135, 4, 4);"
+                >Register</a>
+            </div>
+        </div>
+        <div class="modal-footer" style=" justify-content: center;">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- modal ends -->
+
+
+
+<%- include('../layouts/footer.ejs') -%>

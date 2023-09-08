@@ -1,0 +1,277 @@
+<%- include('../layouts/header.ejs') -%>
+
+
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!-- Offcanvas Menu Begin -->
+<div class="offcanvas-menu-overlay"></div>
+<div class="offcanvas-menu-wrapper">
+    <div class="offcanvas__close">+</div>
+    <ul class="offcanvas__widget">
+        <li><span class="icon_search search-switch"></span></li>
+        <li><a href="#"><span class="icon_heart_alt"></span>
+            <div class="tip">2</div>
+        </a></li>
+        <li><a href="#"><span class="icon_bag_alt"></span>
+            <div class="tip">2</div>
+        </a></li>
+    </ul>
+
+<!-- Offcanvas Menu End -->
+<div class="offcanvas__logo">
+    <a href="#"><img src="" alt=""></a>
+</div>
+<div id="mobile-menu-wrap"></div>
+
+</div>
+<!-- Header Section Begin -->
+<header class="header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-3 col-lg-2">
+                <div class="header__logo">
+                    <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-7">
+                <nav class="header__menu">
+                    <ul>
+                        <li class="active"><a href="/">Home</a></li>
+                        <li><a href="/shop">Shop</a></li>
+                      <% if (user) { %>
+                        <li><a href="/cart">Cart</a></li>
+                      <% } else { %>
+                       <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                        cart
+                       </a></li>
+                        <%}%>
+                       
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <div class="header__right">
+                    <div class="header__right__auth">
+                        <% if(user) { %>
+                            <div class="user-profile" style="display: flex; align-items: baseline;">
+                                <a href="#"><%= user.name %></a>
+                           
+                            </div>
+                        <% } else { %>
+                            <div class="auth-links">
+                                <a href="/login">Login</a>
+                                <a href="/register">Register</a>
+                            </div>
+                        <% } %>
+                    </div>
+                    <ul class="header__right__widget">
+                        <% if (user) { %>
+                            <li>     <form action="/logout" method="POST">
+                                <button class="btn" type="submit">  <i class="fa-solid fa-right-from-bracket"></i></button>
+                            </form></li>
+                        <% } %>
+                        <% if (user) { %>
+                            <li><a href="/wishlist"><span class="icon_heart_alt"></span></a></li>
+                            <li><a href="/cart"><span class="icon_bag_alt"></span></a></li>
+                       <% } else { %>
+                        <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                            <span class="icon_heart_alt"></span>
+                           </a></li>
+                           <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                            <span class="icon_bag_alt"></span>
+                           </a></li>
+                            <% } %>
+                  
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="canvas__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+
+<% if (user) { %>
+    <section class="bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mb-4 mb-sm-5">
+                    <div class="card card-style1 border-0">
+                        <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                            <div class="row align-items-center">
+                                <div class="col-lg-4 mb-4 mb-lg-0">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="User image">
+                                </div>
+                                <div class="col-lg-4 ">
+                                    <div class="d-flex flex-column">
+                                        <a href="/loadOrders" class="btn btn-dark my-1" >
+                                            My Orders
+                                        </a>
+                
+                                        <a href="/user-dashboard/editProfile" class="btn btn-dark my-1" >
+                                            Edit Profile
+                                        </a>
+                                        <a href="/user-dashboard/changePassword" class="btn btn-dark my-1" >
+                                            Change Password
+                                        </a>
+                                        <a href="/user-dashboard/walletHistory" class="btn btn-dark my-1" >
+                                            Wallet History
+                                        </a>
+                                        <!-- <div> -->
+                                            <input type="hidden" id="referralCode" value="" readonly>
+                                            <button onclick="copyReferralCode()" class="btn btn-dark my-1">Click here to copy refferal code</button>
+                                        <!-- </div> -->
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 px-xl-10">
+                                     <div class="bg-dark p-3 mb-4 rounded">   <!-- py-1-9 px-1-9 px-sm-6 mb-1-9 -->
+                                        <% const fullName = user.name %>
+                                        <h3 class="h2 text-white mb-0"><%= fullName %></h3>
+                                    </div>
+                                    <ul class="list-unstyled mb-1-9">
+                                        <li class="mb-2 mb-xl-3 display-28">
+                                            <span class="display-26 text-secondary me-2 font-weight-600">Email:</span>
+                                            <%= user.email %>
+                                            <a class="ms-3" href="/user-dashboard/passConfirmToChangeMail">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                                </svg>
+                                            </a>
+
+                                        </li>
+                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Mobile:</span> <%= user.mob %></li>
+                                  
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+ 
+
+    <% } %>
+
+
+
+
+    <!-- address section begins -->
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-4 mb-sm-5">
+                <div class="card card-style1 border-0">
+                    <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                        <div class="row align-items-center">
+
+
+                            <div class="card">
+
+                                    <div class="container mt-5">
+                                            <div class="d-flex justify-content-between mb-3 ">
+                                                <h4>MANAGE ADDRESS</h4>
+                                                <%
+                                                if(user && user.addresses.length >= 5){
+                                                    %>
+                                                    <div class="row d-flex justify-content-end mx-3">
+                                                        <p>You can add max of 5 Addresses</p>
+                                                    </div>
+                                                    <%
+                                                }else{
+                                                    %>
+                                                    <div class="row d-flex justify-content-end mx-3">
+                                                        <a href="/user-dashboard/addAddress?returnPage=user-dashboard" class="btn btn-dark"  >Add Address</a>
+                                                    </div>
+                                                    <%
+                                                }
+                                                %>
+                                            </div>
+                                            <% 
+                                            if(user && user.addresses.length > 0){
+                                                %>
+                                                <div class="row">
+                                                    <% 
+                                                    user.addresses.forEach((address) => {
+                                                        %>
+                                                        <div class="col-sm-6 mb-3">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <h5 class="card-title"><%= address.userName  %> &nbsp; &nbsp;<%= address.mobile %></h5>
+                                                                    <span class="card-text"><%= address.email  %>
+                                                                    </span><br>
+                                                                    <span class="card-text"><%= address.address  %>
+                                                                    </span><br>
+                                                                    <span class="card-text"><%= address.town  %>
+                                                                    </span><br>
+                                                                    <span class="card-text"><%= address.zip  %>
+                                                                    </span><br>
+                                                                    <span class="card-text"><%= address.state %>
+                                                                    </span>
+                                                                   
+                                                                    <div class="d-flex">
+                                                                        <div class="">
+                                                                            <a href="/user-dashboard/editAddress/<%= address._id %>?returnPage=user-dashboard">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                                                                </svg>
+                                                                            </a>
+                                                                            <a href="/user-dashboard/deleteAddress/<%= address._id %>" class="ms-2">
+                                                                                <svg style="color: red;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                                                                </svg>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <% 
+                                                    })
+                                                    %>
+                                                </div>
+                                                <%
+                                            }else{
+                                                %>
+                                                <div class="d-flex justify-content-center align-items-center mt-5">
+                                                    <h5>No address saved</h5>
+                                                </div>
+                                                <% 
+                                            }
+                                        %>
+                                    </div>
+
+                            </div>
+                          
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    
+
+
+    <%- include('../layouts/footer.ejs') -%>

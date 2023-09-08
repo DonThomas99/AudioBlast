@@ -1,0 +1,313 @@
+<%- include('../layouts/header.ejs') -%>
+
+
+
+
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="/"><i class="fa fa-home"></i> Home</a>
+                        <span>Shopping cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+    
+    <!-- Shop Cart Section Begin -->
+    <section class="shop-cart spad">
+        <div class="container">
+            <div class="row">
+                <% if(cartItems.length > 0) { %>
+                <div class="col-lg-12">
+                    <div class="shop__cart__table">
+                        <table>
+                            <thead>
+                                <tr> 
+                                    <th></th>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for(const cartItem of cartItems) { %>
+                                 <% console.log(cartItem)%>   
+                                <tr>
+                                    <td >
+
+                                        <div class="d-flex flex-column" style="width:7rem; margin:1rem;">
+                                            <img src="/static/Product_Images/<%= cartItem.productId.image[0].filename %>" class="img-fluid mb-1" alt="">
+                                        </div>
+
+                                    </td>
+                                    <td class="cart__product__item">
+                                                                           
+                                        <div class="cart__product__item__title">
+                                            <h6><%= cartItem.productId.productName %></h6>
+                                        </div>
+                                    </td>
+                                    <td class="cart__price">₹ <%= cartItem.productId. discountPrice %></td>
+                                    <td class="cart__quantity">
+                                       <div class="d-flex">
+                                        
+                                        <button class="fs-5 btn btn-dark mx-1 p-1 qty-inc"
+                                        onclick="updateQty('<%= cartItem.productId._id%>', 'increase')">+</button>
+                                        <input type="text" class="form-input text-center quantity"
+                                        style="max-width: 50px;"
+                                        data-product-id="<%= cartItem.productId._id %>"
+                                        value="<%= cartItem.quantity%>" readonly>
+                                        <button class="fs-5 btn btn-dark mx-1 p-1 qty-dec"
+                                        onclick="updateQty('<%= cartItem.productId._id%>', 'decrease')">-</button>
+
+                                       </div>
+                                       </td>
+                                    <td class="cart__total"  data-product-id="<%= cartItem.productId._id %>" >₹ <%= cartItem.productId.discountPrice * cartItem.quantity%></td>
+                                    <td class="cart__close">
+                                        <span class="icon_close" data-toggle="modal" data-target="#exampleModalCenter"></span></td>
+                                </tr>
+
+
+                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLongTitle"> Are you sure, you want to delete this item from cart? </h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body" style="text-align: center;">
+                                            <div style="align-items:baseline;" class="auth-links">
+                                                <form action="/deleteFromCart/<%= cartItem.productId._id %>" method="post">
+                                                    <button class="btn" style="text-decoration: none;
+                                                    color: rgb(126, 3, 3);"  type="submit">
+                                                        Yes
+                                                </button> 
+                                                </form>
+                                               
+                                                <a 
+                                                style="text-decoration: none;
+                                                color:black;"
+                                                href="#"> / </a>
+                                                <button class="btn" href="#" data-dismiss="modal"
+                                                style="text-decoration: none;
+                                                color:rgb(135, 4, 4);"
+                                                >No<button>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer" style=" justify-content: center;">
+                                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                          
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <% } else { %>
+                <div class="col-lg-12">
+                    <h3>Your cart is empty.</h3>
+                </div>
+                <% } %>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- <div class="discount__content">
+                    <h6>Discount codes</h6>
+                    <form action="#">
+                        <input type="text" placeholder="Enter your coupon code">
+                        <button type="submit" class="site-btn">Apply</button>
+                    </form>
+                </div> -->
+            </div>
+            <div class="col-lg-4 offset-lg-2">
+                <div class="cart__total__procced">
+                    <h6>Cart total</h6>
+                    <ul>
+                        <% let totalAmount=0 %>
+                     <% for( let i = 0; i < cartItems.length; i++ ) { %>
+                     <% totalAmount+= cartItems[i].quantity*cartItems[i].discountPrice %>
+                     <%// console.log(cartItems[i].discountPrice)%>
+
+                     <% } %>
+                     <% console.log(cartItems) %>
+                   
+                    
+                        <li>Subtotal <span  class="totalAmount" data-totalAmount="totalAmount">₹ <i id="total"><%= totalAmount %></i></span></li>
+                      
+                    </ul>
+                    <a href="/checkout" class="primary-btn" <% if (cartItems.length === 0) { %> hidden <% } %> >Proceed to checkout</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Shop Cart Section End -->
+
+
+
+   
+
+
+    <!-- Instagram Begin -->
+    <!-- <div class="instagram">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-1.jpg">
+                        <div class="instagram__text">
+                            <i class="fa fa-instagram"></i>
+                            <a href="#">@ ashion_shop</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-2.jpg">
+                        <div class="instagram__text">
+                            <i class="fa fa-instagram"></i>
+                            <a href="#">@ ashion_shop</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-3.jpg">
+                        <div class="instagram__text">
+                            <i class="fa fa-instagram"></i>
+                            <a href="#">@ ashion_shop</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-4.jpg">
+                        <div class="instagram__text">
+                            <i class="fa fa-instagram"></i>
+                            <a href="#">@ ashion_shop</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-5.jpg">
+                        <div class="instagram__text">
+                            <i class="fa fa-instagram"></i>
+                            <a href="#">@ ashion_shop</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-6.jpg">
+                        <div class="instagram__text">
+                            <i class="fa fa-instagram"></i>
+                            <a href="#">@ ashion_shop</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Instagram End -->
+
+   
+
+    <!-- Search Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here.....">
+            </form>
+        </div>
+    </div>
+    <!-- Search End -->
+
+
+<script>
+    // let existingAmount = document.getElementById("total").innerHTML
+    // console.log(existingAmount);
+    function updateQty(productId, action) {
+    
+  $.ajax({
+    url: "/cart_qty",
+    method: "PATCH",
+    data: {
+      productId: productId,
+      action: action,
+    },
+    success: (response) => {
+      console.log(response);
+      if(response.quantity.quantity<1)
+      {
+        return removeFromCart(productId);
+      }
+        else{
+
+        $(".quantity[data-product-id='" + productId + "']").val(response.quantity.quantity);
+    console.log(response.quantity.quantity); 
+    $(".cart__total[data-product-id='" + productId + "']").text("₹" + response.quantity.quantity*response.quantity.discountPrice)
+
+  let updatedTotal = 0 
+  $(".cart__total").each(function(){
+    const priceText = $(this).text();
+    console.log(priceText);
+    const price = parseFloat(priceText.replace("₹","").replace("/-",""))
+    updatedTotal += price;
+    })    
+        $("#total").text("₹"+updatedTotal.toFixed(2)+"/-")
+}
+   
+    },
+    error: function (error) {
+      console.error("Error updating quantity:", error);
+
+    },
+  });
+}
+function removeFromCart(prdId){
+    $.ajax({
+        url:`/deleteFromCart/${prdId}`,
+        method: "POST",
+        success:function(){
+          location.reload();
+        
+        }
+    })
+}
+</script>
+
+
+
+    <!-- Js Plugins -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/jquery.countdown.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.nicescroll.min.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script src="js/cart_qty.js"></script>
+</body>
+
+</html>
+
+
+
+
+<%- include('../layouts/footer.ejs') -%>

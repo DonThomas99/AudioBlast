@@ -1,0 +1,184 @@
+<%- include('../layouts/header.ejs') -%>
+<style>
+    small.error{
+        color: red;
+    }
+</style>
+
+
+<!-- Offcanvas Menu Begin -->
+<div class="offcanvas-menu-overlay"></div>
+<div class="offcanvas-menu-wrapper">
+    <div class="offcanvas__close">+</div>
+    <ul class="offcanvas__widget">
+        <li><span class="icon_search search-switch"></span></li>
+        <li><a href="#"><span class="icon_heart_alt"></span>
+            <div class="tip">2</div>
+        </a></li>
+        <li><a href="#"><span class="icon_bag_alt"></span>
+            <div class="tip">2</div>
+        </a></li>
+    </ul>
+
+<!-- Offcanvas Menu End -->
+<div class="offcanvas__logo">
+    <a href="#"><img src="" alt=""></a>
+</div>
+<div id="mobile-menu-wrap"></div>
+
+</div>
+<!-- Header Section Begin -->
+<header class="header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-3 col-lg-2">
+                <div class="header__logo">
+                    <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-7">
+                <nav class="header__menu">
+                    <ul>
+                        <li class="active"><a href="/">Home</a></li>
+                        <li><a href="/shop">Shop</a></li>
+                      <% if (user) { %>
+                        <li><a href="/cart">Cart</a></li>
+                      <% } else { %>
+                       <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                        cart
+                       </a></li>
+                        <%}%>
+                       
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <div class="header__right">
+                    <div class="header__right__auth">
+                        <% if(user) { %>
+                            <div class="user-profile" style="display: flex; align-items: baseline;">
+                                <a href="/user-dashboard" >Profile</a>
+                                <a href="#"><%= user.name%></a>
+                           
+                            </div>
+                        <% } else { %>
+                            <div class="auth-links">
+                                <a href="/login">Login</a>
+                                <a href="/register">Register</a>
+                            </div>
+                        <% } %>
+                    </div>
+                    <ul class="header__right__widget">
+                        <% if (user) { %>
+                            <li>     <form action="/logout" method="POST">
+                                <button class="btn" type="submit">  <i class="fa-solid fa-right-from-bracket"></i></button>
+                            </form></li>
+                        <% } %>
+                        <% if (user) { %>
+                            <li><a href="/wishlist"><span class="icon_heart_alt"></span></a></li>
+                            <li><a href="/cart"><span class="icon_bag_alt"></span></a></li>
+                       <% } else { %>
+                        <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                            <span class="icon_heart_alt"></span>
+                           </a></li>
+                           <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                            <span class="icon_bag_alt"></span>
+                           </a></li>
+                            <% } %>
+                  
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="canvas__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+<!-- Add Address Section Begin -->
+<section class="checkout spad">
+    <div class="container">
+        <div class="checkout__form">
+            <form action="/user-dashboard/editAddress/<%= address._id %>?returnPage=<%= returnPage %>" method="post" class="form-outline">
+                <div class="row d-flex justify-content-center">
+                    <div class="d-flex flex-column col-lg-8 col-md-6">
+                        <h6 class="checkout__title">Enter Details</h6>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="checkout__input">
+                                    <p>Name<span style="color: red;">*</span></p>
+                                    <input type="text" id="name" class="form-control" placeholder="Enter name" name="name" value="<%= address.userName %>" required/>
+                                    <small id="nameErr" class="error"></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Email<span style="color: red;">*</span></p>
+                                    <input type="email" id="email" class="form-control" placeholder="Email" value="<%= address.email %>" name="email" required/>
+                                    <small id="emailErr" class="error"></small>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Mobile<span style="color: red;">*</span></p>
+                                    <input type="tel" id="mobile" class="form-control" placeholder="Mobile No." value="<%= address.mobile %>" name="mobile" required/>
+                                    <small id="mobileErr" class="error"></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Town/City<span style="color: red;">*</span></p>
+                                    <input type="text" id="town" class="form-control" placeholder="Town" value="<%= address.town %>" name="town" required/>
+                                    <small id="townErr" class="error"></small>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>State<span style="color: red;">*</span></p>
+                                    <input type="text" id="state" class="form-control" placeholder="State" value="<%= address.state %>" name="state" required/>
+                                    <small id="stateErr" class="error"></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Country<span style="color: red;">*</span></p>
+                                    <input type="text" id="country" class="form-control" placeholder="Country" value="<%= address.country %>" name="country" required/>
+                                    <small id="countryErr" class="error"></small>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>ZIP/Post Code<span style="color: red;">*</span></p>
+                                    <input type="number" id="zip" class="form-control" placeholder="Enter ZIP Code" value="<%= address.zip %>" name="zip" required/>
+                                    <small id="zipErr" class="error"></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="checkout__input">
+                            <p>Address<span style="color: red;">*</span></p>
+                            <input type="text" id="address" name="address" placeholder="Street Address" value="<%= address.address %>" class="checkout__input__add form-control" required>
+                            <small id="addressErr" class="error"></small>
+                        </div>
+                        <button type="submit" class="btn btn-dark rounded-pill text-center" onclick="return validateNewAddress()">UPDATE</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- Add Address Section End -->
+
+
+<script src="/static/validations/addressValidation.js"></script>
+
+
+
+<!-- Header Section End -->

@@ -1,0 +1,444 @@
+<%- include('../layouts/header.ejs') -%>
+<style>
+    .card {
+        z-index: 0;
+    }
+
+    .top {
+        padding-top: 40px;
+        padding-left: 13% !important;
+        padding-right: 13% !important;
+    }
+
+    /* Icon progressbar */
+
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: #455a64;
+        padding-left: 0;
+        margin-top: 30px;
+    }
+
+    #progressbar li {
+        list-style-type: none;
+        /* font-size: 9px; */
+        width: 25%;
+        float: left;
+        position: relative;
+        /* font-weight: 400; */
+    }
+
+    #progressbar .step0::before {
+        font-family: FontAwesome;
+        content: '\f10c';
+        color: #fff;
+    }
+
+    #progressbar li::before {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        display: block;
+        font-size: 10px;
+        background: #c5cae9;
+        border-radius: 50%;
+        margin: auto;
+        padding: 0;
+    }
+
+    /* Progressbar connector */
+    #progressbar li::after {
+        content: '';
+        width: 100%;
+        height: 4px;
+        background-color: #c5cae9;
+        position: absolute;
+        top: 8px;
+        left: 0;
+        z-index: -1;
+    }
+
+    #progressbar li:last-child::after {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        position: absolute;
+        left: -50%;
+    }
+
+    #progressbar li:nth-child(2)::after,
+    #progressbar li:nth-child(3)::after {
+        left: -50%;
+    }
+
+    #progressbar li:first-child::after {
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        position: absolute;
+        left: 50%;
+    }
+
+    /* Color number of the step and the connect tor before it */
+
+    #progressbar li.active::before,
+    #progressbar li.active::after {
+        background-color: #0ac419;
+    }
+
+    #progressbar li.active::before {
+        font-family: FontAwesome;
+        content: '\f00c';
+    }
+
+    @media screen and (max-width: 992px) {
+        .icon-content {
+            width: 50%;
+        }
+    }
+</style>
+
+<!-- Offcanvas Menu Begin -->
+<div class="offcanvas-menu-overlay"></div>
+<div class="offcanvas-menu-wrapper">
+    <div class="offcanvas__close">+</div>
+    <ul class="offcanvas__widget">
+        <li><span class="icon_search search-switch"></span></li>
+        <li><a href="#"><span class="icon_heart_alt"></span>
+            <div class="tip">2</div>
+        </a></li>
+        <li><a href="#"><span class="icon_bag_alt"></span>
+            <div class="tip">2</div>
+        </a></li>
+    </ul>
+
+<!-- Offcanvas Menu End -->
+<div class="offcanvas__logo">
+    <a href="#"><img src="" alt=""></a>
+</div>
+<div id="mobile-menu-wrap"></div>
+
+</div>
+<!-- Header Section Begin -->
+<header class="header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-3 col-lg-2">
+                <div class="header__logo">
+                    <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-7">
+                <nav class="header__menu">
+                    <ul>
+                        <li class="active"><a href="/">Home</a></li>
+                        <li><a href="/shop">Shop</a></li>
+                      <% if (user) { %>
+                        <li><a href="/cart">Cart</a></li>
+                      <% } else { %>
+                       <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                        cart
+                       </a></li>
+                        <%}%>
+                       
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <div class="header__right">
+                    <div class="header__right__auth">
+                        <% if(user) { %>
+                            <div class="user-profile" style="display: flex; align-items: baseline;">
+                                <a href="/user-dashboard" >Profile</a>
+                                <a href="#"><%= user.name%></a>
+                           
+                            </div>
+                        <% } else { %>
+                            <div class="auth-links">
+                                <a href="/login">Login</a>
+                                <a href="/register">Register</a>
+                            </div>
+                        <% } %>
+                    </div>
+                    <ul class="header__right__widget">
+                        <% if (user) { %>
+                            <li>     <form action="/logout" method="POST">
+                                <button class="btn" type="submit">  <i class="fa-solid fa-right-from-bracket"></i></button>
+                            </form></li>
+                        <% } %>
+                        <% if (user) { %>
+                            <li><a href="/wishlist"><span class="icon_heart_alt"></span></a></li>
+                            <li><a href="/cart"><span class="icon_bag_alt"></span></a></li>
+                       <% } else { %>
+                        <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                            <span class="icon_heart_alt"></span>
+                           </a></li>
+                           <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                            <span class="icon_bag_alt"></span>
+                           </a></li>
+                            <% } %>
+                  
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="canvas__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+
+
+
+<section>
+    <div class="container">
+        <div class="mt-5">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="card-title">Delivery Address</h4>
+                            <h6 class="card-text" style="font-size: 1.2rem;"><strong><%= orderData.Address.userName %></strong></h6>
+                            <span class="card-text">
+                                <%= orderData.Address.address %>
+                            </span><br>
+                            <% 
+                            let location = orderData.Address.town+' '+orderData.Address.state+' '+orderData.Address.zip
+                            %>
+                            <span><%= location %></span>
+                            <div class="mt-2">
+                                <h6><strong>Phone number</strong></h6>
+                                <span><%= orderData.Address.mobile %></span>
+                            </div>
+                        </div>
+                        <% 
+                        if(status == 4){
+                            %>
+                            <div class="col-md-4 d-flex mb-3 pt-2 justify-content-center align-items-center">
+                                <a href="/downloadInvoice/<%= orderData._id %>" class="btn btn-secondary">Invoice 
+                                    <i class="bi bi-file-earmark-arrow-down"></i>
+                                </a>
+                            </div>
+                            <%  
+                        }else if(status < 4){
+                            %>
+                            <div class="col-md-4 d-flex mb-3 pt-2 justify-content-center align-items-center">
+                                <span>You can download invoice after product delivered</span>
+                            </div>
+                            <%  
+                        }
+
+                        if(status < 4){
+                            %>
+                            <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                <button type="button" class="btn btn-danger cancelOrderBTN" id="cancelOrderBTN" data-toggle="modal"  data-id="<%= orderData._id %>" data-target="#cancelOrderPopup">
+                                    Cancel Order
+                                </button>
+                            </div>
+                            <%  
+                        }else if(status == 4){
+                            %>
+                            <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                <a href="/returnOrder/<%= orderData._id %>" class="btn btn-warning">Return</a>
+                            </div>
+                            <% 
+                        }else if(status == 5){
+                            %>
+                            <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                <h4 style="color: red;">Order Cancelled</h4>
+                            </div>
+                            <% 
+                        }else if(status == 6){
+                            %>
+                            <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                <h4 style="color: red;">Order Cancelled By Admin</h4>
+                            </div>
+                            <% 
+                        }else if(status > 6){
+                            %>
+                            <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                <h4 style="color: red;"><%= orderData.status %></h4>
+                            </div>
+                            <% 
+                        }
+                        %>
+                    </div>
+                </div>
+            </div>
+
+            <% 
+            if(status <= 4){
+                %>
+                <div class="card pb-3">
+                    <div class="text-center mt-3">
+                        <h4 class="card-title">Order Status</h4>
+                    </div>
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <ul id="progressbar" class="text-center">
+                                <li class="<% if(status >= 1){ %>  active <% } %> step0">Order Confirmed </li>
+                                <li class="<% if(status >= 2){ %>  active <% } %> step0">Shipped</li>
+                                <li class="<% if(status >= 3){ %>  active <% } %> step0">Out for delivery</li>
+                                <li class="<% if(status >= 4){ %>  active <% } %> step0">Delivered</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <%  
+            }
+            %>
+
+            <!-- prods -->
+            <div class="row mt-4">
+                <% 
+                for(const pdt of orderData.products){
+                    %>
+                    
+                  
+                        <div class="col-sm-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <a href="/shop/productDetail/<%= pdt.productId._id %>">
+                                            <div class="mx-3">
+                                                <img src="/static/product_Images/<%= pdt.productId.image[0].filename %>"
+                                                    class="img-fluid" alt="" width="120rem">
+                                            </div>
+                                        </a>
+                                        <div>
+                                            <h4 class="card-title"><%= pdt.productId.productName %></h4>
+                                           
+                                            <span class="card-text" style="color: rgb(99, 99, 99);">Quantity : <%= pdt.quantity %></span>
+                                            <h5 class="card-title mt-2">₹ <%= pdt.totalAmount %></h5>
+                                          
+                                                <h6
+                                                    <% 
+                                                    if(pdt.status == 'Order Confirmed' || pdt.status == 'Shipped' || pdt.status == 'Out For Delivery' ||  pdt.status == 'Delivered' ){
+                                                        %>
+                                                        style="color: green;"
+                                                        <%  
+                                                    }else if( pdt.status == 'Cancelled' || pdt.status == 'Cancelled By Admin' ){
+                                                        %>
+                                                        style="color: red;"
+                                                        <%  
+                                                    }else if(pdt.status == 'Pending Return Approval'||  pdt.status == 'Returned'){
+                                                        %>
+                                                        style="color: orange;"
+                                                        <%  
+                                                    }
+                                                    %>
+                                                 
+                                                  ><%= pdt.status %></h6>
+                                        
+                                        </div>
+                                        <div class="col-md-4 d-flex mb-3 pt-2 justify-content-center align-items-center">
+                                            <% 
+                                            if(pdt.status == 'Order Confirmed' || pdt.status == 'Shipped' || pdt.status == 'Out For Delivery'){
+                                                %>
+                                                <a  class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter"> Cancel </a>
+                                                <%  
+                                            }else if(pdt.status == 'Delivered'){
+                                                %>
+                                                <a href="/returnSinglePrdt/<%= orderData._id %>/<%= pdt._id %>" class="btn btn-warning"> Return </a>
+                                                <%  
+                                            }
+                                            %>
+                                        </div>
+                                    </div>
+        
+                                </div>
+                            </div>
+                        </div>
+                
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+
+
+
+</section>
+
+
+
+
+
+
+
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"> Are you sure, you want to Cancel this Order!? </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="text-align: center;">
+            <div style="align-items:baseline;" class="auth-links">
+                <a href="/cancelOrder/<%= orderData._id %>/<%= pdt._id %>?cancelledBy=user" 
+                style="text-decoration: none;
+                color: rgb(126, 3, 3);"
+                >Yes</a>
+                <a 
+                style="text-decoration: none;
+                color:black;"
+                href="#"> / </a>
+                <a href="#" data-dismiss="modal"
+                style="text-decoration: none;
+                color:rgb(135, 4, 4);"
+                >No</a>
+            </div>
+        </div>
+        <div class="modal-footer" style=" justify-content: center;">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <%}%>
+
+                <div class="row" style="margin-left: 38px">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="cart__btn">
+                        <a href="/shop">Continue Shopping</a>
+                    </div>
+                </div>
+
+
+
+                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-left:20px;">
+                    <div class="cart__btn">
+                        <a href="/loadOrders">My Orders</a>
+                    </div>
+                </div>
+        </div>
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#cancelOrderBTN').click(function() {
+            var orderId = $(this).data('id');
+            var routeURL = `/cancelOrder/${orderId}?cancelledBy=user`;
+            $("#confirmOrderCancellationBTN").attr('href', routeURL);
+        });
+    });
+</script>
+
+<%- include('../layouts/footer.ejs') -%>

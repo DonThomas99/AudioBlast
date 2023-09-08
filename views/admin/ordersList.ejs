@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+	<!-- Boxicons -->
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<!-- My CSS -->
+	<link rel="stylesheet" href="style.css">
+
+	<title>AdminHub</title>
+</head>
+<body>
+
+
+
+<style>
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+a {
+	text-decoration: none;
+}
+
+li {
+	list-style: none;
+}
+
+:root {
+	--poppins: 'Poppins', sans-serif;
+	--lato: 'Lato', sans-serif;
+
+	--light: #F9F9F9;
+	--blue: #3C91E6;
+	--light-blue: #CFE8FF;
+	--grey: #eee;
+	--dark-grey: #AAAAAA;
+	--dark: #342E37;
+	--red: #DB504A;
+	--yellow: #FFCE26;
+	--light-yellow: #FFF2C6;
+	--orange: #FD7238;
+	--light-orange: #FFE0D3;
+}
+
+html {
+	overflow-x: hidden;
+}
+
+body.dark {
+	--light: #0C0C1E;
+	--grey: #060714;
+	--dark: #FBFBFB;
+}
+
+body {
+	background: var(--grey);
+	overflow-x: hidden;
+}
+
+
+
+
+
+/* SIDEBAR */
+#sidebar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 280px;
+	height: 100%;
+	background: var(--light);
+	z-index: 2000;
+	font-family: var(--lato);
+	transition: .3s ease;
+	overflow-x: hidden;
+	scrollbar-width: none;
+}
+#sidebar::--webkit-scrollbar {
+	display: none;
+}
+#sidebar.hide {
+	width: 60px;
+}
+#sidebar .brand {
+	font-size: 24px;
+	font-weight: 700;
+	height: 56px;
+	display: flex;
+	align-items: center;
+	color: var(--black);
+	position: sticky;
+	top: 0;
+	left: 0;
+	background: var(--light);
+	z-index: 500;
+	padding-bottom: 20px;
+	box-sizing: content-box;
+}
+#sidebar .brand .bx {
+	min-width: 60px;
+	display: flex;
+	justify-content: center;
+}
+#sidebar .side-menu {
+	width: 100%;
+	margin-top: 48px;
+}
+#sidebar .side-menu li {
+	height: 48px;
+	background: transparent;
+	margin-left: 6px;
+	border-radius: 48px 0 0 48px;
+	padding: 4px;
+}
+#sidebar .side-menu li.active {
+	background: var(--grey);
+	position: relative;
+}
+#sidebar .side-menu li.active::before {
+	content: '';
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	top: -40px;
+	right: 0;
+	box-shadow: 20px 20px 0 var(--grey);
+	z-index: -1;
+}
+#sidebar .side-menu li.active::after {
+	content: '';
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	bottom: -40px;
+	right: 0;
+	box-shadow: 20px -20px 0 var(--grey);
+	z-index: -1;
+}
+#sidebar .side-menu li a {
+	width: 100%;
+	height: 100%;
+	background: var(--light);
+	display: flex;
+	align-items: center;
+	border-radius: 48px;
+	font-size: 16px;
+	color: var(--dark);
+	white-space: nowrap;
+	overflow-x: hidden;
+}
+#sidebar .side-menu.top li.active a {
+	color: var(--blue);
+}
+#sidebar.hide .side-menu li a {
+	width: calc(48px - (4px * 2));
+	transition: width .3s ease;
+}
+#sidebar .side-menu li a.logout {
+	color: var(--red);
+}
+#sidebar .side-menu.top li a:hover {
+	color: var(--blue);
+}
+#sidebar .side-menu li a .bx {
+	min-width: calc(60px  - ((4px + 6px) * 2));
+	display: flex;
+	justify-content: center;
+}
+/* SIDEBAR */
+
+
+
+
+
+/* CONTENT */
+#content {
+	position: relative;
+	width: calc(100% - 280px);
+	left: 280px;
+	transition: .3s ease;
+}
+#sidebar.hide ~ #content {
+	width: calc(100% - 60px);
+	left: 60px;
+}
+
+
+
+
+/* NAVBAR */
+#content nav {
+	height: 56px;
+	background: var(--light);
+	padding: 0 24px;
+	display: flex;
+	align-items: center;
+	grid-gap: 24px;
+	font-family: var(--lato);
+	position: sticky;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+}
+#content nav::before {
+	content: '';
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	bottom: -40px;
+	left: 0;
+	border-radius: 50%;
+	box-shadow: -20px -20px 0 var(--light);
+}
+#content nav a {
+	color: var(--dark);
+}
+#content nav .bx.bx-menu {
+	cursor: pointer;
+	color: var(--dark);
+}
+#content nav .nav-link {
+	font-size: 16px;
+	transition: .3s ease;
+}
+#content nav .nav-link:hover {
+	color: var(--blue);
+}
+#content nav form {
+	max-width: 400px;
+	width: 100%;
+	margin-right: auto;
+}
+#content nav form .form-input {
+	display: flex;
+	align-items: center;
+	height: 36px;
+}
+#content nav form .form-input input {
+	flex-grow: 1;
+	padding: 0 16px;
+	height: 100%;
+	border: none;
+	background: var(--grey);
+	border-radius: 36px 0 0 36px;
+	outline: none;
+	width: 100%;
+	color: var(--dark);
+}
+#content nav form .form-input button {
+	width: 36px;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: var(--blue);
+	color: var(--light);
+	font-size: 18px;
+	border: none;
+	outline: none;
+	border-radius: 0 36px 36px 0;
+	cursor: pointer;
+}
+#content nav .notification {
+	font-size: 20px;
+	position: relative;
+}
+#content nav .notification .num {
+	position: absolute;
+	top: -6px;
+	right: -6px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 2px solid var(--light);
+	background: var(--red);
+	color: var(--light);
+	font-weight: 700;
+	font-size: 12px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#content nav .profile img {
+	width: 36px;
+	height: 36px;
+	object-fit: cover;
+	border-radius: 50%;
+}
+#content nav .switch-mode {
+	display: block;
+	min-width: 50px;
+	height: 25px;
+	border-radius: 25px;
+	background: var(--grey);
+	cursor: pointer;
+	position: relative;
+}
+#content nav .switch-mode::before {
+	content: '';
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	bottom: 2px;
+	width: calc(25px - 4px);
+	background: var(--blue);
+	border-radius: 50%;
+	transition: all .3s ease;
+}
+#content nav #switch-mode:checked + .switch-mode::before {
+	left: calc(100% - (25px - 4px) - 2px);
+}
+/* NAVBAR */
+
+
+
+
+
+/* MAIN */
+#content main {
+	width: 100%;
+	padding: 36px 24px;
+	font-family: var(--poppins);
+	max-height: calc(100vh - 56px);
+	overflow-y: auto;
+}
+#content main .head-title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	grid-gap: 16px;
+	flex-wrap: wrap;
+}
+#content main .head-title .left h1 {
+	font-size: 36px;
+	font-weight: 600;
+	margin-bottom: 10px;
+	color: var(--dark);
+}
+#content main .head-title .left .breadcrumb {
+	display: flex;
+	align-items: center;
+	grid-gap: 16px;
+}
+#content main .head-title .left .breadcrumb li {
+	color: var(--dark);
+}
+#content main .head-title .left .breadcrumb li a {
+	color: var(--dark-grey);
+	pointer-events: none;
+}
+#content main .head-title .left .breadcrumb li a.active {
+	color: var(--blue);
+	pointer-events: unset;
+}
+#content main .head-title .btn-download {
+	height: 36px;
+	padding: 0 16px;
+	border-radius: 36px;
+	background: var(--blue);
+	color: var(--light);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	grid-gap: 10px;
+	font-weight: 500;
+}
+
+
+
+
+#content main .box-info {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	grid-gap: 24px;
+	margin-top: 36px;
+}
+#content main .box-info li {
+	padding: 24px;
+	background: var(--light);
+	border-radius: 20px;
+	display: flex;
+	align-items: center;
+	grid-gap: 24px;
+}
+#content main .box-info li .bx {
+	width: 80px;
+	height: 80px;
+	border-radius: 10px;
+	font-size: 36px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#content main .box-info li:nth-child(1) .bx {
+	background: var(--light-blue);
+	color: var(--blue);
+}
+#content main .box-info li:nth-child(2) .bx {
+	background: var(--light-yellow);
+	color: var(--yellow);
+}
+#content main .box-info li:nth-child(3) .bx {
+	background: var(--light-orange);
+	color: var(--orange);
+}
+#content main .box-info li .text h3 {
+	font-size: 24px;
+	font-weight: 600;
+	color: var(--dark);
+}
+#content main .box-info li .text p {
+	color: var(--dark);	
+}
+
+
+
+
+
+#content main .table-data {
+	display: flex;
+	flex-wrap: wrap;
+	grid-gap: 24px;
+	margin-top: 24px;
+	width: 100%;
+	color: var(--dark);
+}
+#content main .table-data > div {
+	border-radius: 20px;
+	background: var(--light);
+	padding: 24px;
+	overflow-x: auto;
+}
+#content main .table-data .head {
+	display: flex;
+	align-items: center;
+	grid-gap: 16px;
+	margin-bottom: 24px;
+}
+#content main .table-data .head h3 {
+	margin-right: auto;
+	font-size: 24px;
+	font-weight: 600;
+}
+#content main .table-data .head .bx {
+	cursor: pointer;
+}
+
+#content main .table-data .order {
+	flex-grow: 1;
+	flex-basis: 500px;
+}
+#content main .table-data .order table {
+	width: 100%;
+	border-collapse: collapse;
+}
+#content main .table-data .order table th {
+	padding-bottom: 12px;
+	font-size: 13px;
+	text-align: left;
+	border-bottom: 1px solid var(--grey);
+}
+#content main .table-data .order table td {
+	padding: 16px 0;
+}
+#content main .table-data .order table tr td:first-child {
+	display: flex;
+	align-items: center;
+	grid-gap: 12px;
+	padding-left: 6px;
+}
+#content main .table-data .order table td img {
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+#content main .table-data .order table tbody tr:hover {
+	background: var(--grey);
+}
+#content main .table-data .order table tr td .status {
+	font-size: 10px;
+	padding: 6px 16px;
+	color: var(--light);
+	border-radius: 20px;
+	font-weight: 700;
+}
+#content main .table-data .order table tr td .status.completed {
+	background: var(--blue);
+}
+#content main .table-data .order table tr td .status.process {
+	background: var(--yellow);
+}
+#content main .table-data .order table tr td .status.pending {
+	background: var(--orange);
+}
+
+
+#content main .table-data .todo {
+	flex-grow: 1;
+	flex-basis: 300px;
+}
+#content main .table-data .todo .todo-list {
+	width: 100%;
+}
+#content main .table-data .todo .todo-list li {
+	width: 100%;
+	margin-bottom: 16px;
+	background: var(--grey);
+	border-radius: 10px;
+	padding: 14px 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+#content main .table-data .todo .todo-list li .bx {
+	cursor: pointer;
+}
+#content main .table-data .todo .todo-list li.completed {
+	border-left: 10px solid var(--blue);
+}
+#content main .table-data .todo .todo-list li.not-completed {
+	border-left: 10px solid var(--orange);
+}
+#content main .table-data .todo .todo-list li:last-child {
+	margin-bottom: 0;
+}
+/* MAIN */
+/* CONTENT */
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+	#sidebar {
+		width: 200px;
+	}
+
+	#content {
+		width: calc(100% - 60px);
+		left: 200px;
+	}
+
+	#content nav .nav-link {
+		display: none;
+	}
+}
+
+
+
+
+
+
+@media screen and (max-width: 576px) {
+	#content nav form .form-input input {
+		display: none;
+	}
+
+	#content nav form .form-input button {
+		width: auto;
+		height: auto;
+		background: transparent;
+		border-radius: none;
+		color: var(--dark);
+	}
+
+	#content nav form.show .form-input input {
+		display: block;
+		width: 100%;
+	}
+	#content nav form.show .form-input button {
+		width: 36px;
+		height: 100%;
+		border-radius: 0 36px 36px 0;
+		color: var(--light);
+		background: var(--red);
+	}
+
+	#content nav form.show ~ .notification,
+	#content nav form.show ~ .profile {
+		display: none;
+	}
+
+	#content main .box-info {
+		grid-template-columns: 1fr;
+	}
+
+	#content main .table-data .head {
+		min-width: 420px;
+	}
+	#content main .table-data .order table {
+		min-width: 420px;
+	}
+	#content main .table-data .todo .todo-list {
+		min-width: 420px;
+	}
+}
+
+
+</style>
+
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="#" class="brand">
+			<i class='bx bxs-speaker'></i>
+			<span class="text">AudioBlast</span>
+		</a>
+		<ul class="side-menu top">
+			<li class="active">
+				<a href="#">
+					<i class='bx bxs-dashboard' ></i>
+					<span class="text">Dashboard</span>
+				</a>
+			</li>
+			<li>
+				<a href="/admin/productList">
+					<i class='bx bxs-shopping-bag-alt' ></i>
+					<span class="text">Products</span>
+				</a>
+			</li>
+			<li>
+				<a href="/admin/ordersList">
+					<i class='bx bxs-truck' ></i>
+					<span class="text">Shipping</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class='bx bxs-coupon' ></i>
+					<span class="text">Coupons</span>
+				</a>
+			</li>
+			<li>
+				<a href="/admin/userslist">
+					<i class='bx bxs-group' ></i>
+					<span class="text">Customers</span>
+				</a>
+			</li>
+
+			<li>
+				<a href="/admin/categoryList">
+					<i class='bx bxs-group' ></i>
+					<span class="text">Categories</span>
+				</a>
+			</li>
+		</ul>
+		<ul class="side-menu">
+			
+			<li>
+				
+				<a href="/admin/signout" class="logout">
+					<i class='bx bxs-log-out-circle' ></i>
+					<span class="text">Logout</span>
+				</a>
+				
+			</li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+
+
+	<!-- CONTENT -->
+	<section id="content">
+	
+        <nav>
+            <i class='bx bx-menu' ></i>
+         
+         
+        </nav>
+	
+		
+
+		<!-- MAIN -->
+		<main>
+       
+            
+			<div class="head-title">
+				<div class="left">
+					<h1>Orders List</h1>
+					<ul class="breadcrumb">
+						<li>
+							<a class="active" href="/admin/dashboard">Dashboard</a>
+						</li>
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a class="active" href="#">Orders List</a>
+						</li>
+					</ul>
+						
+					</ul>
+				</div>
+				<!-- <a href="#" class="btn-download">
+					<i class='bx bxs-cloud-download' ></i>
+					<span class="text">Download PDF</span>
+				</a> -->
+			</div>
+
+			
+
+
+
+
+
+
+
+
+<div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+          
+          </div>
+          <div class="card-body px-0 pb-2 ">
+            <div class="table-responsive p-3">
+
+              <table class="table align-items-center mb-0" id="sortTable">
+
+                <thead>
+                  <tr>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">User</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Products</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Address</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                    <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Payment Method</th> -->
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+					<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Order Status</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  <% 
+                    if(ordersData){
+                      //console.log(ordersData)
+                      for(const [index, order] of ordersData.entries()){
+                         %>
+                            <tr>
+
+                              <td class="align-middle text-center text-sm">
+                                <p class="text-xs font-weight-bold mb-0"><%= ((pageNum - 1)*limit) +index + 1 %></p>
+                              </td>
+
+                                <% 
+                                const dd = order.createdAt.getDate();
+                                const mm = order.createdAt.getMonth() + 1;
+                                const yyyy = order.createdAt.getFullYear();
+                                
+                                const formattedDate = `${dd}/${mm}/${yyyy}`; 
+                                %>
+
+                                <td class="align-middle text-center text-sm">
+                                    <p class="text-xs font-weight-bold mb-0"><%= formattedDate %></p>
+                                </td>
+
+                                <td class="align-middle text-center text-sm">
+                                    <h6 class="mb-0 text-sm"><%= order.Address.userName %></h6>
+                                    <p class="text-xs font-weight-bold mb-0"><%= order.email %></p>
+                                    <p class="text-xs font-weight-bold mb-0"><%= order.mob %></p>
+                                </td>
+
+                                <td>
+                                    <% 
+                                    for(const pdt of order.products){
+                                        %>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="me-1">
+                                                <img style="width: 4rem;" src="/static/product_Images/<%= pdt.productId.image[0].filename  %>" alt="Product Image">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm"><%= pdt.productId.productName  %></h6>
+                                                <p class="text-xs text-secondary mb-0">Quantity : <%= pdt.quantity %></p>
+                                                <div class="text-xs text-secondary mb-0">Price : <%=  pdt.productId.discountPrice %>
+                                                  <p class="text-xs text-secondary mb-0 text-bold
+                                                    <% 
+                                                    if(pdt.status == 'Order Confirmed' || pdt.status == 'Shipped' || pdt.status == 'Out For Delivery' ||  pdt.status == 'Delivered' ){
+                                                      %>
+                                                      text-success
+                                                      <%  
+                                                    }else if( pdt. status == 'Cancelled'|| pdt.status == 'Cancelled By Admin'||pdt. status == 'cancelled' ){
+                                                      %>
+                                                      text-danger
+                                                      <%  
+                                                    }else if(pdt.status == 'Pending Return Approval'||  pdt.status == 'Returned'){
+                                                      %>
+                                                      text-warning
+                                                      <%  
+                                                    }
+                                                    %>
+
+                                                    ">
+                                               
+                                                  </p>
+												  </div>
+                                            </div>
+                                 
+                                        </div>
+                                        <%  
+                                    }
+                                    %>
+                                </td>
+
+                                <td>
+                                    <div class="d-flex px-2 py-1">
+                                      <div class="d-flex flex-column justify-content-center">
+                                        <h6 class="mb-0 text-sm"><%= order.userName %></h6>
+                                        <p class="text-xs text-secondary mb-0"><%= order.address %></p>
+                                        <p class="text-xs text-secondary mb-0">
+                                            <%= 
+                                            order.Address.town+' '+order.Address.state+' '+order.Address.country+' '+order.Address.zip
+                                            %>
+                                        </p>
+                                        <p class="text-xs text-secondary mb-0"><%= order.Address.email %></p>
+                                        <p class="text-xs text-secondary mb-0"><strong><%= order.Address.mobile %></strong></p>
+                                      </div>
+                                    </div>
+                                </td>
+
+                                <td class="align-middle text-center text-sm">
+                                    <span class="text-secondary text-xs font-weight-bold">&#8377;<%= order.orderTotal %></span>
+                                    <p class="text-xs text-secondary mb-0"><%= order.PaymentMethod %></p>
+                                    <span class="text-secondary text-xs font-weight-bold"></span>
+                                </td>
+
+
+
+								
+										
+                                    
+
+                                     <td class="align-content-between">
+										
+										
+												
+										 
+                                   <% for(const pdt of order.products){ %>
+                                       
+										<div style="    margin-bottom: 64px;">
+											
+                                                  <p class="text-xs text-secondary mb-0 text-bold
+                                                    <% 
+                                                    if(pdt.status == 'Order Confirmed' || pdt.status == 'Shipped' || pdt.status == 'Out For Delivery' ||  pdt.status == 'Delivered' ){
+                                                      %>
+                                                      text-success
+                                                      <%  
+                                                    }else if( pdt. status == 'Cancelled'|| pdt.status == 'Cancelled By Admin'||pdt. status == 'cancelled' ){
+                                                      %>
+                                                      text-danger
+                                                      <%  
+                                                    }else if(pdt.status == 'Pending Return Approval'||  pdt.status == 'Returned'){
+                                                      %>
+                                                      text-warning
+                                                      <%  
+                                                    }
+                                                    %>
+
+                                                    ">
+                                                     <%= pdt.status %>
+                                                 
+													
+													</p>
+													<a  data-bs-toggle="modal" data-bs-target="#newModal">
+														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                                            </svg>
+														</a>
+
+													
+
+
+                                            </div>
+
+
+											<div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+	  <form action="/admin/updateStatus/<%= order._id %>/<%= pdt._id%>" method="POST">
+		<% console.log(pdt._id)%>
+		
+		<div class="modal-body">
+			<label for="exampleInputEmail1" class="mb-2 ">Category</label>
+																<select class="form-select" name="status" id="exampleInputEmail1"
+																aria-label="Floating label select example" required>
+																<option selected disabled value="">Choose</option>
+																<option>Order Confirmed</option>
+																<option>Shipped</option>
+																<option>Out for Delivery</option>
+																<option>Delivered</option>
+																<option>Awaiting Return Approval</option>
+																<option>Return Approved</option>
+																<option> Returned </option>
+																        
+																</select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Change Status</button>
+
+		</form>
+      
+      </div>
+    </div>
+  </div>
+
+
+
+
+											<%}%>
+										
+										</td>
+
+
+
+										<td class=" ">
+											
+
+											<% 
+                                    for(const pdt of order.products){
+                                        %>
+
+                                            <div class="col-md-4 " style="    margin-bottom: 104px;">
+                                              <% 
+                                              if(pdt.status == 'Order Confirmed' || pdt.status == 'Shipped' || pdt.status == 'Out For Delivery'){
+                                                  %>
+                                                  <a href="/admin/cancelSinglePrdt/<%= order._id %>/<%= pdt._id %>?cancelledBy=admin " class="btn btn-danger"> Cancel </a>
+                                                  <%  
+                                              }else if(pdt.status == 'Pending Return Approval'){
+                                                  %>
+                                                  <a href="/admin/approveReturnSinglePrdt/<%= order._id %>/<%= pdt._id %>" class="btn btn-warning"> Approve </a>
+                                                  <%  
+                                              }else{
+                                              %>
+													<a class="btn btn-success">completed</a>
+											  <%}%>
+                                          </div> 
+										  <%  
+                                    }
+                                    %>
+
+                                
+										</td>
+
+                                    
+
+										<td  class="align-content-between">
+											
+											<div style="    margin-bottom: 64px;">
+											
+											<p class="text-xs text-secondary mb-0 text-bold
+											  <% 
+											  if(order.orderStatus == 'Order Confirmed' || order.orderStatus == 'Shipped' || order.orderStatus == 'Out For Delivery' ||  order.orderStatus == 'Delivered' ){
+												%>
+												text-success
+												<%  
+											  }else if( order.orderStatus == 'Cancelled'|| order.orderStatus == 'Cancelled By Admin'|| order.orderStatus == 'cancelled' ){
+												%>
+												text-danger
+												<%  
+											  }else if(order.orderStatus == 'Pending Return Approval'||  order.orderStatus == 'Returned'){
+												%>
+												text-warning
+												<%  
+											  }
+											  %>
+
+											  ">
+											   <%= order.orderStatus %>
+										   
+											  
+											  </p>
+											
+									  </td>
+                
+
+
+
+
+
+                                                                                      
+                              
+                            </tr>
+                         <% 
+                      }
+                    }
+                  %>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="mx-3 d-flex justify-content-between">
+
+    <div>
+      <ul class="list-unstyled d-flex justify-content-center">
+        <li class="mx-1 p-2 rounded-pill">Limit : </li>
+
+        <li class="mx-1 p-2 rounded-pill"
+          <% if(limit == 10){  %> style="color: black; background-color: lightblue;"  <% } %> >
+          <a href="?limit=10">10</a>
+        </li>
+
+        <li class="mx-1 p-2 rounded-pill"
+        <% if(limit == 25){  %> style="color: black; background-color: lightblue;"  <% } %> >
+        <a href="?limit=25">25</a>
+        </li>  
+
+        <li class="mx-1 p-2 rounded-pill"
+          <% if(limit == 50){  %> style="color: black; background-color: lightblue;"  <% } %> >
+          <a href="?limit=50">50</a>
+        </li>
+
+        <li class="mx-1 p-2 rounded-pill"
+        <% if(limit == 100){  %> style="color: black; background-color: lightblue;"  <% } %> >
+        <a href="?limit=100">100</a>
+        </li>
+
+      </ul>
+    </div>
+
+                                          <!-- Pagination  -->
+                                          <div class="row">
+                                            <div class="col-lg-12 d-flex  align-items-center">
+                                                <div class="product__pagination  d-flex justify-content-end">
+                                                    <% 
+                                                    if(pageNum > 1){
+                                                      %>
+                                                      <a class="mx-1 btn" 
+                                                        href="?pageNum=<%= pageNum-1 %>&limit=<%= limit %>">Prev
+                                                      </a>
+                                                      <% 
+                                                    }
+                                                    for(let i=1; i<= pageCount; i++){
+                                                        %>
+                                                        <a class="mx-1 btn p-2 rounded-pill" 
+                                                        <% if(pageNum === i){ %> 
+                                                          style="color: black; background-color: lightblue;"
+                                                        <% } %>
+                                                          href="?pageNum=<%= i %>&limit=<%= limit %>"><%= i %>
+                                                        </a>
+                                                        <%  
+                                                    }
+                                                    if(pageNum < pageCount){
+                                                      %>
+                                                      <a class="mx-1 btn" 
+                                                        href="?pageNum=<%= pageNum+1 %>&limit=<%= limit %>">Next
+                                                      </a>
+                                                      <% 
+                                                    }
+                                                    %>
+                                                </div>
+                                            </div>
+                                        </div>
+  </div>
+
+
+  <%- include('../layouts/adminFooter.ejs') -%>
+        
+
+</main>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script>
+    $(document).on("click", ".popupBTN", function () {
+        var cId = $(this).data('id');
+        $(".modal-body #orderId").val(cId);  
+    });
+
+    $('.confirmCancelBTN').click( function () {
+        var orderId = $(this).data('id');
+        var routeURL = `/admin/cancelOrder/${orderId}?cancelledBy=admin`
+        $(".modal-footer #confirmCancelBTN").attr('href', routeURL);
+    });
+</script>
+
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+  $('#sortTable').DataTable({
+      responsive: true
+  });
+</script>
+
+
+
+
+
+
+
+
+			</main>
+		
+		<!-- MAIN -->
+
+
+
+
+
+
+
+// it waas here 
+
+
+
+	</section>
+	<!-- CONTENT -->
+
+
+
+
+
+
+
+
+	
+
+	<script>
+		const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
+
+allSideMenu.forEach(item=> {
+	const li = item.parentElement;
+
+	item.addEventListener('click', function () {
+		allSideMenu.forEach(i=> {
+			i.parentElement.classList.remove('active');
+		})
+		li.classList.add('active');
+	})
+});
+
+
+
+
+// TOGGLE SIDEBAR
+const menuBar = document.querySelector('#content nav .bx.bx-menu');
+const sidebar = document.getElementById('sidebar');
+
+menuBar.addEventListener('click', function () {
+	sidebar.classList.toggle('hide');
+})
+
+
+
+
+
+
+
+const searchButton = document.querySelector('#content nav form .form-input button');
+const searchButtonIcon = document.querySelector('#content nav form .form-input button .bx');
+const searchForm = document.querySelector('#content nav form');
+
+searchButton.addEventListener('click', function (e) {
+	if(window.innerWidth < 576) {
+		e.preventDefault();
+		searchForm.classList.toggle('show');
+		if(searchForm.classList.contains('show')) {
+			searchButtonIcon.classList.replace('bx-search', 'bx-x');
+		} else {
+			searchButtonIcon.classList.replace('bx-x', 'bx-search');
+		}
+	}
+})
+
+
+
+
+
+if(window.innerWidth < 768) {
+	sidebar.classList.add('hide');
+} else if(window.innerWidth > 576) {
+	searchButtonIcon.classList.replace('bx-x', 'bx-search');
+	searchForm.classList.remove('show');
+}
+
+
+window.addEventListener('resize', function () {
+	if(this.innerWidth > 576) {
+		searchButtonIcon.classList.replace('bx-x', 'bx-search');
+		searchForm.classList.remove('show');
+	}
+})
+
+
+
+const switchMode = document.getElementById('switch-mode');
+
+switchMode.addEventListener('change', function () {
+	if(this.checked) {
+		document.body.classList.add('dark');
+	} else {
+		document.body.classList.remove('dark');
+	}
+})
+</script>
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

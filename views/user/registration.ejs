@@ -1,0 +1,153 @@
+
+  
+
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    form {
+      max-width: 400px;
+      width: 100%;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .mb-0 {
+      margin-bottom: 0;
+    }
+    .btn-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    /* Responsive Styles */
+    @media screen and (max-width: 600px) {
+      form {
+        max-width: 100%;
+        padding: 10px;
+      }
+    }
+    
+    @media screen and (max-width: 400px) {
+      .form-outline {
+        font-size: 14px;
+      }
+      .btn-container {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+
+  
+  <form method="POST" action="/register" id="loginform">
+  
+  
+    <div class="form-check d-flex justify-content-center text-danger">
+      <%
+      
+      if(typeof message != 'undefined'){
+              %>
+              <h6>
+                  <%= message %>
+              </h6>
+              <%
+      }
+  
+      %>
+    </div>
+  
+    <%- include('../layouts/header.ejs') -%>
+  
+    <!-- 2 column grid layout with text inputs for the first and last names -->
+    <div class="col">
+      <div class="form-outline">
+        <input type="text" id="name" name="name" class="form-control"  required />
+        <label class="form-label" for="name">Name</label>
+      </div>
+    </div>
+    
+  
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+      <input type="email" id="emailInput" name="email" class="form-control"  required />
+      <label class="form-label" for="email">Email address</label>
+      <div id="emailError" class="error text-danger"></div>
+    </div>
+    
+  
+    <!--  preferred mobile number  -->
+    <div class="form-outline mb-4">
+      <input type="text" id="mob" name="mob" class="form-control" pattern="[0-9]{10}" />
+      <label class="form-label" for="mob">Mobile Number</label>
+    </div>
+    
+  
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+      <input type="password" id="password" name="password" class="form-control" maxlength="8" minlength="3" />
+      <label class="form-label" for="password">Password</label>
+    </div>
+
+ 
+    
+  
+    <!-- Submit button -->
+    <div class="form-check d-flex justify-content-center mb-4">
+      <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+    </div>
+  </form>
+  
+  
+  
+  
+  <script>
+    function validateEmail() {
+      const emailInput = document.getElementById("emailInput");
+      const emailError = document.getElementById("emailError");
+  
+      const email = emailInput.value.trim();
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  
+      if (email === "") {
+        emailError.textContent = "Email is required";
+        emailInput.classList.add("is-invalid");
+        return false;
+      } else if (!emailPattern.test(email)) {
+        emailError.textContent = "Invalid email format";
+        emailInput.classList.add("is-invalid");
+        return false;
+      } else {
+        emailError.textContent = "";
+        emailInput.classList.remove("is-invalid");
+        return true;
+      }
+    }
+  
+    function validateForm(event) {
+      event.preventDefault();
+  
+      const isValidEmail = validateEmail();
+  
+      if (isValidEmail) {
+        document.getElementById("loginForm").submit();
+      } else {
+        const submitError = document.getElementById("submit-error");
+        submitError.textContent = "Please fix the form errors before submitting.";
+      }
+    }
+  </script>
+  
+  
+</body>
+</html>
