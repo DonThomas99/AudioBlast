@@ -1,0 +1,120 @@
+<%- include('../layouts/header.ejs') -%>
+
+<section>
+    <div class="row">
+    
+        <div class="row mt-3 pl-lg-5 p-2 mx-auto">
+            <a class="btn text-primary fw-bold address" style="width: 250px;" data-toggle="modal" data-target="#form">Add to wallet</a>
+        </div>
+    
+        <table class="table align-items-center mb-0" id="sortTable">
+    
+            <thead>
+              <tr>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">From</th>
+              </tr>
+            </thead>
+    
+            <tbody>
+                <% 
+                if(walletHistory.length){
+                    walletHistory.forEach( payment => {
+                        %>
+                        <tr>
+    
+                            <td class="align-middle text-center text-sm">
+                                <p class="text-xs font-weight-bold mb-0"><%= payment.amount %></p>
+                            </td>
+    
+                            <td class="align-middle text-center text-sm">
+                                <% 
+                                const dd = payment.date.getDate();
+                                const mm = payment.date.getMonth() + 1;
+                                const yyyy = payment.date.getFullYear();
+                                
+                                const formattedDate = `${dd}-${mm}-${yyyy}`; 
+                                %>
+                                <p class="text-xs font-weight-bold mb-0"><%= formattedDate %></p>
+                            </td>
+                            
+                            <td class="align-middle text-center text-sm">
+                                <p class="text-xs font-weight-bold mb-0"><%= payment.message %></p>
+                            </td>
+                        </tr>
+                        <%  
+                    });
+                }else{
+                    %>
+                    <tr>
+                        <td>
+                            <p>No Transactions yet!</p>
+                        </td>
+                    </tr>
+                    <%  
+                }
+                %>
+            </tbody>
+    
+    </div>
+    
+    </section>
+
+
+
+    <div class="modal fade rounded-0" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered rounded-0" role="document">
+      <div class="modal-content rounded-0">
+        <form id="wallet-form">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="email1">Enter Amount</label>
+              <input type="Number" class="form-control" id="amount" aria-describedby="emailHelp" placeholder="Enter Amount">
+              <p id="err" class="text-danger"></p>
+            </div>
+          </div>
+          <div class="modal-footer border-top-0 d-flex justify-content-center">
+            <button type="submit" class="btn btn-success rounded-0">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<%- include('../layouts/footer.ejs') -%>
+<script>
+    const err = documrent.getElementById('err')
+    document,getElementById('wallrt-form').addEventListener('submit',(e)=>{
+        e.preventDefault()
+
+        const amount = document.getElementById('amount').value.trim()
+        if(!amount)
+        {
+            e.preventDefault()
+
+        }
+        if(amount< 0 )
+        {
+            e.innerHTML = 'Amoutn cannot be negative '
+        }
+        $ajax ({
+            url:'/user-user-dashboard/addToWallet',
+            method:'post',
+            data:{amount},
+            success:(res) =>{
+                if(res.status){
+                    console.log('opening razorpay');
+                    razorpayPayment(res.payment)
+                } else{
+                    console.log('status false redirecting to wallet History');
+                    location.href = '/walletHistory'
+                }
+            }
+        });
+    });
+    function razorpayPayment(order){
+
+    }
+
+</script>

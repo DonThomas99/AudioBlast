@@ -87,6 +87,7 @@ user_route.get('/user-dashboard/deleteAddress/:id',userController2.deleteAddress
 
 //Wallet 
 user_route.get('/user-dashboard/walletHistory',userController2.loadWalletHistory)
+user_route.get('/user-dashboard/addToWallet',userController2.addToWallet)
 
 
 

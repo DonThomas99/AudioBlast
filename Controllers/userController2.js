@@ -925,3 +925,43 @@ exports.loadWalletHistory = async(req, res) => {
     console.log(error.message);
   }
 }
+
+exports.addToWallet = async(req,res) =>{
+  try {
+    console.log('adding money to wallet');
+    const amount = req.body.amount
+    const id = crypto.randomBytes(8).toString('hex');
+    var options ={
+      amount : amount*100,
+      currency:"INR",
+      receipt :"hello"+id
+    }
+    instance.orders.create(options,(err,order)=>{
+      if(err)
+      {
+        res.json({status: false})
+      } else{
+        res.json({status: true,payment:order})
+      }
+    })
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+exports.verifyWalletpayment = async (req,res)=>{
+  try {
+    const userId = req.session.user_id
+    const details = req.body.details
+    const  amount = parseInt(details['order[amount]'])/100
+    let hmac = crypto.createHmac('sha256',process.env.YOUR_KEY_SECRET)
+    hmac.update(details['response[razorpay_order_id]']+'|'+details['response[razorpay_payment_id]'])
+    hmac = hmac.digest('hex')
+
+    if(hmac === details['']) {
+
+  }
+ } catch (error) {
+    console.log(error.message);
+  
+}
