@@ -146,7 +146,19 @@ wallet:{
   balance:{
     type:Decimal128,
     default:0.0
-  },transactions:[String]
+  },transactions:[
+    {
+      date: {
+        type: Date, // Use the Date type for date
+      },
+      amount: {
+        type: Number, // Use the Number type for amount
+      },
+      type: {
+        type: String, // Use the String type for type
+      },
+    },
+  ],
 },
 
   

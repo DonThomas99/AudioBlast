@@ -4,12 +4,13 @@ const category = require("../Models/categoryModel");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const Razorpay = require('razorpay');
+const crypto = require('crypto');
 require("dotenv").config();
 
 
 var instance = new Razorpay({
-  key_id: 'YOUR_KEY_ID',
-  key_secret: 'YOUR_KEY_SECRET',
+  key_id: process.env.YOUR_KEY_ID,
+  key_secret: process.env.YOUR_KEY_SECRET,
 });
 
 let otp;
@@ -512,8 +513,10 @@ exports.userDashboard = async (req,res) => {
   try {
     const session = req.session.user_id;
     const user = await User.findOne({ _id: session });
+  
+    const walletHistory = user.wallet.transactions.reverse()
 
-    res.render('userDashboard',{user})
+    res.render('userDashboard',{user,walletHistory})
   } catch (error) {
     console.log(error.message);
   }
@@ -920,6 +923,7 @@ exports.loadWalletHistory = async(req, res) => {
     const userData = await User.findById({_id: userId})
     const walletHistory = userData.wallet.transactions.reverse()
     console.log(walletHistory);
+    res.render('walletHistory', {walletHistory: walletHistory,user:userData})
     
   } catch (error) {
     console.log(error.message);
@@ -933,14 +937,16 @@ exports.addToWallet = async(req,res) =>{
     const id = crypto.randomBytes(8).toString('hex');
     var options ={
       amount : amount*100,
-      currency:"INR",
-      receipt :"hello"+id
+      currency:'INR',
+      receipt :'hello'+ id,
     }
     instance.orders.create(options,(err,order)=>{
       if(err)
       {
+        console.log(err);
         res.json({status: false})
       } else{
+        
         res.json({status: true,payment:order})
       }
     })
@@ -952,16 +958,46 @@ exports.addToWallet = async(req,res) =>{
 exports.verifyWalletpayment = async (req,res)=>{
   try {
     const userId = req.session.user_id
-    const details = req.body.details
-    const  amount = parseInt(details['order[amount]'])/100
-    let hmac = crypto.createHmac('sha256',process.env.YOUR_KEY_SECRET)
-    hmac.update(details['response[razorpay_order_id]']+'|'+details['response[razorpay_payment_id]'])
-    hmac = hmac.digest('hex')
+   
+   
+    const details = req.body;
 
-    if(hmac === details['']) {
+    // Accessing properties without square brackets and quotes
+    console.log(details.response.razorpay_order_id);
+    console.log(details.order.amount);
+    
+    const amount = parseInt(details.order.amount) / 100;
+    console.log(amount);
+    
+    let hmac = crypto.createHmac('sha256', process.env.YOUR_KEY_SECRET);
+    hmac.update(details.response.razorpay_order_id + '|' + details.response.razorpay_payment_id);
+    hmac = hmac.digest('hex');
+    
+    if (hmac === details.response.razorpay_signature) {
+      console.log('payment verified updating transactions');
+   const user = await User.updateOne(
+        { _id: userId }, // Query to find the user by ID
+        { $inc: { 'wallet.balance': amount } })
 
-  }
+        const updateTransactions = await User.updateOne(
+          { _id: userId },
+          {
+            $push: {
+              'wallet.transactions': {
+                date: new Date(),
+                amount: amount,
+                type: 'credit',
+              },
+            },
+          }
+        );
+             
+        res.json({status: true})
+        }else{
+            res.json({status: false})
+        }
  } catch (error) {
     console.log(error.message);
   
+}
 }
