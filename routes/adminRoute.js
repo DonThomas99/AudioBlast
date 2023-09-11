@@ -93,4 +93,10 @@ admin_route.get('/ordersList',adminController.ordersList)
 admin_route.get('/cancelSinglePrdt/:orderId/:pdtId',userController.cancelOrder)
 admin_route.post('/updateStatus/:orderId/:pdtId',adminController.updateStatus)
 
+//cooupon control
+admin_route.get('/couponList',adminController.couponList)
+admin_route.get('/addCoupon',adminController.addCoupon)
+ admin_route.post('/addCoupon',adminController.saveCoupon)
+ admin_route.get('/unlistCoupon/:id',adminController.unlistCoupon)
+
 module.exports = admin_route;

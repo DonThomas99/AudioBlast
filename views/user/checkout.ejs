@@ -2,6 +2,7 @@
 
 
 
+
 <!-- Offcanvas Menu Begin -->
 <div class="offcanvas-menu-overlay"></div>
 <div class="offcanvas-menu-wrapper">
@@ -105,19 +106,58 @@
                             <div class="cart__discount">
                                 <h6>Apply Coupons</h6>
                                 <div style="margin-top: 5px;">
-                                    <form action="" id="applyCoupon" method="" class="form-group d-flex applyCoupon">
-                                        <input type="text" name="code" class="form-group rounded-0 flex-grow-1 border border-bottom-1" style="height: 40px; border-bottom: 1;" placeholder="Enter Coupon code">
-                                        <button type="submit" class="btn btn-dark rounded-0" style="margin-left: -5px; height: 40px;">Apply</button>
+                                    <form action="/checkOut/applyCoupon" id="applyCoupon" method="" class="form-group d-flex applyCoupon">
+                                        <input type="text" name="code" class="form-group rounded-0 flex-grow-1 border border-bottom-1" style="height: 40px; border-bottom: 1;" placeholder="Paste the Coupon code">
+                                        <button  type="submit" class="btn btn-dark rounded-0" style="margin-left: -5px; height: 40px;">Apply</button>
                                     </form>
                                 </div>
-                             
-                                <div style="position: relative;margin-bottom: 10px;">
+                                <div style="position: relative; margin-bottom: 10px;">
                                     <a class="text-primary" style="cursor: pointer;" data-toggle="modal" data-target="#exploreCouponsModal">
                                         Explore Coupons
                                     </a>
                                     <h6 class="text-danger" id="couponErr"></h6>
                                 </div>
                             </div>
+
+
+
+                      <!-- Modal -->
+<div class="modal fade" id="exploreCouponsModal" tabindex="-1" role="dialog" aria-labelledby="exploreCouponsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exploreCouponsModalLabel">Coupon Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Loop through coupons and display each one -->
+                <% for (let i = 0; i < coupons.length; i++) { %>
+                <div class="coupon-details">
+                    <p><strong>Coupon Code:</strong> <span class="coupon-code"><%= coupons[i].couponCode %></span></p>
+                    <!-- Add more coupon details here -->
+                    <button class="btn btn-primary" onclick="copyCouponCode('<%= coupons[i].couponCode %>')"  data-dismiss="modal">Copy Coupon Code</button>
+                    <p class="copy-success-msg" id="<%= coupons[i].couponCode %>"></p>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+                            
+
+                            <!-- modal ends -->
+
+
+
+
+
+
+
+
+
+
 
                 <form action="/cart/placeOrder" method="post" id="checkout-form">
                             <% 
@@ -187,7 +227,7 @@
 
                                         cartItems.forEach((pdt) => {
                                             %>
-                                            <% console.log(pdt) %>
+                                           
                                         
                                             <div class="row">
                                                 <div class="col-8">
@@ -269,9 +309,9 @@
                                     <hr>
 
                                     
-                
+                                        <input  type="radio" name="payment" id="Wallet"  value="COD" class="mx-2"><label for="payment">Wallet</label><br>
                                 
-                                        <input type="radio" name="payment" id="COD"  value="COD" class="mx-2"><label for="payment">COD</label><br>
+                                        <input checked type="radio" name="payment" id="COD"  value="COD" class="mx-2"><label for="payment">COD</label><br>
 
                                         <input type="radio" name="payment" id="Razorpay"  value="Razorpay" class="mx-2" ><label for="payment">Razorpay</label><br>
 
@@ -317,3 +357,11 @@
 
 
 <%- include('../layouts/footer.ejs') -%>
+
+<script>
+            function copyCouponCode(couponName) {
+                console.log("copying");
+                document.getElementById(couponName).innerHTML = "COPIED"
+                navigator.clipboard.writeText(couponName);
+            }
+        </script>

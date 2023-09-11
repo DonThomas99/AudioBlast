@@ -765,7 +765,7 @@ body {
                                 <form id="categoryForm" method="POST" action="/admin/addCategory">
                                     <div class="form-group">
                                         <label for="name">Category Name</label>
-                                        <input type="text" id="name" name="name" class="form-control" pattern="[A-Za-z ]+" required>
+                                        <input type="text" id="name" name="name" class="form-control">
                                     </div>
                                 
                                     <div class="btn-container">
@@ -873,12 +873,12 @@ switchMode.addEventListener('change', function () {
 			const namw = document.getElementById('name').value.trim()
 			if(name.length ==0)
 			{
-				error.innerHTML = 'Format not supported'
+				error.textContent = 'Format not supported'
 				return false
 			}
 			if(!name.match('/^[A-Za-z]+'))
 			{
-				error.innerHTML = 'Format not supported'
+				error.textContent = 'Format not supported'
 				return false
 			}
 

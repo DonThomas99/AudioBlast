@@ -3,6 +3,9 @@ const User = require('../Models/userModel')
 const bcrypt = require('bcrypt');
 const randomstring = require('randomstring');
 const category = require('../Models/categoryModel')
+const coupon = require('../Models/couponModel');
+const Coupon = require('../Models/couponModel');
+const { response } = require('../routes/adminRoute');
 
 
 const securePassword = async(password)=>{
@@ -431,6 +434,57 @@ exports.updateStatus = async(req,res) => {
  }
 
 }
+
+
+exports.couponList = async (req,res) => {
+  try {
+    const coupon = await Coupon.find({})
+    res.render('couponList',{coupon})
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+exports.addCoupon = async (req,res) => {
+  try {
+    res.render('addCoupon')
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+exports.saveCoupon =async(req, res) => {
+  try {
+    console.log(req.body);
+    const { couponCode, maxPrice, discountAmount, expiryDate } = req.body;
+
+    const newCoupon = new Coupon({
+      couponCode,
+      maxPrice,
+      discountAmount,
+      expiryDate
+  });
+  const savedCoupon = await newCoupon.save();
+  res.redirect('/admin/couponList')
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+exports.unlistCoupon = async(req,res) =>{
+  try {
+    const couponId = req.params.id
+    const coupon = await Coupon.findById(couponId)
+    if(coupon) {
+    coupon.listed = !coupon.listed
+    await coupon.save();
+    res.redirect('/admin/couponList')
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 
 
 

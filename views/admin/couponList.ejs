@@ -6,10 +6,7 @@
 
 	<!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 	<!-- My CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="style.css">
 
 	<title>AdminHub</title>
@@ -54,6 +51,10 @@ li {
 	--orange: #FD7238;
 	--light-orange: #FFE0D3;
 }
+
+
+
+
 
 html {
 	overflow-x: hidden;
@@ -616,24 +617,7 @@ body {
 }
 
 
-@import url(https://fonts.googleapis.com/css?family=Roboto);
-
-body {
-  font-family: Roboto, sans-serif;
-}
-
-#chart {
-  max-width: 650px;
-  height: 300px;
-  margin: 35px auto;
-}
-
-
 </style>
-
-
-
-
 
 	<!-- SIDEBAR -->
 	<section id="sidebar">
@@ -642,46 +626,56 @@ body {
 			<span class="text">AudioBlast</span>
 		</a>
 		<ul class="side-menu top">
-			<li class="active">
-				<a href="#">
+			<li >
+				<a href="/admin/Dashboard">
 					<i class='bx bxs-dashboard' ></i>
 					<span class="text">Dashboard</span>
 				</a>
 			</li>
 			<li>
-				<a href="/admin/productList">
+				<a href="#">
 					<i class='bx bxs-shopping-bag-alt' ></i>
 					<span class="text">Products</span>
 				</a>
 			</li>
+
+         
 			<li>
-				<a href="/admin/ordersList">
+				<a href="#">
 					<i class='bx bxs-truck' ></i>
 					<span class="text">Shipping</span>
 				</a>
 			</li>
 			<li>
-				<a href="/admin/couponList">
+				<a href="#">
 					<i class='bx bxs-coupon' ></i>
 					<span class="text">Coupons</span>
 				</a>
 			</li>
-			<li>
-				<a href="/admin/userslist">
+			<li >
+				<a href="#">
 					<i class='bx bxs-group' ></i>
 					<span class="text">Customers</span>
 				</a>
 			</li>
 
-			<li>
-				<a href="/admin/categoryList">
+
+            <li class="active">
+				<a href="#">
 					<i class='bx bxs-box' ></i>
-					<span class="text">Categories</span>
+					<span class="text">Category</span>
 				</a>
 			</li>
+
+
 		</ul>
 		<ul class="side-menu">
-			
+			<li>
+				<a href="#">
+					<i class='bx bxs-cog' ></i>
+					<span class="text">Settings</span>
+				</a>
+			</li>
 			<li>
 				
 				<a href="/admin/signout" class="logout">
@@ -699,100 +693,103 @@ body {
 	<!-- CONTENT -->
 	<section id="content">
 	
-		
-		<nav>
-			<i class='bx bx-menu' ></i>
-			
-			
-			
-		
-		
-		</nav>
-		
 
 		<!-- MAIN -->
 		<main>
 			<div class="head-title">
 				<div class="left">
-					<h1>Admin Dashboard</h1>
+					<h1>Dashboard</h1>
 					<ul class="breadcrumb">
 						<li>
-							<a class="active" href="#">Dashboard</a>
+							<a class="active" href="/admin/Dashboard">Dashboard</a>
 						</li>
-						
-						
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a class="active" href="#">categoryList</a>
+						</li>
 					</ul>
 				</div>
-				<!-- <a href="#" class="btn-download">
-					<i class='bx bxs-cloud-download' ></i>
-					<span class="text">Download PDF</span>
-				</a> -->
+				<a href="/admin/addCoupon" class="btn-download">
+					<i class='bx bxs-add-to-queue' ></i>
+					<span class="text">Add Coupon</span>
+				</a>
 			</div>
 
-			<ul class="box-info">
-				<li>
-					<i class='bx bxs-calendar-check' ></i>
-					<span class="text">
-						<h3><%=  amountOfOrders %></h3>
-						<p> Order</p>
-					</span>
-				</li>
-				<li>
-					<i class='bx bxs-group' ></i>
-					<span class="text">
-						<h3><%= amountOfUsers %></h3>
-						<p>Visitors</p>
-					</span>
-				</li>
-				<li>
-					<i class='bx bxs-dollar-circle' ></i>
-					<span class="text">
-						<h3>₹ <%= totalAmount[0].totalAmount %></h3>
-						<p>Total Sales</p>
-					</span>
-				</li>
-			</ul>
-
-
-			<div class="table-data">
-				<div class="order">
-					<div class="head">
-						<h3>Sales Report</h3>
-					
-					</div>
-					<!-- this is where you should add -->
-
-					<div id="chart">
-						
-						<input class="month" type="text" hidden value="<%= JSON.stringify(monthSales) %>" id="month">
-						
-
-					
-					</div>
-				</div>
-			
-			</div>
-
-
-
-
-
-
-
-			  
 		
 
 
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Coupons List</h3>
+                    </div>
+                    <table width="50%">
+                        <tr>
+                            <th>Edit</th>
+                            <th>Coupon Code</th>
+                            <th>Expiry Date</th>
+                            <th>Maximum Price</th>
+                            <th>Discount Amount</th>
+                            <th>Status</th>
+                        </tr>
+                        <% if (coupon.length > 0) { %>
+                            <% for (let i = 0; i < coupon.length; i++) { %>
+                                <tr>
+                                    <td>
+                                        <a href="/admin/editCoupon?id=<%=coupon[i]._id%>" class="edit" title="Edit Coupon"><i class="bx bx-edit"></i></a>
+                                    </td>
+                                    <td><%= coupon[i].couponCode %></td>
+                                    <td><%= coupon[i].expiryDate.toDateString() %></td>
+                                    <td><%= coupon[i].maxPrice %></td>
+                                    <td><%= coupon[i].discountAmount %></td>
+                                    <td>
+                                        <a href="/admin/unlistCoupon/<%=coupon[i]._id%>" onclick="return confirm('Are you sure you want to list/unlist this coupon?')" class="btn btn-sm <%= coupon[i].listed ? 'btn-primary' : 'btn-danger' %> Change Status" title="Change Status">
+                                            <%= coupon[i].listed ? 'Listed' : 'Unlisted' %>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6">Coupon list empty</td>
+                            </tr>
+                        <% } %>
+                    </table>
+                </div>
+            </div>
+            
 		</main>
 		<!-- MAIN -->
-
 	</section>
 	<!-- CONTENT -->
-
-
-
-
 	
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	<script>
 		const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
@@ -872,10 +869,5 @@ switchMode.addEventListener('change', function () {
 	}
 })
 	</script>
-
-<script src="/static/js/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
-
 </body>
 </html>

@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
+const coupon =require("../Models/couponModel");
 require("dotenv").config();
 
 
@@ -30,7 +31,7 @@ const securePassword = async (password) => {
 
 const sendMail = (email, verif_code) => {
   console.log("going to send otp");
-  console.log();
+  // console.log();
   const mailTransporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -559,12 +560,13 @@ exports.loadCheckout = async (req,res) => {
     
     const session = req.session.user_id;
     const user = await User.findOne({ _id: session });
+    const coupons = await coupon.find({listed:true})
 
     const userData = await User.findById(session).populate("cart.productId");
     // console.log(userData);
     const cartItems = userData.cart;
 
-    res.render('checkout',{user,cartItems})
+    res.render('checkout',{user,cartItems,coupons})
   } catch (error) {
     console.log(error.message);
   }
@@ -587,6 +589,7 @@ exports.addAddress = async (req, res) => {
     console.log("Add Address");
    const   userId = req.session.user_id;
    const { name, email, mobile, town, state, country, zip, address } = req.body
+   console.log(req.body);
    const returnPage = req.params.returnPage
 
    const newAddress = { userName: name, email, mobile, town, state, country, zip, address }
@@ -1000,4 +1003,13 @@ exports.verifyWalletpayment = async (req,res)=>{
     console.log(error.message);
   
 }
+}
+
+exports.applyCoupon = async(res,req) =>{
+  try {
+    console.log(req.body);
+    res.redirect('')
+  } catch (error) {
+    console.log(error.message);
+  }
 }
