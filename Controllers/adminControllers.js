@@ -3,9 +3,7 @@ const User = require('../Models/userModel')
 const bcrypt = require('bcrypt');
 const randomstring = require('randomstring');
 const category = require('../Models/categoryModel')
-const coupon = require('../Models/couponModel');
 const Coupon = require('../Models/couponModel');
-const { response } = require('../routes/adminRoute');
 
 
 const securePassword = async(password)=>{

@@ -1005,11 +1005,77 @@ exports.verifyWalletpayment = async (req,res)=>{
 }
 }
 
-exports.applyCoupon = async(res,req) =>{
+exports.applyCoupon = async (req, res, next) => {
   try {
-    console.log(req.body);
-    res.redirect('')
+      const userId = req.session.user_id;
+       const code = req.body.code;
+
+      const couponData = await coupon.findOne({ couponCode: code });
+      const userData = await User.findById(userId).populate('cart.productId');
+      const cart = userData.cart;
+
+      // Finding total cart price
+      let totalPrice = 0;
+      let totalDiscountPrice = 0;
+
+      for (const pdt of cart) {
+          totalPrice += pdt.productId.discountPrice * pdt.quantity;
+            
+        
+          if (pdt.productId.offerPrice) {
+              totalDiscountPrice += (pdt.productId.price - pdt.productId.offerPrice) * pdt.quantity;
+          } else {
+              totalDiscountPrice += pdt.discountPrice * pdt.quantity;
+          }
+      }  
+      const cartAmount =  totalDiscountPrice;
+      if (couponData && couponData.listed) {
+          if (cartAmount >= couponData.maxPrice) {
+              if (couponData.expiryDate >= new Date()) {
+
+                          req.session.coupon = couponData;
+
+                          let payAmount;
+          
+                              payAmount = cartAmount - couponData.discountAmount;
+                          
+
+                          const couponDiscount = cartAmount - payAmount;
+
+                          let isWalletHasPayAmount = false;
+                          if (userData.wallet.balance >= payAmount) {
+                              isWalletHasPayAmount = true;
+                          }
+                          res.json({
+                              status: true,
+                              message: 'Success',
+                              couponDiscount,
+                              payAmount,
+                              isWalletHasPayAmount,
+                          });
+                      
+                
+              } else {
+                  res.json({ status: false, message: 'Coupon expired' });
+              }
+          } else {
+              res.json({ status: false, message: `Min purchase should be greater than or equal to ${couponData.maxPrice}` });
+          }
+      } else {
+          res.json({ status: false, message: "Coupon doesn't exist or is not available" });
+      }
   } catch (error) {
-    console.log(error.message);
+      next(error);
+  }
+};
+
+
+
+exports.deleteCoupon = async(req, res, next) => {
+  try {
+      req.session.couponData = null
+      res.json({ status: true })
+  } catch (error) {
+      next(error)
   }
 }

@@ -365,3 +365,53 @@
                 navigator.clipboard.writeText(couponName);
             }
         </script>
+
+        <script>
+    function removeCoupon() {
+        $.ajax({
+            url: '/deleteCoupon',
+            method: 'get',
+            success: (res) => {
+                if (res.status == true) {
+                    location.reload()
+                }
+            }
+        })
+    }
+</script>
+
+        <script>
+
+
+    $('#applyCoupon').submit((e) => {
+        e.preventDefault();
+        console.log("applyCoupon clicked");
+        $.ajax({
+            url: '/applyCoupon',
+            method: 'post',
+            data: $('#applyCoupon').serialize(),
+            success: (res) => {
+                if (res.status === true) {
+                    
+                    $('#couponDiscount').html(`-₹ ${res.couponDiscount}`);
+                    $('#payAmount').html(`₹ ${res.payAmount}`);
+                    document.getElementById('couponDiscountDiv').hidden = false;
+                    document.getElementById('couponDiscountLabelDiv').hidden = false;
+                    $('#couponErr').html('');
+
+                    const walletCheckBoxDiv = document.getElementById('walletCheckBoxDiv');
+                    const walletCheckBox = document.getElementById('walletCheckBox');
+                    const razorpayRadio = document.getElementById('Razorpay');
+                    const COD = document.getElementById('COD');
+
+                    if (res.isWalletHasPayAmount) {
+                        walletCheckBoxDiv.hidden = false;
+                        walletCheckBox.hidden = true;
+                    }
+                } else {
+                    $('#couponErr').html(res.message);
+                }
+            }
+        });
+    });
+</script>
