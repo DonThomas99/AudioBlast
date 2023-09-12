@@ -743,11 +743,11 @@ body {
 						</li>
 						<li><i class='bx bx-chevron-right' ></i></li>
 						<li>
-							<a class="active" href="/admin/couponList">couponList</a>
+							<a class="active" href="/admin/couponList">Coupon List</a>
 						</li>
 						<li><i class='bx bx-chevron-right' ></i></li>
 						<li>
-							<a href="#">Add Coupon</a>
+							<a href="#">Edit Coupon</a>
 						</li>
 					</ul>
 				</div>
@@ -762,25 +762,26 @@ body {
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-md-6">
-                                <form id="couponForm" method="POST" action="/admin/addCoupon">
+                                <form id="couponForm" method="POST" action="/admin/editCoupon">
                                     <div class="form-group">
+										<input type="hidden" name="id" value="<%= couponData._id %>">
                                         <label for="couponCode">Coupon Code</label>
-                                        <input type="text" id="couponCode" name="couponCode" class="form-control" required>
+                                        <input type="text" id="couponCode" name="couponCode" class="form-control" value="<%=couponData.couponCode %>" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="maxPrice">Maximum Price</label>
-                                        <input type="number" id="maxPrice" name="maxPrice" class="form-control" required>
+                                        <input type="number" id="maxPrice" name="maxPrice" class="form-control" value="<%=couponData.maxPrice %>" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="discountAmount">Discount Amount</label>
-                                        <input type="number" id="discountAmount" name="discountAmount" class="form-control" required>
+                                        <input type="number" id="discountAmount" name="discountAmount" class="form-control" value="<%=couponData.discountAmount %>"  required>
                                     </div>
                                     <div class="form-group">
                                         <label for="expiryDate">Expiry Date</label>
-                                        <input type="date" id="expiryDate" name="expiryDate" class="form-control" required>
+                                        <input type="date" id="expiryDate" name="expiryDate" class="form-control" <%=couponData.expiryDate %> required>
                                     </div>
                                     <div class="btn-container">
-                                        <button  onclick="return ValidateCoupon()"  type="submit" class="btn btn-primary">Add Coupon</button>
+                                        <button  onclick="return ValidateCoupon()"  type="submit" class="btn btn-primary">Update Coupon</button>
                                         <a href="/admin/couponList" class="btn btn-primary">Back</a>
                                     </div>
                                 </form>

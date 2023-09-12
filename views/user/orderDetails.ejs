@@ -190,7 +190,6 @@
 
 
 
-
 <section>
     <div class="container">
         <div class="mt-5">
@@ -336,7 +335,10 @@
                                             <% 
                                             if(pdt.status == 'Order Confirmed' || pdt.status == 'Shipped' || pdt.status == 'Out For Delivery'){
                                                 %>
-                                                <a  class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter"> Cancel </a>
+                                        
+                                                <button type="button"
+                                                        class="btn btn-danger rounded-0 text-nowrap" onclick="showConfirmationModal('<%= orderData._id %>','<%= pdt._id %>')">CANCEL ORDER <i class="bi bi-x-lg"></i></button>
+                                                
                                                 <%  
                                             }else if(pdt.status == 'Delivered'){
                                                 %>
@@ -360,49 +362,32 @@
         </div>
     </div>
 
-
+    <!-- Confirmation Modal -->
+        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to perform this action?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  Cancel
+                </button>
+                <a href="#" id="confirmationAction" class="btn btn-danger">Confirm</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Confirmation Modal -->
 
 
 </section>
 
-
-
-
-
-
-
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle"> Are you sure, you want to Cancel this Order!? </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body" style="text-align: center;">
-            <div style="align-items:baseline;" class="auth-links">
-                <a href="/cancelOrder/<%= orderData._id %>/<%= pdt._id %>?cancelledBy=user" 
-                style="text-decoration: none;
-                color: rgb(126, 3, 3);"
-                >Yes</a>
-                <a 
-                style="text-decoration: none;
-                color:black;"
-                href="#"> / </a>
-                <a href="#" data-dismiss="modal"
-                style="text-decoration: none;
-                color:rgb(135, 4, 4);"
-                >No</a>
-            </div>
-        </div>
-        <div class="modal-footer" style=" justify-content: center;">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          
-        </div>
-      </div>
-    </div>
-  </div>
 
 
 
@@ -440,5 +425,14 @@
         });
     });
 </script>
-
+<script>
+        function showConfirmationModal(orderId,pdtId) {
+          const modal = new bootstrap.Modal(
+            document.getElementById("confirmationModal")
+          );
+          const confirmationAction = document.getElementById("confirmationAction");
+          confirmationAction.href = `/cancelOrder/${orderId}/${pdtId}?cancelledBy=user `;
+          modal.show();
+        }
+      </script>
 <%- include('../layouts/footer.ejs') -%>

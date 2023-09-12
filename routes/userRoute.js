@@ -59,7 +59,7 @@ user_route.post('/user-dashboard/editProfile',userController2.updateProfile)
 //cart 
 user_route.get('/cart',userController2.loadCart)
 user_route.post('/addToCart/:id',userController2.addToCart)
-user_route.post('/deleteFromCart/:id',userController2.deleteFromCart)
+user_route.get('/deleteFromCart/:id',userController2.deleteFromCart)
 user_route.patch('/cart_qty',userController2.updateQty)
 
 

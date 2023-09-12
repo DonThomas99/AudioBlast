@@ -484,6 +484,35 @@ exports.unlistCoupon = async(req,res) =>{
 }
 
 
+exports.editCoupon= async(req,res)=>{
+  try{
+    console.log("Edit Coupon");
+    const id = req.query.id;
+    console.log(id);
+    const couponData = await Coupon.findById(id);
+    console.log(couponData);
+    if(couponData){
+      res.render('editCoupon',{couponData})
+    }
+  }
+  catch(error){
+    console.log(error.message)
+  }
+}
+
+exports.updateCoupon= async(req,res)=>{
+  try {  console.log("update");
+  const id = req.body.id;
+  const {couponCode,maxPrice,discountAmount,expiryDate} = req.body
+  console.log(id);
+    const couponData = await Coupon.findByIdAndUpdate({_id:id},{$set:{couponCode,maxPrice,discountAmount,expiryDate}})
+
+    res.redirect('/admin/couponList')
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 
 
  

@@ -85,7 +85,6 @@ admin_route.get('/editProducts',productController.editProduct)
 admin_route.post('/editProducts',upload.array("image",4),productController.editProducty)
 admin_route.get('/delete-image',productController.deletimage)
 //for logging out
-//admin_route.post('/signout',adminController.signout)
 admin_route.get('/signout',adminController.signout) 
 
 //orders admin
@@ -98,5 +97,7 @@ admin_route.get('/couponList',adminController.couponList)
 admin_route.get('/addCoupon',adminController.addCoupon)
  admin_route.post('/addCoupon',adminController.saveCoupon)
  admin_route.get('/unlistCoupon/:id',adminController.unlistCoupon)
+ admin_route.get('/editCoupon',adminController.editCoupon)
+ admin_route.post('/editCoupon',adminController.updateCoupon)
 
 module.exports = admin_route;

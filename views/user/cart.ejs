@@ -70,10 +70,11 @@
                                        </td>
                                     <td class="cart__total"  data-product-id="<%= cartItem.productId._id %>" >₹ <%= cartItem.productId.discountPrice * cartItem.quantity%></td>
                                     <td class="cart__close">
-                                        <span class="icon_close" data-toggle="modal" data-target="#exampleModalCenter"></span></td>
+                                        <button type="button"
+                                        class="btn btn-danger rounded-0 text-nowrap" onclick="showConfirmationModal('<%= cartItem.productId._id%>')">REMOVE <i class="bi bi-x-lg"></i></button> </td>
                                 </tr>
 
-
+<!-- 
                                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                       <div class="modal-content">
@@ -85,7 +86,7 @@
                                         </div>
                                         <div class="modal-body" style="text-align: center;">
                                             <div style="align-items:baseline;" class="auth-links">
-                                                <form action="/deleteFromCart/<%= cartItem.productId._id %>" method="post">
+                                                <form action=" method="post">
                                                     <button class="btn" style="text-decoration: none;
                                                     color: rgb(126, 3, 3);"  type="submit">
                                                         Yes
@@ -108,7 +109,7 @@
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
+                                  </div> -->
 
 
                                 <% } %>
@@ -155,6 +156,37 @@
                 </div>
             </div>
         </div>
+
+
+
+
+
+
+
+        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to perform this action?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  Cancel
+                </button>
+                <a href="#" id="confirmationAction" class="btn btn-danger">Confirm</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
     </section>
     
     <!-- Shop Cart Section End -->
@@ -303,6 +335,17 @@ function removeFromCart(prdId){
     <script src="js/main.js"></script>
     
     <script src="js/cart_qty.js"></script>
+
+    <script>
+        function showConfirmationModal(pdtId) {
+          const modal = new bootstrap.Modal(
+            document.getElementById("confirmationModal")
+          );
+          const confirmationAction = document.getElementById("confirmationAction");
+          confirmationAction.href = `/deleteFromCart/${pdtId} `;
+          modal.show();
+        }
+      </script>
 </body>
 
 </html>

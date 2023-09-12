@@ -6,6 +6,7 @@ const nodemailer = require("nodemailer");
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 const coupon =require("../Models/couponModel");
+const { request } = require("http");
 require("dotenv").config();
 
 
@@ -622,7 +623,7 @@ exports.ordersuccess = async(req,res)=>{
   try {
     
   } catch (error) {
-    log
+    console.log(error.message);
   }
 }
 
@@ -633,10 +634,11 @@ exports.placeOrder = async (req, res) => {
     const userId = req.session.user_id;
     const addressId = req.body.address; // Assuming you're getting the selected address ID from the form
     const paymentMethod = req.body.payment; // Assuming you're getting the selected payment method from the form
+    const isWalletSelected = req.body.isWalletCheckbox;
     console.log(paymentMethod);
-    
-    // Get the selected address from the user's addresses array
     const user = await User.findById(userId);
+   
+    // Get the selected address from the user's addresses array
     
     const selectedAddress = user.addresses.find((address) => address._id.toString() === addressId);
 
@@ -645,8 +647,24 @@ exports.placeOrder = async (req, res) => {
     let orderTotal = 0;
     const cartItems = user.cart;
     const orderProducts = cartItems.map((item) => {
-      orderTotal += item.quantity * item.discountPrice;
 
+      if(req.session.payAmount)
+      {
+        orderTotal += req.session.payAmount
+      } else{
+        orderTotal += item.quantity * item.discountPrice;
+      }      
+        console.log("orderTotal:", orderTotal);
+        let walletBalance = parseInt(user.wallet.balance)
+        console.log("wallet Balance:",user.wallet.balance);
+      if(paymentMethod == 'Wallet'){
+        walletBalance -= orderTotal 
+        user.wallet.balance = walletBalance
+    
+        user.save()    
+    }
+
+   
       return {
         productId: item.productId,
         quantity: item.quantity,
@@ -781,9 +799,12 @@ exports.orderDetails = async (req,res) => {
 }
 exports.cancelOrder = async (req,res) =>{
   try {
+
+    console.log("Cancelling order");
     let userId = req.session.user_id
     const {orderId, pdtId} = req.params
     const {cancelledBy} = req.query
+    console.log();
     let user
     if(!userId){
        user = await User.findOne({"orders._id":orderId}).populate('orders.products.productId')
@@ -989,7 +1010,7 @@ exports.verifyWalletpayment = async (req,res)=>{
               'wallet.transactions': {
                 date: new Date(),
                 amount: amount,
-                type: 'credit',
+                type: 'Credited Via Razorpay',
               },
             },
           }
@@ -1034,13 +1055,18 @@ exports.applyCoupon = async (req, res, next) => {
               if (couponData.expiryDate >= new Date()) {
 
                           req.session.coupon = couponData;
-
+                         
                           let payAmount;
-          
+         
                               payAmount = cartAmount - couponData.discountAmount;
-                          
+                             
 
                           const couponDiscount = cartAmount - payAmount;
+
+
+                          req.session.payAmount =  payAmount;
+                          console.log("payAmount in session:",req.session.payAmount);
+
 
                           let isWalletHasPayAmount = false;
                           if (userData.wallet.balance >= payAmount) {
