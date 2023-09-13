@@ -38,7 +38,6 @@
                             </thead>
                             <tbody>
                                 <% for(const cartItem of cartItems) { %>
-                                 <% console.log(cartItem)%>   
                                 <tr>
                                     <td >
 
@@ -146,7 +145,6 @@
                      <%// console.log(cartItems[i].discountPrice)%>
 
                      <% } %>
-                     <% console.log(cartItems) %>
                    
                     
                         <li>Subtotal <span  class="totalAmount" data-totalAmount="totalAmount">₹ <i id="total"><%= totalAmount %></i></span></li>
@@ -283,7 +281,7 @@
       console.log(response);
       if(response.quantity.quantity<1)
       {
-        return removeFromCart(productId);
+        removeFromCart(productId);
       }
         else{
 
@@ -309,11 +307,12 @@
   });
 }
 function removeFromCart(prdId){
+    console.log("Setting quantity to " + prdId + "...");
     $.ajax({
         url:`/deleteFromCart/${prdId}`,
-        method: "POST",
+        method: "GET",
         success:function(){
-          location.reload();
+          window.location.reload();
         
         }
     })

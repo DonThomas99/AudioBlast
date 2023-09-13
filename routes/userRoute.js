@@ -77,6 +77,7 @@ user_route.post('/cart/placeOrder',userController2.placeOrder)
 user_route.get('/loadOrders',userController2.loadOrders)
 user_route.get('/orderDetail/:orderId',userController2.orderDetails)
 user_route.get('/cancelOrder/:orderId/:pdtId',userController2.cancelOrder)
+user_route.post('/verifyPayment',userController2.verifyPayment)
 
 //address
 user_route.get('/user-dashboard/addAddress',userController2.loadAddAddress)
