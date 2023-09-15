@@ -3,7 +3,6 @@ const category = require('../Models/categoryModel');
 exports.categoryList = async(req,res)=>{
     try {
       const catData = await category.find({})
-      console.log(catData);
       res.render('categoryList',{cat:catData})
       // var search = ''
       // if(req.query.search){

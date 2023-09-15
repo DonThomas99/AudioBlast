@@ -736,6 +736,7 @@ exports.verifyPayment = async (req, res) => {
       // Calculate the order total and create the order object
 
       let orderTotal = 0;
+      
       const cartItems = user.cart;
       const orderProducts = cartItems.map((item) => {
         if (req.session.payAmount) {

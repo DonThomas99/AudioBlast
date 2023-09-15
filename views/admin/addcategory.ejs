@@ -867,23 +867,23 @@ switchMode.addEventListener('change', function () {
 	}
 })
 	</script>
-	<script>
-		const error = document.getElementById('error')
-		function ValidateCategory(){
-			const namw = document.getElementById('name').value.trim()
-			if(name.length ==0)
-			{
-				error.textContent = 'Format not supported'
-				return false
-			}
-			if(!name.match('/^[A-Za-z]+'))
-			{
-				error.textContent = 'Format not supported'
-				return false
-			}
+<script>
+    const error = document.getElementById('error');
 
-return true
-		}
-	</script>
+    function ValidateCategory() {
+        const name = document.getElementById('name').value.trim();
+        if (name.length === 0) {
+            error.textContent = 'Please Enter Category';
+            return false;
+        }
+        if (!name.match(/^[A-Za-z]+$/)) {
+            error.textContent = 'Format not supported';
+            return false;
+        }
+        error.textContent = ''; // Clear any previous error message
+        return true;
+    }
+</script>
+
 </body>
 </html>
