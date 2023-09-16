@@ -1,56 +1,60 @@
 
+<%- include('../layouts/header.ejs') -%>
   
+<style>
+  /* Additional CSS for centering the form */
 
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    form {
-      max-width: 400px;
-      width: 100%;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    .text-center {
-      text-align: center;
-    }
-    .mb-0 {
-      margin-bottom: 0;
-    }
-    .btn-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    /* Responsive Styles */
-    @media screen and (max-width: 600px) {
-      form {
-        max-width: 100%;
-        padding: 10px;
-      }
-    }
-    
-    @media screen and (max-width: 400px) {
-      .form-outline {
-        font-size: 14px;
-      }
-      .btn-container {
-        flex-direction: column;
-        gap: 10px;
-      }
-    }
+
+.login-form {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #6b0707;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(128, 4, 4, 0.2);
+  text-align: center; /* Align form elements to center */
+  
+}
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* color: #ecacac; */
+  }
+  a{
+    color: #000000;
+  }
+  form {
+  max-width: 400px;
+  width: 100%;
+  margin: auto; /* Center horizontally and vertically */
+  padding: 20px;
+  border: 1px solid #6b0707;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(128, 4, 4, 0.2);
+  text-align: center;
+}
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .text-center {
+    text-align: center;
+  }
+  .mb-0 {
+    margin-bottom: 0;
+  }
+  .btn-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   </style>
 
   
-  <form method="POST" action="/register" id="loginform">
+  <form method="POST" action="/register" id="login-form">
   
   
     <div class="form-check d-flex justify-content-center text-danger">
@@ -67,8 +71,7 @@
       %>
     </div>
   
-    <%- include('../layouts/header.ejs') -%>
-  
+   
     <!-- 2 column grid layout with text inputs for the first and last names -->
     <div class="col">
       <div class="form-outline">
@@ -104,10 +107,10 @@
   
     <!-- Submit button -->
     <div class="form-check d-flex justify-content-center mb-4">
-      <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+      <button type="submit" class="btn btn-dark btn-block mb-4">Register</button>
     </div>
+    
   </form>
-  
   
   
   
@@ -147,6 +150,8 @@
       }
     }
   </script>
+  
+
   
   
 </body>

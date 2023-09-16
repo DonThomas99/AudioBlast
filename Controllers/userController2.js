@@ -680,8 +680,12 @@ exports.placeOrder = async (req, res) => {
       }
     } else if (paymentMethod == "Razorpay") {
       req.session.rpbody = req.body;
-      const payAmount = req.body.payAmount;
+      if(req.session.payAmount){
+        payAmount = req.session.payAmount;
 
+      }else{
+       payAmount = req.body.payAmount;
+      }
       // copied
 
       const id = crypto.randomBytes(8).toString("hex");
@@ -1149,6 +1153,7 @@ exports.applyCoupon = async (req, res, next) => {
 exports.deleteCoupon = async (req, res, next) => {
   try {
     req.session.couponData = null;
+    req.session.payAmount = null;
     res.json({ status: true });
   } catch (error) {
     next(error);
