@@ -324,7 +324,7 @@
                                             </div>
                                     <%}%>
                                     
-                                        <input  type="radio" name="payment" id="Wallet"  value="Wallet" class="mx-2"  <% if(user.wallet.balance < totalAmount) {%> hidden <%}%> ><label for="payment"   <% if(user.wallet.balance < totalAmount) {%> hidden <%}%> >Wallet <strong>[Bal:₹<%= user.wallet.balance %>]</strong></label><br>
+                                        <input  type="radio" name="payment" id="Wallet"  value="Wallet" class="mx-2"  <% if(user.wallet.balance < totalAmount) {%> hidden <%}%> ><label for="payment" id="Wallet2"  <% if(user.wallet.balance < totalAmount) {%> hidden <%}%> >Wallet <strong>[Bal:₹<%= user.wallet.balance %>]</strong></label><br>
                                           
                                         <input checked type="radio" name="payment" id="COD"  value="COD" class="mx-2"><label for="payment">COD</label><br>
 
@@ -372,6 +372,36 @@
 
 
 <%- include('../layouts/footer.ejs') -%>
+
+
+<script>
+
+function handleCheckBoxChange(){
+    const walletCheckBox = document.getElementById('walletCheckBox');
+    console.log(walletCheckBox.checked);
+    
+        console.log("we are in");
+        $.ajax({
+            url:'/checkBoxStatus',
+            data:{
+                walletCheckBox:walletCheckBox.checked,
+            },
+            method:'POST',
+            success:(res)=>{
+                if(res.status == true){
+
+                }else{
+                    location.reload()
+                }
+
+            }
+        })
+
+        
+    
+}
+
+</script>
 
 <script>
             function copyCouponCode(couponName) {
@@ -498,12 +528,18 @@
 
                     const walletCheckBoxDiv = document.getElementById('walletCheckBoxDiv');
                     const walletCheckBox = document.getElementById('walletCheckBox');
+                    const Wallet = document.getElementById('Wallet');
+                    const Wallet2 = document.getElementById('Wallet2');
+
                     const razorpayRadio = document.getElementById('Razorpay');
                     const COD = document.getElementById('COD');
 
                     if (res.isWalletHasPayAmount) {
-                        walletCheckBoxDiv.hidden = false;
+                        walletCheckBoxDiv.hidden = true;
                         walletCheckBox.hidden = true;
+                        Wallet.hidden = false;
+                        Wallet2.hidden = false;
+
                     }
                 } else {
                     $('#couponErr').html(res.message);

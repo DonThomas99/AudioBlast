@@ -541,6 +541,7 @@ exports.loadCheckout = async (req, res) => {
     const userData = await User.findById(session).populate("cart.productId");
     // console.log(userData);
     const cartItems = userData.cart;
+    
 
     res.render("checkout", { user, cartItems, coupons });
   } catch (error) {

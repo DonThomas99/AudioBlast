@@ -12,7 +12,7 @@
         <li><a href="#"><span class="icon_heart_alt"></span>
             <div class="tip">2</div>
         </a></li>
-        <li><a href="#"><span class="icon_bag_alt"></span>
+        <li><a href="#"><span class="icon_cart_alt"></span>
             <div class="tip">2</div>
         </a></li>
     </ul>
@@ -51,41 +51,48 @@
                 </nav>
             </div>
             <div class="col-lg-3">
-                <div class="header__right">
-                    <div class="header__right__auth">
-                        <% if(user) { %>
-                            <div class="user-profile" style="display: flex; align-items: baseline;">
-                                <a href="/user-dashboard" >Profile</a>
-                                <a href="#"><%= user.name%></a>
-                           
-                            </div>
-                        <% } else { %>
-                            <div class="auth-links">
-                                <a href="/login">Login</a>
-                                <a href="/register">Register</a>
-                            </div>
-                        <% } %>
-                    </div>
-                    <ul class="header__right__widget">
-                        <% if (user) { %>
-                            <li>     <form action="/logout" method="POST">
-                                <button class="btn" type="submit">  <i class="fa-solid fa-right-from-bracket"></i></button>
-                            </form></li>
-                        <% } %>
-                        <% if (user) { %>
-                            <li><a href="/wishlist"><span class="icon_heart_alt"></span></a></li>
-                            <li><a href="/cart"><span class="icon_bag_alt"></span></a></li>
-                       <% } else { %>
-                        <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
-                            <span class="icon_heart_alt"></span>
-                           </a></li>
-                           <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
-                            <span class="icon_bag_alt"></span>
-                           </a></li>
+                <div class="row">
+                    <div class="header__right">
+                        <div class="header__right__auth">
+                            <% if(user) { %>
+                                <div class="user-profile" style="display: flex; align-items: baseline;">
+                                    <a href="/user-dashboard" >Profile</a>
+                                    <a href="#"><%= user.name%></a>
+                               
+                                </div>
+                            <% } else { %>
+                                <div class="auth-links">
+                                    <a href="/login">Login</a>
+                                    <a href="/register">Register</a>
+                                </div>
                             <% } %>
-                  
-                    </ul>
+                        </div>
+                        <ul class="header__right__widget">
+    
+                            <li><span class="icon_search search-switch"></span></li>
+    
+                            <% if (user) { %>
+                                <li>     <form action="/logout" method="POST">
+                                    <button class="btn" type="submit">  <i class="fa-solid fa-right-from-bracket"></i></button>
+                                </form></li>
+                            <% } %>
+                            <% if (user) { %>
+                                <li><a href="/wishlist"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="/cart"><span class="icon_cart_alt"></span></a></li>
+                           <% } else { %>
+                            <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                                <span class="icon_heart_alt"></span>
+                               </a></li>
+                               <li><a type="button" class="btn " data-toggle="modal" data-target="#exampleModalCenter">
+                                <span class="icon_cart_alt"></span>
+                               </a></li>
+                                <% } %>
+                      
+                        </ul>
+                    </div>
+
                 </div>
+           
             </div>
         </div>
         <div class="canvas__open">
@@ -195,9 +202,10 @@
                                     
                                     
                                     <li>
-                                        <a href="/addToCart/<%=item._id%>"><span class="icon_bag_alt"></span>
-                                        
-                                        </a></li>
+                                        <a href="#" onclick="addToCart('<%= item._id %>'); return false;">
+                                            <span class="icon_cart_alt"></span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="product__item__text">
@@ -341,6 +349,16 @@ Instagram Begin -->
 
 <!-- modal ends -->
 
+
+<script>
+    function addToCart(itemId) {
+        var form = document.createElement('form');
+        form.action = '/addToCart/' + itemId;
+        form.method = 'POST';
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
 
 
 <%- include('../layouts/footer.ejs') -%>
