@@ -640,6 +640,10 @@ exports.placeOrder = async (req, res) => {
         } else {
           orderTotal += item.quantity * item.discountPrice;
         }
+        if(req.session.walletEmpty){
+          user.wallet.balance = 0
+          user.save();
+        }
         console.log("orderTotal:", orderTotal);
         let walletBalance = parseInt(user.wallet.balance);
         console.log("wallet Balance:", user.wallet.balance);
@@ -1160,3 +1164,32 @@ exports.deleteCoupon = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.checkBoxStatus = async (req, res) => {
+  try {
+    const session = req.session.user_id;
+    console.log("OI");
+    const user = await User.findOne({ _id: session });
+    req.session.walletBal = user.wallet.balance
+  if(req.body.walletCheckBox == 'true'){
+  console.log("hehe");
+  if(req.session.payAmount){
+        req.session.couponDiscountedAmt = req.session.payAmount
+        req.session.payAmount = req.session.payAmount - req.session.walletBal
+        req.session.walletEmpty= true
+      
+
+console.log("Final Amount",req.session.payAmount)
+
+  }
+  
+  
+  }
+  
+} catch (error) {
+  console.log(error.message);
+}
+
+
+
+}

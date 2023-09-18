@@ -315,7 +315,7 @@
 
                                     %>
                                     <div id="walletCheckBoxDiv" <% if(user.wallet.balance >= totalAmount){ %> hidden <% } %>>
-                                                <input type="checkbox" name="walletCheckBox" id="walletCheckBox">
+                                                <input type="checkbox" name="walletCheckBox" id="walletCheckBox" onchange="handleCheckBoxChange()">
                                                 <label for="walletCheckBox">
                                                     <strong>
                                                         Use wallet Balance <span> &#8377; <%= user.wallet.balance %> </span>
@@ -548,3 +548,4 @@ function handleCheckBoxChange(){
         });
     });
 </script>
+

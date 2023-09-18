@@ -72,6 +72,7 @@ user_route.get('/remove-wishlist',userController2.removeWishlist)
 //checkout
 user_route.get('/checkout',userController2.loadCheckout)
 user_route.post('/cart/placeOrder',userController2.placeOrder)
+user_route.post('/checkBoxStatus',userController2.checkBoxStatus)
 
 //orders
 user_route.get('/loadOrders',userController2.loadOrders)
