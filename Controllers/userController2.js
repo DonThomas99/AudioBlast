@@ -125,7 +125,8 @@ exports.loadHomepage = async (req, res) => {
   try {
     const session = req.session.user_id;
     const user = await User.findOne({ _id: session });
-    res.render("homepage", { user: user });
+    let categorylist = await category.find({is_unlisted:1});
+    res.render("homepage", { user: user,categorylist: categorylist});
   } catch (error) {
     console.log(error.message);
   }
@@ -541,7 +542,13 @@ exports.loadCheckout = async (req, res) => {
     const userData = await User.findById(session).populate("cart.productId");
     // console.log(userData);
     const cartItems = userData.cart;
-    
+    if( req.session.couponDiscountedAmt ||req.session.CouponUsed || req.session.payAmount || req.session.walletBal  ){
+      
+      delete req.session.couponDiscountedAmt
+      delete req.session.CouponUsed
+      delete req.session.payAmount
+      delete req.session.walletBal
+    }
 
     res.render("checkout", { user, cartItems, coupons });
   } catch (error) {
@@ -1167,29 +1174,48 @@ exports.deleteCoupon = async (req, res, next) => {
 
 exports.checkBoxStatus = async (req, res) => {
   try {
+    console.log("Status:",req.body.walletCheckBox);
     const session = req.session.user_id;
-    console.log("OI");
     const user = await User.findOne({ _id: session });
-    req.session.walletBal = user.wallet.balance
+    req.session.walletBal = parseInt(user.wallet.balance)
+    console.log("Wallet Balance:",req.session.walletBal);
   if(req.body.walletCheckBox == 'true'){
-  console.log("hehe");
-  if(req.session.payAmount){
-        req.session.couponDiscountedAmt = req.session.payAmount
-        req.session.payAmount = req.session.payAmount - req.session.walletBal
+    if(req.session.payAmount)
+    {
+      req.session.CouponUsed = true;      
+      req.session.couponDiscountedAmt = req.session.payAmount
+      req.session.payAmount = req.session.payAmount - req.session.walletBal
+
+    }else{
+      req.session.payAmount = 0
+      let orderTotal = 0;
+      const cartItems = user.cart;
+      const orderProducts = cartItems.map((item) => {
+      
+       orderTotal += item.quantity * item.discountPrice;
+      
+       
+     
+      });
+
+     req.session.payAmount = orderTotal - req.session.walletBal
+
+    }
         req.session.walletEmpty= true
       
+  }else if(req.body.walletCheckBox == 'false'){
 
-console.log("Final Amount",req.session.payAmount)
+    console.log("req.session.payAmount:",req.session.payAmount);
+    console.log("req.session.walletBal:",req.session.walletBal)
+    req.session.payAmount = req.session.payAmount + req.session.walletBal  
 
   }
-  
-  
-  }
+
+  res.json({status: true,
+    payAmount: req.session.payAmount
+})
   
 } catch (error) {
   console.log(error.message);
 }
-
-
-
 }

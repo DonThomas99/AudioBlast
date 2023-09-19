@@ -388,8 +388,8 @@ function handleCheckBoxChange(){
             },
             method:'POST',
             success:(res)=>{
-                if(res.status == true){
-
+                if(res.status == true){ 
+                    $('#payAmount').html(`₹ ${res.payAmount}`);
                 }else{
                     location.reload()
                 }
@@ -519,6 +519,8 @@ function handleCheckBoxChange(){
             data: $('#applyCoupon').serialize(),
             success: (res) => {
                 if (res.status === true) {
+
+                    $('#walletCheckBox').prop('checked', false);
                     
                     $('#couponDiscount').html(`-₹ ${res.couponDiscount}`);
                     $('#payAmount').html(`₹ ${res.payAmount}`);
