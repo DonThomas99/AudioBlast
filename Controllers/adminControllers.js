@@ -383,11 +383,12 @@ let allOrders =[]
            allOrders. push(ordersData[i].orders[j])
     }
     }
+    
 
   // Render the orders list view
-  res.render('ordersList', {
+  res.render('orderList', {
    ordersData: allOrders,
-    page: 'Orders List',
+    page: 'Order List',
     pageCount,
     pageNum,
     limit,
