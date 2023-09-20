@@ -109,9 +109,14 @@
                 <div class="breadcrumb__links">
                     <a href="/"><i class="fa fa-home"></i> Home</a>
                     <a href="/shop">Shop</a>
-                    <% if (category) { %>
-                     <span><%=category.name%></span>
-                    <% } %>
+                    <% if (search && selectedCat) { %>
+                     <a href="/shop?category=<%= categoryName._id %>"><%=categoryName.name%></a>
+                     <span> <%= search %> </span>
+                    <% } else if(search) {%>
+                        <span><%= search %></span>
+                        <% }else{ %>
+                            <span> <%= categoryName.name  %></span>
+                            <% } %>
                 </div>
             </div>
         </div>
@@ -181,7 +186,10 @@
                     </div>
                 </div>
             </div>
+
+        
             <div class="col-lg-9 col-md-9">
+                
                 <div class="row">
                     <% if(pdts.length>0) {%>
                       <% pdts.forEach(item=>{ %>

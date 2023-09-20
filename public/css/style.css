@@ -1570,6 +1570,9 @@ ol {
 	opacity: 0;
 	content: "";
 }
+.list-group-item a{
+	color:#444444
+}
 
 .sidebar__color .color__list label {
 	text-transform: capitalize;

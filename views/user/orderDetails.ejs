@@ -305,32 +305,23 @@
                                                     class="img-fluid" alt="" width="120rem">
                                             </div>
                                         </a>
-                                        <div>
-                                            <h4 class="card-title"><%= pdt.productId.productName %></h4>
-                                           
-                                            <span class="card-text" style="color: rgb(99, 99, 99);">Quantity : <%= pdt.quantity %></span>
-                                            <h5 class="card-title mt-2">₹ <%= pdt.totalAmount %></h5>
-                                          
-                                                <h6
-                                                    <% 
-                                                    if(pdt.status == 'Order Confirmed' || pdt.status == 'Shipped' || pdt.status == 'Out For Delivery' ||  pdt.status == 'Delivered' ){
-                                                        %>
-                                                        style="color: green;"
-                                                        <%  
-                                                    }else if( pdt.status == 'Cancelled' || pdt.status == 'Cancelled By Admin' ){
-                                                        %>
-                                                        style="color: red;"
-                                                        <%  
-                                                    }else if(pdt.status == 'Pending Return Approval'||  pdt.status == 'Returned'){
-                                                        %>
-                                                        style="color: orange;"
-                                                        <%  
-                                                    }
-                                                    %>
-                                                 
-                                                  ><%= pdt.status %></h6>
-                                        
-                                        </div>
+                                                <div>
+                                                    <h4 class="card-title"><%= pdt.productId.productName %></h4>
+                                                    <span class="card-text" style="color: rgb(99, 99, 99);">Quantity : <%= pdt.quantity %></span>
+                                                    <h5 class="card-title mt-2">₹ <%= pdt.totalAmount %></h5>
+                                                    <h6
+                                                        <% if (pdt.status == 'Order Confirmed' || pdt.status == 'Shipped' || pdt.status == 'Out For Delivery' ||  pdt.status == 'Delivered' ) { %>
+                                                        style="color: green; font-weight: bold;"
+                                                        <% } else if (pdt.status == 'Cancelled' || pdt.status == 'Cancelled By Admin' ) { %>
+                                                        style="color: red; font-weight: bold;" 
+                                                        <% } else if (pdt.status == 'Pending Return Approval' ||  pdt.status == 'Returned' ) { %>
+                                                        style="color: orange; font-weight: bold;"
+                                                        <% } else { %>
+                                                        style="" 
+                                                        <% } %>>
+                                                    <%= pdt.status %></h6>
+                                                </div>
+
                                         <div class="col-md-4 d-flex mb-3 pt-2 justify-content-center align-items-center">
                                             <% 
                                             if(pdt.status == 'Order Confirmed' || pdt.status == 'Shipped' || pdt.status == 'Out For Delivery'){
@@ -342,6 +333,11 @@
                                                 <%  
                                             }else if(pdt.status == 'Delivered'){
                                                 %>
+
+                                                <button type="button"
+                                                        class="btn btn-danger rounded-0 text-nowrap" onclick="showConfirmationModal('<%= orderData._id %>','<%= pdt._id %>')"> RETURN<i class="bi bi-x-lg"></i></button>
+
+
                                                 <a href="/returnSinglePrdt/<%= orderData._id %>/<%= pdt._id %>" class="btn btn-warning"> Return </a>
                                                 <%  
                                             }
@@ -386,6 +382,34 @@
         <!-- Confirmation Modal -->
 
 
+
+
+
+        <!-- Confirmation Modal for Return -->
+        <div class="modal fade" id="confirmationModalForRet" tabindex="-1" aria-labelledby="confirmationModalForRetLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalForRetLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to perform this action?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  Cancel
+                </button>
+                <a href="#" id="confirmationActionForRet" class="btn btn-danger">Confirm</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Confirmation Modal ends -->
+
+
+
 </section>
 
 
@@ -405,10 +429,11 @@
                 <div class="col-lg-6 col-md-6 col-sm-6" style="margin-left:20px;">
                     <div class="cart__btn">
                         <a href="/loadOrders">My Orders</a>
-                    </div>
-                </div>
-        </div>
-
+                        </div>
+                        </div>
+                        </div>
+                        
+                        <%- include('../layouts/footer.ejs') -%>
 
 
 
@@ -435,4 +460,29 @@
           modal.show();
         }
       </script>
-<%- include('../layouts/footer.ejs') -%>
+
+
+
+      
+<script>
+    $(document).ready(function() {
+        $('#ReturnOrderBTN').click(function() {
+            var orderId = $(this).data('id');
+            var routeURL = `/returnSinglePrdt/${orderId}`;
+            $("#confirmOrderReturnBTN").attr('href', routeURL);
+        });
+    });
+</script>
+<script>
+        function showConfirmationModal(orderId,pdtId) {
+          const modal = new bootstrap.Modal(
+            document.getElementById("confirmationModalForRet")
+          );
+          console.log("ghfuhgui");
+          const confirmationAction = document.getElementById("confirmationActionForRet");
+          confirmationAction.href = `/returnSinglePrdt/${orderId}/${pdtId}`;
+          modal.show();
+        }
+      </script>
+
+

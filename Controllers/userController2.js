@@ -175,6 +175,7 @@ exports.loadShop = async (req, res) => {
     const session = req.session.user_id;
     const user = await User.findOne({ _id: session });
     let selectedCat = "";
+    let categoryName ="";
     const catego = req.query.category;
     const search = req.query.search;
     const min = req.query.min;
@@ -193,6 +194,9 @@ exports.loadShop = async (req, res) => {
     if (catego) {
       query = query.where("category").equals(catego);
       selectedCat = catego;
+
+       categoryName = await category.findOne({ _id: catego });
+
     }
     if (search) {
       // const category = req.body.val
@@ -221,6 +225,8 @@ exports.loadShop = async (req, res) => {
       res.render("shop", {
         user,
         selectedCat,
+        search,
+        categoryName,
         pdts: pdt,
         category: categorylist,
         totalPages: Math.ceil(count / limit),
@@ -898,9 +904,9 @@ exports.cancelOrder = async (req, res) => {
     for (const pdt of order.products) {
       if (pdt._id == pdtId) {
         if (cancelledBy == "admin") {
-          pdt.status = "cancelled By Admin";
+          pdt.status = "Cancelled By Admin";
         } else if (cancelledBy == "user") {
-          pdt.status = "cancelled";
+          pdt.status = "Cancelled";
         }
       }
     }
@@ -1218,4 +1224,32 @@ exports.checkBoxStatus = async (req, res) => {
 } catch (error) {
   console.log(error.message);
 }
+}
+
+exports.returnSinglePrdt = async (req,res) =>{
+  try {
+    
+    let userId = req.session.user_id;
+    const { orderId, pdtId } = req.params;
+    console.log();
+const user = await User.findById(userId).populate("orders.products.productId");
+
+    const order = user.orders.find((o) => o._id.toString() === orderId);
+
+    for (const pdt of order.products) {
+      if (pdt._id == pdtId) {
+          pdt.status = "Pending Return Approval";
+        }
+      }
+    
+
+    await user.save();
+
+    // console.log(pdt.status);
+      res.redirect(`/orderDetail/${orderId}`);
+
+
+  } catch (error) {
+    console.log(error.message);
+  }
 }
