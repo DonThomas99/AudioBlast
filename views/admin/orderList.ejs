@@ -3,8 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
 	<!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<!-- My CSS -->
@@ -52,6 +51,10 @@ li {
 	--orange: #FD7238;
 	--light-orange: #FFE0D3;
 }
+
+
+
+
 
 html {
 	overflow-x: hidden;
@@ -476,7 +479,7 @@ body {
 	padding: 16px 0;
 }
 #content main .table-data .order table tr td:first-child {
-	display: flex;
+	
 	align-items: center;
 	grid-gap: 12px;
 	padding-left: 6px;
@@ -537,6 +540,25 @@ body {
 #content main .table-data .todo .todo-list li:last-child {
 	margin-bottom: 0;
 }
+
+
+.btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #007bff; /* Bootstrap primary color */
+            color: #fff; /* Text color */
+            transition: background-color 0.3s ease;
+        }
+
+		.btn:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
 /* MAIN */
 /* CONTENT */
 
@@ -623,20 +645,22 @@ body {
 			<span class="text">AudioBlast</span>
 		</a>
 		<ul class="side-menu top">
-			<li class="active">
-				<a href="#">
+			<li >
+				<a href="/admin/Dashboard">
 					<i class='bx bxs-dashboard' ></i>
 					<span class="text">Dashboard</span>
 				</a>
 			</li>
-			<li>
-				<a href="/admin/productList">
+			<li class="active" >
+				<a  href="#">
 					<i class='bx bxs-shopping-bag-alt' ></i>
 					<span class="text">Products</span>
 				</a>
 			</li>
+
+         
 			<li>
-				<a href="/admin/ordersList">
+				<a href="#">
 					<i class='bx bxs-truck' ></i>
 					<span class="text">Shipping</span>
 				</a>
@@ -647,22 +671,30 @@ body {
 					<span class="text">Coupons</span>
 				</a>
 			</li>
-			<li>
-				<a href="/admin/userslist">
+			<li >
+				<a href="#">
 					<i class='bx bxs-group' ></i>
 					<span class="text">Customers</span>
 				</a>
 			</li>
 
-			<li>
-				<a href="/admin/categoryList">
-					<i class='bx bxs-group' ></i>
-					<span class="text">Categories</span>
+
+            <li>
+				<a href="#">
+					<i class='bx bxs-box' ></i>
+					<span class="text">Category</span>
 				</a>
 			</li>
+
+
 		</ul>
 		<ul class="side-menu">
-			
+			<li>
+				<a href="#">
+					<i class='bx bxs-cog' ></i>
+					<span class="text">Settings</span>
+				</a>
+			</li>
 			<li>
 				
 				<a href="/admin/signout" class="logout">
@@ -680,12 +712,14 @@ body {
 	<!-- CONTENT -->
 	<section id="content">
 	
-        <nav>
-            <i class='bx bx-menu' ></i>
-         
-         
-        </nav>
-	
+		<nav>
+			<i class='bx bx-menu' ></i>
+			
+			
+			
+		
+		
+		</nav>
 		
 
 		<!-- MAIN -->
@@ -724,8 +758,11 @@ body {
 
                                 <th>Date of Purchase</th>
                                 <th>
-                                Order
+                                Customer
                                 </th>
+								<th>
+									Product
+								</th>
                                 <th>Payment Method</th>
                                 <th>
                                     Amount
@@ -754,12 +791,68 @@ body {
                                 const formattedDate = `${dd}/${mm}/${yyyy}`; 
                                 %>
 
-                                <td>
-                                   <p><%= formattedDate %></p>
-                                    </td>  
+								<td class="align-middle text-center text-sm">
+                                    <p class="text-xs font-weight-bold mb-0"><%= formattedDate %></p>
+                                </td>
                                     <td>
                                         <%= order.Address.userName %>
-                                        </td>  
+                                        </td> 
+										
+										<td>
+											<% 
+                                    for(const pdt of order.products){
+                                        %>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="me-1">
+                                                <img style="width: 4rem;  border-radius: 0px !important; object-fit: scale-down !important;" src="/static/product_Images/<%= pdt.productId.image[0].filename  %>" alt="Product Image"   >
+                                            </div>
+											<div class="d-flex flex-column justify-content-center">
+												<h6 class="mb-0 text-sm"><%= pdt.productId.productName  %></h6>
+                                                <p class="text-xs text-secondary mb-0">Quantity : <%= pdt.quantity %></p>
+												<p class="text-xs text-secondary mb-0 text-bold" 
+												  
+												<% 
+                                                    if(pdt.status == 'Order Confirmed' || pdt.status == 'Shipped' || pdt.status == 'Out For Delivery' ||  pdt.status == 'Delivered' ){
+                                                      %>
+                                                      style="color:#008000"
+                                                      <%  
+                                                    }else if( pdt. status == 'Cancelled'|| pdt.status == 'Cancelled By Admin'||pdt. status == 'cancelled' ){
+                                                      %>
+													  style="color:#FF0000"
+                                                      <%  
+                                                    }else if(pdt.status == 'Pending Return Approval'||  pdt.status == 'Returned'){
+                                                      %>
+                                                      style="color:#FFA500"
+                                                      <%  
+                                                    }
+                                                    %> >
+												
+												
+												<%= pdt.status %>
+													</p>
+												
+												</div>
+											
+												</div>
+
+												<%}%>
+
+											</td>
+												<td>
+													<%= order.PaymentMethod %>
+													</td>
+													<td>
+														₹<%= order.orderTotal%>
+														 </td>
+
+														<td>
+															<a  href="/admin/detailPage/<%=order._id%>">
+																<button class="btn">Details</button>
+																</a>
+															
+																</td>
+
+
                                     
                                 </tr>
 
@@ -788,62 +881,37 @@ body {
         
 
 </main>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-<script>
-    $(document).on("click", ".popupBTN", function () {
-        var cId = $(this).data('id');
-        $(".modal-body #orderId").val(cId);  
-    });
-
-    $('.confirmCancelBTN').click( function () {
-        var orderId = $(this).data('id');
-        var routeURL = `/admin/cancelOrder/${orderId}?cancelledBy=admin`
-        $(".modal-footer #confirmCancelBTN").attr('href', routeURL);
-    });
-</script>
-
-<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-
-<script>
-  $('#sortTable').DataTable({
-      responsive: true
-  });
-</script>
-
-
-
-
-
-
-
-
-			</main>
-		
 		<!-- MAIN -->
-
-
-
-
-
-
-
-
-
-
 	</section>
 	<!-- CONTENT -->
-
-
-
-
-
-
-
-
 	
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	<script>
 		const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
@@ -922,17 +990,6 @@ switchMode.addEventListener('change', function () {
 		document.body.classList.remove('dark');
 	}
 })
-</script>
-
-
-
-
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
-
-
+	</script>
 </body>
 </html>

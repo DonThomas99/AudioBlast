@@ -91,6 +91,7 @@ admin_route.get('/signout',adminController.signout)
 admin_route.get('/ordersList',adminController.ordersList)
 admin_route.get('/cancelSinglePrdt/:orderId/:pdtId',userController.cancelOrder)
 admin_route.post('/updateStatus/:orderId/:pdtId',adminController.updateStatus)
+admin_route.get('/detailPage/:orderId',adminController.detailPage)
 
 //cooupon control
 admin_route.get('/couponList',adminController.couponList)

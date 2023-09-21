@@ -514,6 +514,20 @@ exports.updateCoupon= async(req,res)=>{
   }
 }
 
+exports.detailPage = async(req, res)=>{
+  try {
+    const {orderId }= req.params
+
+const user = await User.findOne({"orders._id":orderId}).populate('orders.products.productId')
+const orderData = user.orders.find((order)=>order._id == orderId)
+
+
+
+res.render('OrderDetail',{orderData:orderData})
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
 
  

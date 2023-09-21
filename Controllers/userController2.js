@@ -844,7 +844,8 @@ exports.orderDetails = async (req, res) => {
     }
 
     let status;
-    switch (status) {
+
+    switch (order.orderStatus) {
       case "Order Confirmed":
         status = 1;
         break;

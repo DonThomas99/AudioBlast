@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,11 +7,7 @@
 
 	<!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 	<!-- My CSS -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="style.css">
-
 	<title>AdminHub</title>
 </head>
 <body>
@@ -53,6 +50,10 @@ li {
 	--orange: #FD7238;
 	--light-orange: #FFE0D3;
 }
+
+
+
+
 
 html {
 	overflow-x: hidden;
@@ -615,24 +616,153 @@ body {
 }
 
 
-@import url(https://fonts.googleapis.com/css?family=Roboto);
 
-body {
-  font-family: Roboto, sans-serif;
+  form {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .text-center {
+    text-align: center;
+  }
+  .mb-0 {
+    margin-bottom: 0;
+  }
+  .btn-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+
+  .nav-title {
+  flex: 1; /* Make the div take the remaining space */
+  text-align: center; /* Center the text horizontally */
 }
 
-#chart {
-  max-width: 650px;
-  height: 300px;
-  margin: 35px auto;
+/* Custom Grid */
+.custom-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 2rem;
 }
+
+.custom-grid-item {
+    flex-basis: calc(50% - 1rem); /* Two columns, adjust as needed */
+    margin-bottom: 1rem; /* Spacing between items */
+}
+
+/* Custom Card */
+.custom-card {
+    background-color: #fff;
+    border-radius: 0.25rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Additional card styling */
+}
+
+.custom-card-body {
+    padding: 1rem;
+    /* Additional card body styling */
+}
+
+/* Custom Image */
+.custom-img {
+    width: 120rem;
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.25rem;
+}
+
+/* Custom Card Title and Text */
+.custom-card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.custom-card-text {
+    color: rgb(99, 99, 99);
+}
+
+/* Custom Card Status */
+.custom-card-status {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+.custom-green {
+    color: green;
+}
+
+.custom-red {
+    color: red;
+}
+
+.custom-orange {
+    color: orange;
+}
+
+/* Custom Button Container */
+.custom-button-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Custom Button */
+.custom-button {
+    background-color: #dc3545; /* Red color, customize as needed */
+    color: #fff; /* Text color */
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    margin-right: 0.5rem; /* Spacing between buttons */
+    /* Additional button styling */
+}
+
+.custom-button-warning {
+    background-color: #ffc107; /* Yellow color, customize as needed */
+    /* Additional button styling */
+}
+
+
+
+
+.custom-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.custom-address-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.custom-address-name {
+    font-size: 1.2rem;
+}
+
+.custom-address-line {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.custom-address-phone {
+    margin-top: 15px;
+}
+
+/* You can add more styles as needed to make it attractive */
 
 
 </style>
-
-
-
-
 
 	<!-- SIDEBAR -->
 	<section id="sidebar">
@@ -641,8 +771,8 @@ body {
 			<span class="text">AudioBlast</span>
 		</a>
 		<ul class="side-menu top">
-			<li class="active">
-				<a href="#">
+			<li >
+				<a href="/admin/Dashboard">
 					<i class='bx bxs-dashboard' ></i>
 					<span class="text">Dashboard</span>
 				</a>
@@ -660,7 +790,7 @@ body {
 				</a>
 			</li>
 			<li>
-				<a href="/admin/couponList">
+				<a href="#">
 					<i class='bx bxs-coupon' ></i>
 					<span class="text">Coupons</span>
 				</a>
@@ -672,7 +802,7 @@ body {
 				</a>
 			</li>
 
-			<li>
+			<li class="active"  >
 				<a href="/admin/categoryList">
 					<i class='bx bxs-box' ></i>
 					<span class="text">Categories</span>
@@ -698,14 +828,15 @@ body {
 	<!-- CONTENT -->
 	<section id="content">
 	
-		
 		<nav>
 			<i class='bx bx-menu' ></i>
-			
-			
-			
+			<a href="#" class="nav-link"></a>
 		
+           
+			
+	
 		
+			
 		</nav>
 		
 
@@ -713,84 +844,131 @@ body {
 		<main>
 			<div class="head-title">
 				<div class="left">
-					<h1>Admin Dashboard</h1>
+					<h1>Dashboard</h1>
 					<ul class="breadcrumb">
 						<li>
-							<a class="active" href="#">Dashboard</a>
+							<a class="active" href="/admin/Dashboard">Dashboard</a>
 						</li>
-						
-						
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a class="active" href="/admin/orderList">OrderList</a>
+						</li>
+						<li><i class='bx bx-chevron-right' ></i></li>
+                        <li>
+                            <a href="#"> Order Details</a>
+                        </li>
+					
 					</ul>
-				</div>
-				<!-- <a href="#" class="btn-download">
-					<i class='bx bxs-cloud-download' ></i>
-					<span class="text">Download PDF</span>
-				</a> -->
-			</div>
-
-			<ul class="box-info">
-				<li>
-					<i class='bx bxs-calendar-check' ></i>
-					<span class="text">
-						<h3><%=  amountOfOrders %></h3>
-						<p> Order</p>
-					</span>
-				</li>
-				<li>
-					<i class='bx bxs-group' ></i>
-					<span class="text">
-						<h3><%= amountOfUsers %></h3>
-						<p>Visitors</p>
-					</span>
-				</li>
-				<li>
-					<i class='bx bxs-dollar-circle' ></i>
-					<span class="text">
-						<h3>₹ <%= totalAmount[0].totalAmount %></h3>
-						<p>Total Sales</p>
-					</span>
-				</li>
-			</ul>
-
-
-			<div class="table-data">
-				<div class="order">
-					<div class="head">
-						<h3>Sales Report</h3>
-					
-					</div>
-					<!-- this is where you should add -->
-
-					<div id="chart">
-						
-						<input class="month" type="text" hidden value="<%= JSON.stringify(monthSales) %>" id="month">
-						
-
-					
-					</div>
 				</div>
 			
 			</div>
 
+	
+            <div class="table-data">
+				<div class="order">
+					<div class="head">
+                        <div class="container">
+                            <div class="mt-5">
+                                <div class="custom-card mb-4">
+                                    <div class="custom-card-body">
+                                        <div class="custom-address">
+                                            <h4 class="custom-address-title">Delivery Address</h4>
+                                            <div class="custom-address-details">
+                                                <h6 class="custom-address-name"><strong><%= orderData.Address.userName %></strong></h6>
+                                                <p class="custom-address-line"><%= orderData.Address.address %></p>
+                                                <p class="custom-address-line">
+                                                    <% 
+                                                    let location = orderData.Address.town + ' ' + orderData.Address.state + ' ' + orderData.Address.zip;
+                                                    %>
+                                                    <%= location %>
+                                                </p>
+                                                <div class="custom-address-phone">
+                                                    <h6><strong>Phone number</strong></h6>
+                                                    <p><%= orderData.Address.mobile %></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                            </div>    
+                            </div>
+                                </div>
+
+
+                                <div class="table-data">
+                                    <div class="order">
+                                        <div class="head">
+
+
+
+<!-- cut and paste begins  -->
 
 
 
 
 
+<div class="custom-grid mt-4">
+    <% for (const pdt of orderData.products) { %>
+        <div class="custom-grid-item">
+            <div class="custom-card">
+                <div class="custom-card-body">
+                    <div class="d-flex">
+                        <a href="/shop/productDetail/<%= pdt.productId._id %>">
+                            <div class="custom-img-container">
+                                <img src="/static/product_Images/<%= pdt.productId.image[0].filename %>"
+                                    class="custom-img" alt="" width="100%">
+                            </div>
+                        </a>
+                        <div class="custom-card-details">
+                            <h4 class="custom-card-title"><%= pdt.productId.productName %></h4>
+                            <span class="custom-card-text">Quantity: <%= pdt.quantity %></span>
+                            <h5 class="custom-card-title">₹ <%= pdt.totalAmount %></h5>
+                            <h6 class="custom-card-status 
+                                <% if (pdt.status == 'Order Confirmed' || pdt.status == 'Shipped' || pdt.status == 'Out For Delivery' || pdt.status == 'Delivered' ) { %>custom-green
+                                <% } else if (pdt.status == 'Cancelled' || pdt.status == 'Cancelled By Admin' ) { %>custom-red
+                                <% } else if (pdt.status == 'Pending Return Approval' || pdt.status == 'Returned' ) { %>custom-orange
+                                <% } %>">
+                                <%= pdt.status %>
+                            </h6>
+                        </div>
+                        <div class="custom-button-container">
+                            <% if (pdt.status == 'Order Confirmed' || pdt.status == 'Shipped' || pdt.status == 'Out For Delivery') { %>
+                                <button type="button" class="custom-button" onclick="showConfirmationModal('<%= orderData._id %>','<%= pdt._id %>')">CANCEL ORDER <i class="bi bi-x-lg"></i></button>
+                            <% } else if (pdt.status == 'Delivered') { %>
+                                <button type="button" class="custom-button" onclick="showConfirmationModal('<%= orderData._id %>','<%= pdt._id %>')">RETURN<i class="bi bi-x-lg"></i></button>
+                                <a href="/returnSinglePrdt/<%= orderData._id %>/<%= pdt._id %>" class="custom-button custom-button-warning">Return</a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+</div>
 
-			  
-		
 
 
-		</main>
+
+
+<!-- cut and paste ends -->
+
+
+
+                                        </div>
+                                        </div>
+                                        </div>
+
+
+
+
+
+        </main>
 		<!-- MAIN -->
-
 	</section>
 	<!-- CONTENT -->
-
-
-
-
 	
 
 	<script>
@@ -872,9 +1050,7 @@ switchMode.addEventListener('change', function () {
 })
 	</script>
 
-<script src="/static/js/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+
 
 </body>
 </html>
