@@ -82,6 +82,7 @@ const userSchema = new mongoose.Schema({
       ],
       orderTotal:{
         type:Number,
+
       },
       Address:{
         
@@ -90,11 +91,9 @@ const userSchema = new mongoose.Schema({
       PaymentMethod:{
         type:String,
       },
-      orderStatus:{
-        type:String,
-        default:"Order Confirmed"
-      },
-
+     couponDiscount:{
+      type:Number,
+     },
       
     
       createdAt: {

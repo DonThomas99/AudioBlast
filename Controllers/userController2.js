@@ -636,6 +636,7 @@ exports.placeOrder = async (req, res) => {
     const isWalletSelected = req.body.isWalletCheckbox;
     const user = await User.findById(userId);
 
+
     // Get the selected address from the user's addresses array
 
     if (paymentMethod == "COD" || paymentMethod == "Wallet") {
@@ -643,11 +644,17 @@ exports.placeOrder = async (req, res) => {
         (address) => address._id.toString() === addressId
       );
 
+      let couponDiscount
       // Calculate the order total and create the order object
 
       let orderTotal = 0;
       const cartItems = user.cart;
-      const orderProducts = cartItems.map((item) => {
+      console.log(cartItems);
+      if(req.session.couponAmount)
+        {
+          couponDiscount = parseInt(req.session.couponAmount)
+        }
+      const orderProducts =  cartItems.map(async (item) => {
         if (req.session.payAmount) {
           orderTotal += req.session.payAmount;
         } else {
@@ -657,15 +664,21 @@ exports.placeOrder = async (req, res) => {
           user.wallet.balance = 0
           user.save();
         }
-        console.log("orderTotal:", orderTotal);
         let walletBalance = parseInt(user.wallet.balance);
-        console.log("wallet Balance:", user.wallet.balance);
         if (paymentMethod == "Wallet") {
           walletBalance -= orderTotal;
           user.wallet.balance = walletBalance;
 
           user.save();
         }
+
+        
+    
+      const result= await product.updateOne(
+          { _id: item.productId },
+          { $inc: { stock: -item.quantity } }
+        );
+        
 
         return {
           productId: item.productId,
@@ -683,6 +696,7 @@ exports.placeOrder = async (req, res) => {
         orderTotal: orderTotal,
         Address: selectedAddress,
         PaymentMethod: paymentMethod,
+        couponDiscount:couponDiscount
       };
 
       // Add the order to the user's orders array and update the cart
@@ -814,6 +828,7 @@ exports.loadOrders = async (req, res) => {
     });
 
     const orderData = user.orders; // Array of orders
+    console.log(orderData);
 
     res.render("myOrders", {
       user: user,
@@ -916,7 +931,7 @@ exports.cancelOrder = async (req, res) => {
 
     // console.log(pdt.status);
     if (cancelledBy == "admin") {
-      res.redirect(`/admin/ordersList`);
+      res.redirect(`/admin/detailPage/${orderId}`);
     } else if (cancelledBy == "user") {
       res.redirect(`/orderDetail/${orderId}`);
     }
@@ -1128,7 +1143,7 @@ exports.applyCoupon = async (req, res, next) => {
       if (cartAmount >= couponData.maxPrice) {
         if (couponData.expiryDate >= new Date()) {
           req.session.coupon = couponData;
-
+          req.session.couponAmount =couponData.discountAmount   
           let payAmount;
 
           payAmount = cartAmount - couponData.discountAmount;
@@ -1173,6 +1188,7 @@ exports.deleteCoupon = async (req, res, next) => {
   try {
     req.session.couponData = null;
     req.session.payAmount = null;
+    req.session.couponAmount  = null;
     res.json({ status: true });
   } catch (error) {
     next(error);

@@ -150,19 +150,18 @@ exports.verifyLoggin = async (req, res) => {
           { $unwind: "$orders.products" },
           { $group:{_id:null,totalAmount:{$sum:"$orders.products.totalAmount"}} }
          ])
-         console.log(totalAmount);
         // const amountOfCanceledOrders = await User.aggregate([
         //     { $unwind: "$orders" },
         //     { $unwind: "$orders.products" },
         //     { $match: { "orders.products.status": "Delivered" } },
         //     { $count: "ordersCount" }
         // ])
-        console.log("payment type sales :",paymentTypeSales)
+        // console.log("payment type sales :",paymentTypeSales)
         // console.log("blocked Users",amountOfBlockedUsers);
         // console.log("Orders:",amountOfOrders)
         // console.log("no. of users:",amountOfUsers)
-        console.log("monthly sales :",monthSales);
-        console.log("category sales",categoriesSales);
+        // console.log("monthly sales :",monthSales);
+        // console.log("category sales",categoriesSales);
         res.render('dashboard', {
             categoriesSales,
             categoriesList,
@@ -174,16 +173,7 @@ exports.verifyLoggin = async (req, res) => {
             // amountOfBlockedUsers,
             // amountOfCanceledOrders: amountOfCanceledOrders[0].ordersCount
        })
-    } 
-
-
-
-
-
-
-
-
-        
+    }         
      catch (error) {
         console.log(error.message);
     }
@@ -402,29 +392,39 @@ let allOrders =[]
 exports.updateStatus = async(req,res) => {
 
  try {
-  const {orderId, pdtId} = req.params
-  const newStatus = req.body.status
-  console.log(orderId,pdtId,newStatus);
-  
+  const {orderId, pdtId, newStatus} = req.params
  let user = await User.findOne({"orders._id":orderId}).populate('orders.products.productId')
-
   const  order = user.orders.find((o) => o._id == orderId);
-
-   
   for( const pdt of order.products)
   {
     
     if(pdt._id == pdtId)
     {
-
+      
       pdt.status = newStatus
+      
+      if(newStatus == 'Returned')
+      { 
+        let currWalBal = parseInt(user.wallet.balance)
+         console.log("walletBal:",currWalBal)
+        let productPrice = pdt.totalAmount
+        let prdNum = order.products.length
+        let couponDiscount = order.couponDiscount
+        let deductAmt = couponDiscount/prdNum
+  
+        let reducedAmt = productPrice - deductAmt
+        console.log(reducedAmt+'='+productPrice+'-'+deductAmt);
+        currWalBal += reducedAmt
+        user.wallet.balance = currWalBal
+      
+    }
+    
 
     }
-
   }
 
   await user.save();
-  res.redirect(`/admin/ordersList`)
+  res.redirect(`/admin/detailPage/${orderId}`)
 
 
  } catch (error) {

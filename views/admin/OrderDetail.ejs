@@ -762,6 +762,99 @@ body {
 /* You can add more styles as needed to make it attractive */
 
 
+.custom-dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-dropdown-toggle {
+    display: none;
+}
+
+.custom-dropdown-label {
+    cursor: pointer;
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.custom-dropdown-list {
+    position: absolute;
+    z-index: 1;
+    display: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.custom-dropdown-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+}
+
+.custom-dropdown-item button,
+.custom-dropdown-item a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.custom-dropdown-item button:hover,
+.custom-dropdown-item a:hover {
+    background-color: #f0f0f0;
+}
+
+
+.dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Style for dropdown items */
+        .dropdown-item {
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            color: #333;
+        }
+
+        .dropdown-item:hover {
+            background-color: #ddd;
+        }
+
+
+		.parent {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+grid-template-rows: 1fr;
+grid-column-gap: 50px;
+grid-row-gap: 0px;
+}
+
+.div1 { grid-area: 1 / 1 / 2 / 3; }
+.div2 { grid-area: 1 / 2 / 2 / 3; }
+.div3 { grid-area: 1 / 1 / 2 / 2; }
+
+
 </style>
 
 	<!-- SIDEBAR -->
@@ -783,7 +876,7 @@ body {
 					<span class="text">Products</span>
 				</a>
 			</li>
-			<li>
+			<li  class="active">
 				<a href="/admin/ordersList">
 					<i class='bx bxs-truck' ></i>
 					<span class="text">Shipping</span>
@@ -802,7 +895,7 @@ body {
 				</a>
 			</li>
 
-			<li class="active"  >
+			<li  >
 				<a href="/admin/categoryList">
 					<i class='bx bxs-box' ></i>
 					<span class="text">Categories</span>
@@ -851,7 +944,7 @@ body {
 						</li>
 						<li><i class='bx bx-chevron-right' ></i></li>
 						<li>
-							<a class="active" href="/admin/orderList">OrderList</a>
+							<a class="active" href="/admin/ordersList">OrderList</a>
 						</li>
 						<li><i class='bx bx-chevron-right' ></i></li>
                         <li>
@@ -885,6 +978,8 @@ body {
                                                 <div class="custom-address-phone">
                                                     <h6><strong>Phone number</strong></h6>
                                                     <p><%= orderData.Address.mobile %></p>
+													<h4> Payment Method: <% if(orderData.PaymentMethod =='COD'){%> Cash On Delivery<%} else {%> <%= orderData.PaymentMethod %><%}%> </h4>
+													
                                                 </div>
                                             </div>
                                         </div>
@@ -899,7 +994,7 @@ body {
 
 
                                 <div class="table-data">
-                                    <div class="order">
+                                    <div class="order" >
                                         <div class="head">
 
 
@@ -917,31 +1012,82 @@ body {
                 <div class="custom-card-body">
                     <div class="d-flex">
                         <a href="/shop/productDetail/<%= pdt.productId._id %>">
-                            <div class="custom-img-container">
+                            <div class="custom-img-container" style="width:50% ;">
                                 <img src="/static/product_Images/<%= pdt.productId.image[0].filename %>"
-                                    class="custom-img" alt="" width="100%">
+                                    class="custom-img" alt="" >
                             </div>
                         </a>
-                        <div class="custom-card-details">
-                            <h4 class="custom-card-title"><%= pdt.productId.productName %></h4>
-                            <span class="custom-card-text">Quantity: <%= pdt.quantity %></span>
-                            <h5 class="custom-card-title">₹ <%= pdt.totalAmount %></h5>
-                            <h6 class="custom-card-status 
+
+
+
+					
+
+
+
+                
+
+						<h4 class="custom-card-title"><%= pdt.productId.productName %></h4>
+
+						<div class="parent">
+							<div class="div1">
+								<div class="custom-card-details">
+									<span class="custom-card-text">Quantity: <%= pdt.quantity %></span>
+									<h5 class="custom-card-title">₹ <%= pdt.totalAmount %></h5>
+								 
+								</div>
+								<h6 class="custom-card-status 
                                 <% if (pdt.status == 'Order Confirmed' || pdt.status == 'Shipped' || pdt.status == 'Out For Delivery' || pdt.status == 'Delivered' ) { %>custom-green
                                 <% } else if (pdt.status == 'Cancelled' || pdt.status == 'Cancelled By Admin' ) { %>custom-red
                                 <% } else if (pdt.status == 'Pending Return Approval' || pdt.status == 'Returned' ) { %>custom-orange
                                 <% } %>">
                                 <%= pdt.status %>
                             </h6>
-                        </div>
-                        <div class="custom-button-container">
-                            <% if (pdt.status == 'Order Confirmed' || pdt.status == 'Shipped' || pdt.status == 'Out For Delivery') { %>
-                                <button type="button" class="custom-button" onclick="showConfirmationModal('<%= orderData._id %>','<%= pdt._id %>')">CANCEL ORDER <i class="bi bi-x-lg"></i></button>
-                            <% } else if (pdt.status == 'Delivered') { %>
-                                <button type="button" class="custom-button" onclick="showConfirmationModal('<%= orderData._id %>','<%= pdt._id %>')">RETURN<i class="bi bi-x-lg"></i></button>
-                                <a href="/returnSinglePrdt/<%= orderData._id %>/<%= pdt._id %>" class="custom-button custom-button-warning">Return</a>
-                            <% } %>
-                        </div>
+							</div>
+							<div class="div2">
+
+
+								<% if (pdt.status !== 'Delivered') { %>
+									<div class="column">
+									</div>
+									   <div class="dropdown ">
+										   <button  class="dropdown-item">Change Status </button>
+										   <div class="dropdown-content">
+											   <a style="color:#008000" href="/admin/updateStatus/<%= orderData._id%>/<%=pdt._id %>/Delivered">Delivered</a>
+												
+											 <% if (pdt.status !== 'Out For Delivery') { %>
+											  
+												<br>
+												<a style="color:#008000" href="/admin/updateStatus/<%= orderData._id%>/<%=pdt._id %>/Out For Delivery">Out For Delivery</a>
+
+											 <% } %>
+											   <% if (pdt.status !== 'Shipped') { %>
+												<br>
+												<a style="color:#008000" href="/admin/updateStatus/<%= orderData._id%>/<%=pdt._id %>/Shipped">Shipped</a>
+												
+												<% } %>
+											   
+												<% if (pdt.status !=='Returned') { %>
+												
+												<br>
+													<a style="color: #FF8C00;" href="/admin/updateStatus/<%= orderData._id%>/<%=pdt._id %>/Returned">Returned</a>
+												<% } %>
+											   
+													<% if (pdt.status !== 'Cancelled By Admin' && pdt.status !== 'Cancelled') { %>
+													 
+														<br>
+														 <a style="color: #dc3545;" href="/admin/cancelSinglePrdt/<%= orderData._id%>/<%=pdt._id %>?cancelledBy=admin">Cancel Order</a>
+													<% } %>
+			   
+										   </div>
+									   </div>
+								   <% } %>
+								
+							</div>
+							</div>
+					
+
+						
+						
                     </div>
                 </div>
             </div>
