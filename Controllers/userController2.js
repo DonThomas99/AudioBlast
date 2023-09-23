@@ -6,6 +6,7 @@ const nodemailer = require("nodemailer");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const coupon = require("../Models/couponModel");
+const banner = require("../Models/bannerModel")
 const { request } = require("http");
 require("dotenv").config();
 
@@ -125,8 +126,9 @@ exports.loadHomepage = async (req, res) => {
   try {
     const session = req.session.user_id;
     const user = await User.findOne({ _id: session });
+    const banners = await banner.find({})
     let categorylist = await category.find({is_unlisted:1});
-    res.render("homepage", { user: user,categorylist: categorylist});
+    res.render("homepage", { user: user,categorylist: categorylist,banners: banners });
   } catch (error) {
     console.log(error.message);
   }
@@ -654,7 +656,7 @@ exports.placeOrder = async (req, res) => {
         {
           couponDiscount = parseInt(req.session.couponAmount)
         }
-      const orderProducts =  cartItems.map(async (item) => {
+      const orderProducts =  cartItems.map( (item) => {
         if (req.session.payAmount) {
           orderTotal += req.session.payAmount;
         } else {
@@ -674,10 +676,10 @@ exports.placeOrder = async (req, res) => {
 
         
     
-      const result= await product.updateOne(
-          { _id: item.productId },
-          { $inc: { stock: -item.quantity } }
-        );
+      // const result= await product.updateOne(
+      //     { _id: item.productId },
+      //     { $inc: { stock: -item.quantity } }
+      //   );
         
 
         return {

@@ -6,11 +6,8 @@
 
 	<!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 	<!-- My CSS -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="style.css">
-
 	<title>AdminHub</title>
 </head>
 <body>
@@ -53,6 +50,10 @@ li {
 	--orange: #FD7238;
 	--light-orange: #FFE0D3;
 }
+
+
+
+
 
 html {
 	overflow-x: hidden;
@@ -615,24 +616,112 @@ body {
 }
 
 
-@import url(https://fonts.googleapis.com/css?family=Roboto);
 
-body {
-  font-family: Roboto, sans-serif;
+  /* Add this CSS for form responsiveness */
+form {
+  max-width: 100%;
+  margin: auto;
 }
 
-#chart {
-  max-width: 650px;
-  height: 300px;
-  margin: 35px auto;
+@media screen and (min-width: 576px) {
+  form {
+    max-width: 500px;
+  }
 }
+
+
+  .nav-title {
+  flex: 1; /* Make the div take the remaining space */
+  text-align: center; /* Center the text horizontally */
+}
+
+
+
+/* ... Other CSS code ... */
+
+.imageuploadbox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.upload__box {
+  flex-basis: calc(50% - 20px);
+  max-width: calc(50% - 20px);
+}
+
+/* ... Other CSS code ... */
+
+
+/* Define styles for the container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Define styles for the form container */
+.form-container {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Define styles for form fields and labels */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* Define styles for the submit button */
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* Define styles for the file upload input */
+.upload-container {
+    position: relative;
+    cursor: pointer;
+}
+
+.upload-label {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.upload-inputfile {
+    display: none;
+}
+
+/* Add media queries for responsiveness */
+@media (max-width: 768px) {
+    .form-control {
+        width: 100%;
+    }
+}
+
+
 
 
 </style>
-
-
-
-
 
 	<!-- SIDEBAR -->
 	<section id="sidebar">
@@ -641,18 +730,20 @@ body {
 			<span class="text">AudioBlast</span>
 		</a>
 		<ul class="side-menu top">
-			<li class="active">
-				<a href="#">
+			<li >
+				<a href="/admin/Dashboard">
 					<i class='bx bxs-dashboard' ></i>
 					<span class="text">Dashboard</span>
 				</a>
 			</li>
-			<li>
-				<a href="/admin/productList">
+			<li class="active">
+				<a href="#">
 					<i class='bx bxs-shopping-bag-alt' ></i>
 					<span class="text">Products</span>
 				</a>
 			</li>
+
+         
 			<li>
 				<a href="/admin/ordersList">
 					<i class='bx bxs-truck' ></i>
@@ -665,25 +756,22 @@ body {
 					<span class="text">Coupons</span>
 				</a>
 			</li>
-			<li>
+			<li >
 				<a href="/admin/userslist">
 					<i class='bx bxs-group' ></i>
 					<span class="text">Customers</span>
 				</a>
 			</li>
 
-			<li>
+
+            <li >
 				<a href="/admin/categoryList">
 					<i class='bx bxs-box' ></i>
-					<span class="text">Categories</span>
+					<span class="text">Category</span>
 				</a>
 			</li>
-			<li>
-				<a href="/admin/loadBanners">
-					<i class='bx bxs-image' ></i>
-					<span class="text">Banners</span>
-				</a>
-			</li>
+
+
 		</ul>
 		<ul class="side-menu">
 			
@@ -704,14 +792,11 @@ body {
 	<!-- CONTENT -->
 	<section id="content">
 	
-		
 		<nav>
 			<i class='bx bx-menu' ></i>
+			<a href="#" class="nav-link"></a>
 			
 			
-			
-		
-		
 		</nav>
 		
 
@@ -719,84 +804,54 @@ body {
 		<main>
 			<div class="head-title">
 				<div class="left">
-					<h1>Admin Dashboard</h1>
+					<h1>Dashboard</h1>
 					<ul class="breadcrumb">
 						<li>
-							<a class="active" href="#">Dashboard</a>
+							<a class="active" href="/admin/Dashboard">Dashboard</a>
 						</li>
-						
-						
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a class="active" href="#">Banners</a>
+						</li>
+					
 					</ul>
-				</div>
-				<!-- <a href="#" class="btn-download">
-					<i class='bx bxs-cloud-download' ></i>
-					<span class="text">Download PDF</span>
-				</a> -->
-			</div>
-
-			<ul class="box-info">
-				<li>
-					<i class='bx bxs-calendar-check' ></i>
-					<span class="text">
-						<h3><%=  amountOfOrders %></h3>
-						<p> Order</p>
-					</span>
-				</li>
-				<li>
-					<i class='bx bxs-group' ></i>
-					<span class="text">
-						<h3><%= amountOfUsers %></h3>
-						<p>Visitors</p>
-					</span>
-				</li>
-				<li>
-					<i class='bx bxs-dollar-circle' ></i>
-					<span class="text">
-						<h3>₹ <%= totalAmount[0].totalAmount %></h3>
-						<p>Total Sales</p>
-					</span>
-				</li>
-			</ul>
-
-
-			<div class="table-data">
-				<div class="order">
-					<div class="head">
-						<h3>Sales Report</h3>
-					
-					</div>
-					<!-- this is where you should add -->
-
-					<div id="chart">
-						
-						<input class="month" type="text" hidden value="<%= JSON.stringify(monthSales) %>" id="month">
-						
-
-					
-					</div>
 				</div>
 			
 			</div>
 
+	
 
-
-
-
-
-
-			  
 		
-
-
-		</main>
+            <div class="container">
+                <div class="form-container">
+                    <form action="/admin/addBanner" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="product-name">Product Name</label>
+                            <input type="text" class="form-control" id="url" name="url" required placeholder="">
+                        </div>
+        
+                        <!-- Add other form fields with appropriate classes -->
+						<div class="form-group upload-container">
+							<label for="formFile" class="upload-label">Upload Images</label>
+							<input type="file" id="formFile" name="image" multiple accept="image/*" multiple-max_length="20" class="form-control upload-inputfile">
+						</div>
+						
+						
+        
+                        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                    </form>
+        
+                    <% if (typeof message !== 'undefined') { %>
+                        <div class="form-check d-flex justify-content-center mb-4">
+                            <p style="color:red;"><%= message %></p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </main
 		<!-- MAIN -->
-
 	</section>
 	<!-- CONTENT -->
-
-
-
-
 	
 
 	<script>
@@ -877,10 +932,5 @@ switchMode.addEventListener('change', function () {
 	}
 })
 	</script>
-
-<script src="/static/js/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
-
 </body>
 </html>

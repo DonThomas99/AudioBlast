@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const bannerSchema  = new mongoose.Schema({
     
     image :{
-        type:Image,
-    required: true
+        type:Array,
+        maxitems:4,
     },
     url:{
         type: String,

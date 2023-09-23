@@ -52,29 +52,31 @@ const userSchema = new mongoose.Schema({
           productId:{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Product',
+            required: true
           },
           quantity:{
             type: Number,
+            required: true
           },
           discountPrice:{
             type: Number,
+            required: true
           },
-          totalAmount:{type: Number,
+          totalAmount:{
+            type: Number,
+            required: true
           },
           status:{
             type:String,
-          
+            required: true
           },
           returned:{
             type:Boolean,
             default:false,
-
           },
           refunded:{
             type:Boolean,
             default:false,
-
-
           },
           
         },

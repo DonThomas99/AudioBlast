@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const randomstring = require('randomstring');
 const category = require('../Models/categoryModel')
 const Coupon = require('../Models/couponModel');
+const Banner = require('../Models/bannerModel')
 
 
 const securePassword = async(password)=>{
@@ -307,7 +308,7 @@ res.redirect('/admin/categoryList')
       console.log("Edit Category");
       const id = req.query.id;
       console.log(id);
-      const catData = await cat.findById(id);
+      const catData = await category.findById(id);
       console.log(catData);
       if(catData){
         res.render('editCategory',{cat:catData})
@@ -402,6 +403,8 @@ exports.updateStatus = async(req,res) => {
     {
       
       pdt.status = newStatus
+      pdt.returned= true
+
       
       if(newStatus == 'Returned')
       { 
@@ -418,6 +421,7 @@ exports.updateStatus = async(req,res) => {
         user.wallet.balance = currWalBal
       
     }
+    pdt.refunded = true 
     
 
     }
@@ -524,6 +528,46 @@ const orderData = user.orders.find((order)=>order._id == orderId)
 
 
 res.render('OrderDetail',{orderData:orderData})
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+
+exports.loadBanners = async(req,res)=>{
+  try { 
+    const  banners = await Banner.find({})
+    console.log(banners);
+    res.render('bannerList',{banners})    
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+exports.addBanner = async(req,res)=>{
+try {
+  res.render('addBanner')
+} catch (error) {
+  console.log(error.message);
+}
+
+}
+
+exports.saveBanner = async(req,res)=>{
+  try {
+    const url = req.body.url
+    const image = req.files
+    const data = new Banner({
+      url: url,
+      image:image
+      
+    })
+    const result = await data.save()
+    
+    if(result)
+    {
+      res.redirect('/admin/loadBanners')
+    }
   } catch (error) {
     console.log(error.message);
   }

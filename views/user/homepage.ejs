@@ -18,7 +18,8 @@
 
 <!-- Offcanvas Menu End -->
 <div class="offcanvas__logo">
-    <a href="#"><img src="/static/img/audioblast_black_theme.png" alt=""></a>
+    <a href="#">
+        <img src="/static/img/audioblast_black_theme.png" alt=""></a>
 </div>
 <div id="mobile-menu-wrap"></div>
 
@@ -102,7 +103,11 @@
         <div class="row">
             <div class="col-lg-6 p-0">
                 <div class="categories__item categories__large__item set-bg"
-                data-setbg="/static/img/audioblast_black_theme.png">
+                <% banners.forEach((banner) => { %>
+                     
+                    data-setbg="/static/product_Images/<%= banner.image[0].filename %>" alt="">
+                        <% }); %>
+               
                 <div class="categories__text">
                     <h1>AudioBlast</h1>
                     <p>Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore
@@ -135,7 +140,7 @@
 </section>
 <!-- Categories Section End -->
 
-<!-- Product Section Begin -->
+<!-- Product Section Begin
 <section class="product spad">
 <div class="container">
     <div class="row">
@@ -338,28 +343,39 @@
         </div>
     </div>
 </div>
-</section>
+</section> -->
 <!-- Product Section End -->
-
 <!-- Banner Section Begin -->
-<section class="banner set-bg" data-setbg="img/banner/banner-1.jpg">
-<div class="container">
-    <div class="row">
-        <div class="col-xl-7 col-lg-8 m-auto">
-            <div class="banner__slider owl-carousel">
-                <div class="banner__item">
-                    <div class="banner__text">
-                        <span>The Chloe Collection</span>
-                        <h1>The Project Jacket</h1>
-                        <a href="#">Shop now</a>
-                    </div>
-                </div>
-                <div class="banner__item">
-                    <div class="banner__text">
-                        <span>The Chloe Collection</span>
-                        <h1>The Project Jacket</h1>
-                        <a href="#">Shop now</a>
-                    </div>
+
+
+
+
+
+
+<% banners.forEach((banner) => { %>
+    <section class="banner set-bg" data-setbg="">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-7 col-lg-8 m-auto">
+                    <div class="banner__slider owl-carousel">
+                        <div class="banner__item">
+                            <div class="banner__text">
+                                <a href=" <%= banner.url  %> ">Shop now
+                                   <div style="width: 50%;">
+
+                                       <img src="/static/product_Images/<%= banner.image[0].filename %>" alt="">
+                                   </div> 
+                                    
+                                </a>
+                            </div>
+                        </div>
+                        <% }); %>
+                        <div class="banner__item">
+                            <div class="banner__text">
+                                <span>The Chloe Collection</span>
+                                <h1>The Project Jacket</h1>
+                                <a href="#">Shop now</a>
+                            </div>
                 </div>
                 <div class="banner__item">
                     <div class="banner__text">
@@ -375,7 +391,7 @@
 </section>
 <!-- Banner Section End -->
 
-<!-- Trend Section Begin -->
+<!-- Trend Section Begin
 <section class="trend spad">
 <div class="container">
     <div class="row">
@@ -546,10 +562,10 @@
         </div>
     </div>
 </div>
-</section>
+</section> -->
 <!-- Trend Section End -->
 
-<!-- Discount Section Begin -->
+<!-- Discount Section Begin
 <section class="discount">
 <div class="container">
     <div class="row">
@@ -588,10 +604,10 @@
         </div>
     </div>
 </div>
-</section>
+</section> -->
 <!-- Discount Section End -->
 
-<!-- Services Section Begin -->
+<!-- Services Section Begin
 <section class="services spad">
 <div class="container">
     <div class="row">
@@ -625,11 +641,11 @@
         </div>
     </div>
 </div>
-</section>
+</section> -->
 <!-- Services Section End -->
 
 <!-- Instagram Begin -->
-<div class="instagram">
+<!-- <div class="instagram">
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-2 col-md-4 col-sm-4 p-0">
@@ -682,7 +698,7 @@
         </div>
     </div>
 </div>
-</div>
+</div> -->
 <!-- Instagram End -->
 
 
