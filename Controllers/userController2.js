@@ -676,12 +676,8 @@ exports.placeOrder = async (req, res) => {
 
         
     
-      // const result= await product.updateOne(
-      //     { _id: item.productId },
-      //     { $inc: { stock: -item.quantity } }
-      //   );
         
-
+        
         return {
           productId: item.productId,
           quantity: item.quantity,
@@ -692,6 +688,14 @@ exports.placeOrder = async (req, res) => {
           refunded: false,
         };
       });
+      
+      const updateStock = cartItems.map( async(item) =>{
+        
+        const result= await product.updateOne(
+            { _id: item.productId },
+            { $inc: { stock: -item.quantity } }
+          );
+      })
 
       const order = {
         products: orderProducts,

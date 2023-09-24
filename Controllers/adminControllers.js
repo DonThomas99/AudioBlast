@@ -307,9 +307,7 @@ res.redirect('/admin/categoryList')
     try{
       console.log("Edit Category");
       const id = req.query.id;
-      console.log(id);
       const catData = await category.findById(id);
-      console.log(catData);
       if(catData){
         res.render('editCategory',{cat:catData})
       }
@@ -323,10 +321,17 @@ res.redirect('/admin/categoryList')
     try {  console.log("update");
     const id = req.body.id;
     const name = req.body.name.toUpperCase()
-    console.log(id);
+    const catData1 = await category.findById(id);
+    const isexisting = await category.findOne({name:name})
+    if(isexisting){
+     res.render('editcategory', {cat:catData1,message:'category already exists'}) 
+    }else{
       const catData = await category.findByIdAndUpdate({_id:id},{$set:{name:name}})
-
-      res.redirect('/admin/categoryList')
+if (catData) {
+  
+  res.redirect('/admin/categoryList')
+}
+    }
     } catch (error) {
       console.log(error.message);
     }
