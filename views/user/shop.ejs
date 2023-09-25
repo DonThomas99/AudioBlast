@@ -208,12 +208,15 @@
                                     <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                     
                                     
-                                    
-                                    <li>
-                                        <a href="#" onclick="addToCart('<%= item._id %>'); return false;">
-                                            <span class="icon_cart_alt"></span>
-                                        </a>
-                                    </li>
+                                    <% if (item.stock>0) { %>
+                                     
+                                        <li>
+                                            <a href="#" onclick="addToCart('<%= item._id %>'); return false;">
+                                                <span class="icon_cart_alt"></span>
+                                            </a>
+                                        </li>
+                                    <% } %>
+
                                 </ul>
                             </div>
                             <div class="product__item__text">

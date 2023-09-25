@@ -8,6 +8,8 @@ const crypto = require("crypto");
 const coupon = require("../Models/couponModel");
 const banner = require("../Models/bannerModel")
 const { request } = require("http");
+var easyinvoice = require("easyinvoice")
+ 
 require("dotenv").config();
 
 var instance = new Razorpay({
@@ -251,16 +253,19 @@ exports.loadProductDetail = async (req, res) => {
       const user2 = await User.findOne({ _id: userid }, { wishlist: 1 });
       const isExist = user2.wishlist.find((prd) => prd == pdtId);
       const pdt = await product.findById(req.params.id).populate("category");
-
       if (pdt) {
         res.render("productDetail", { user, pdt: pdt, isExist });
       }
     } else {
       //const isExist = user.wishlist.find(prd =>prd == pdtId)
       const pdt = await product.findById(req.params.id).populate("category");
+      const categName = pdt.category._id.toString()
+      const products = await product
+  .find({ _id: { $ne:pdtId},category: categName })
+  .limit(4);
 
       if (pdt) {
-        res.render("productDetail", { user, pdt: pdt, isExist: null });
+        res.render("productDetail", { user, pdt: pdt, isExist: null,products: products});
       }
     }
   } catch (error) {
@@ -674,10 +679,6 @@ exports.placeOrder = async (req, res) => {
           user.save();
         }
 
-        
-    
-        
-        
         return {
           productId: item.productId,
           quantity: item.quantity,
@@ -1270,6 +1271,119 @@ const user = await User.findById(userId).populate("orders.products.productId");
 
     // console.log(pdt.status);
       res.redirect(`/orderDetail/${orderId}`);
+
+
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+exports.downloadInvoice = async(req,res) => {
+  try {
+    const userId =  req.query._id
+    const user =  await User.findOne(userId) 
+  const orders = user.orders
+
+  var data = {
+    // Customize enables you to provide your own templates
+    // Please review the documentation for instructions and examples
+    "customize": {
+        //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html 
+    },
+    "images": {
+        // The logo on top of your invoice
+        "logo": "https://public.easyinvoice.cloud/img/logo_en_original.png",
+        // The invoice background
+        "background": "https://public.easyinvoice.cloud/img/watermark-draft.jpg"
+    },
+    // Your own data
+    "sender": {
+        "company": "AudioBlast",
+        "address": "Headoffice sector 12",
+        "zip": "682042",
+        "city": "Kakkanad",
+        "country": "India"
+        //"custom1": "custom value 1",
+        //"custom2": "custom value 2",
+        //"custom3": "custom value 3"
+    },
+    // Your recipient
+    "client": {
+        "company": "AudioBlast",
+        "address": "Ernakulam Kerala India",
+        "zip": "686636",
+        "city": "Calicut",
+        "country": "India"
+        // "custom1": "custom value 1",
+        // "custom2": "custom value 2",
+        // "custom3": "custom value 3"
+    },
+    "information": {
+        // Invoice number
+        "number": "2021.0001",
+        // Invoice data
+        "date": "12-12-2021",
+        // Invoice due date
+        "due-date": "31-12-2021"
+    },
+    // The products you would like to see on your invoice
+    // Total values are being calculated automatically
+    "products": [
+        {
+            "quantity": 2,
+            "description": "Product 1",
+            "tax-rate": 6,
+            "price": 33.87
+        },
+        {
+            "quantity": 4.1,
+            "description": "Product 2",
+            "tax-rate": 6,
+            "price": 12.34
+        },
+        {
+            "quantity": 4.5678,
+            "description": "Product 3",
+            "tax-rate": 21,
+            "price": 6324.453456
+        }
+    ],
+    // The message you would like to display on the bottom of your invoice
+    "bottom-notice": "Kindly pay your invoice within 15 days.",
+    // Settings to customize your invoice
+    "settings": {
+        "currency": "USD", // See documentation 'Locales and Currency' for more info. Leave empty for no currency.
+        // "locale": "nl-NL", // Defaults to en-US, used for number formatting (See documentation 'Locales and Currency')        
+        // "margin-top": 25, // Defaults to '25'
+        // "margin-right": 25, // Defaults to '25'
+        // "margin-left": 25, // Defaults to '25'
+        // "margin-bottom": 25, // Defaults to '25'
+        // "format": "A4", // Defaults to A4, options: A3, A4, A5, Legal, Letter, Tabloid
+        // "height": "1000px", // allowed units: mm, cm, in, px
+        // "width": "500px", // allowed units: mm, cm, in, px
+        // "orientation": "landscape", // portrait or landscape, defaults to portrait
+    },
+    // Translate your invoice to your preferred language
+    "translate": {
+        // "invoice": "FACTUUR",  // Default to 'INVOICE'
+        // "number": "Nummer", // Defaults to 'Number'
+        // "date": "Datum", // Default to 'Date'
+        // "due-date": "Verloopdatum", // Defaults to 'Due Date'
+        // "subtotal": "Subtotaal", // Defaults to 'Subtotal'
+        // "products": "Producten", // Defaults to 'Products'
+        // "quantity": "Aantal", // Default to 'Quantity'
+        // "price": "Prijs", // Defaults to 'Price'
+        // "product-total": "Totaal", // Defaults to 'Total'
+        // "total": "Totaal", // Defaults to 'Total'
+        // "vat": "btw" // Defaults to 'vat'
+    },
+};
+
+//Create your invoice! Easy!
+easyinvoice.createInvoice(data, function (result) {
+    //The response will contain a base64 encoded PDF file
+    console.log('PDF base64 string: ', result.pdf);
+});
 
 
   } catch (error) {

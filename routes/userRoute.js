@@ -94,7 +94,7 @@ user_route.post('/user-dashboard/addToWallet',userController2.addToWallet)
 user_route.post('/verifyPaymentToWallet',userController2.verifyWalletpayment)
 
 //coupon 
- user_route.post('/applyCoupon',userController2.applyCoupon)
+user_route.post('/applyCoupon',userController2.applyCoupon)
 user_route.get('/deleteCoupon',userController2.deleteCoupon)
 
 module.exports = user_route
