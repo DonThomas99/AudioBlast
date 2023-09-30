@@ -1,16 +1,14 @@
 const mongoose = require('mongoose');
+require("dotenv").config();
+const mongoURI = process.env.MONGODB_URI;
 //mongoose.connect()
-const connection =()=>{
-    const URL = "mongodb+srv://donbrototype:URQPakhFxSet1Vn9@cluster0.bh5afjy.mongodb.net/AB?retryWrites=true&w=majority"
-    try {
-        mongoose.connect(URL,{useUnifiedTopology: true,useNewUrlParser :true })
-        console.log("Database connected");
-    } catch (error) {
-        console.log(error.messsage);
-        console.log("error found in try of connection");
-    }
-}
-connection()
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true, w: 'majority' })
+    .then(() => {
+        console.log('Connected to MongoDB');
+    })
+    .catch((err) => {
+        console.error('Error during connecting to MongoDB', err);
+    });
 
 const express = require('express');
 const path = require('path');
