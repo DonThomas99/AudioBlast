@@ -254,7 +254,7 @@ exports.loadProductDetail = async (req, res) => {
       const isExist = user2.wishlist.find((prd) => prd == pdtId);
       const pdt = await product.findById(req.params.id).populate("category");
       if (pdt) {
-        res.render("productDetail", { user, pdt: pdt, isExist });
+        res.render("productDetail", { user, products: pdt, isExist,pdt });
       }
     } else {
       //const isExist = user.wishlist.find(prd =>prd == pdtId)
