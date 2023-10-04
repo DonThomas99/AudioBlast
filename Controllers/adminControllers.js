@@ -272,12 +272,13 @@ res.redirect('/admin/categoryList')
     try { 
 
       const nameRegex = /^[a-zA-Z ]+$/; 
-
-      console.log("entering addition");
+      console.log(req.file);
+      const image = req.file.filename
       //console.log(req.body.name);
       const newcategory = new category({
         name:req.body.name.toUpperCase(),
-        is_unlisted : req.body.is_unlisted
+        is_unlisted : req.body.is_unlisted,
+        image
        
       })
   
@@ -435,7 +436,7 @@ exports.updateStatus = async(req,res) => {
   await user.save();
   res.redirect(`/admin/detailPage/${orderId}`)
 
-
+ 
  } catch (error) {
   console.log(error.message);
   
