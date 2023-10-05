@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
         cb(null,path.join(__dirname,'../public/Product_Images'))
     },
     filename: function(req,file,cb){
-    const name = file.originalname
+    const name = Date.now()+'-'+file.originalname
     cb(null,name)
     }
 })
@@ -64,7 +64,7 @@ admin_route.get('/categoryList',adminController.categoryList)
 admin_route.get('/unlistCategory/:id',categoryController.unlistCategory)
 //for adding new category
 admin_route.get('/addCategory',adminController.addCategory)
-admin_route.post('/addCategory',upload.single("image"),adminController.addCategoryy) 
+admin_route.post('/addCategory',adminController.addCategoryy) 
 
 //for editing category
 admin_route.get("/editCategory",adminController.editCategory)
@@ -83,7 +83,7 @@ admin_route.get('/unlistProducts/:id',productController.unlistProduct)
 //for editing product
 admin_route.get('/editProducts',productController.editProduct)
 admin_route.post('/editProducts',upload.array("image",4),productController.editProducty)
-admin_route.get('/delete-image/:returnPage',productController.deletimage)
+admin_route.get('/delete-image',productController.deletimage)
 //for logging out
 admin_route.get('/signout',adminController.signout) 
 

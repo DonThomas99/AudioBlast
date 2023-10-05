@@ -8,7 +8,6 @@
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<!-- My CSS -->
 	<link rel="stylesheet" href="style.css">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 	<title>AdminHub</title>
 </head>
@@ -729,7 +728,6 @@ body {
 						<tr>
 							<th>Edit</th>
 						  <th>Name</th>
-						  <th>Image</th>
 						  <th>Status</th>
 						</tr>
 					  
@@ -740,13 +738,6 @@ body {
 									<a href="/admin/editCategory?id=<%=cat[i]._id%>" class="edit" title="Edit Category"><i class="bx bx-edit"></i></a>
 								  </td>
 							  <td><%= cat[i].name %></td>
-							  <td>
-
-								<div class="" >
-									<img style="width: 7rem; height:4rem;" src="/static/Product_Images/<%= cat[i].image %>" class="rounded-0">
-									</div>
-
-							  </td>
                               <td>
                                 <a href="/admin/unlistCategory/<%=cat[i]._id%>" onclick="return confirm('Are you sure you want to list/unlist this category?')" class="btn btn-sm <%= cat[i].is_unlisted ? 'btn-danger' : 'btn-primary' %> Change Status" title="Change Status">
                                   <%= cat[i].is_unlisted ? 'Listed' : 'Unlisted' %>
