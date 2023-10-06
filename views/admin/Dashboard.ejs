@@ -738,21 +738,30 @@ body {
 				<li>
 					<i class='bx bxs-calendar-check' ></i>
 					<span class="text">
+					 <%	if( amountOfOrders) { %>
 						<h3><%=  amountOfOrders %></h3>
+						<% } %>
 						<p> Order</p>
 					</span>
 				</li>
 				<li>
 					<i class='bx bxs-group' ></i>
 					<span class="text">
+						<% 
+						if(amountOfUsers)
+						{ %>
 						<h3><%= amountOfUsers %></h3>
+					<%	}%>
 						<p>Visitors</p>
 					</span>
 				</li>
 				<li>
 					<i class='bx bxs-dollar-circle' ></i>
 					<span class="text">
-						<h3>₹ <%= totalAmount[0].totalAmount %></h3>
+						<%if (totalAmount.length) { %>
+							
+							<h3>₹ <%= totalAmount[0].totalAmount %></h3>
+							<%}%>
 						<p>Total Sales</p>
 					</span>
 				</li>

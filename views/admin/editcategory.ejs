@@ -775,9 +775,16 @@ body {
                                         <label for="name">Category Name</label>
                                         <input type="text" id="name" name="name" class="form-control" value="<%=cat.name%>">
                                     </div>
+
+									
+									<div class="d-flex flex-column" style="width:7rem; margin:1rem;">
+										<img src="/static/Product_Images/<%= cat.image %>" class="img-fluid mb-1">
+
+										<a href="/admin/delete-image?id=<%=cat._id %>&imageURL=<%= cat.image%>?returnPage=category" class="btn btn-danger btn-sm">Delete</a>
+									</div>
                                 
                                     <div class="btn-container">
-                                        <button type="submit" class="btn btn-primary">Add Category</button>
+                                        <button type="submit" class="btn btn-primary">update Category</button>
                                         <a href="/admin/categoryList" class="btn btn-primary">Back</a>
                                     </div>
                                 </form>

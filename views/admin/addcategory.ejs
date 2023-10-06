@@ -762,11 +762,25 @@ body {
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-md-6">
-                                <form id="categoryForm" method="POST" action="/admin/addCategory">
+                                <form id="categoryForm" method="POST" enctype="multipart/form-data" action="/admin/addCategory">
                                     <div class="form-group">
                                         <label for="name">Category Name</label>
                                         <input type="text" id="name" name="name" class="form-control">
                                     </div>
+
+
+									<div class="imageuploadbox">
+										<div class="upload__box">
+										  <div class="upload__btn-box">
+											<label class="upload__btn ms-3">
+											  <p>Upload image</p>
+											  <input type="file" id="formFile" name="image"  class="upload__inputfile">
+											</label>
+										  </div>
+										  <div class="upload__img-wrap"></div>
+										</div>
+
+									  </div>
                                 
                                     <div class="btn-container">
                                         <button onclick="return ValidateCategory()" type="submit" class="btn btn-primary">Add Category</button>

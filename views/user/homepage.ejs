@@ -122,11 +122,9 @@
                 <% categorylist.forEach(element => {%>
                     
                     <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                        <div class="categories__item set-bg">
-                            <img src="/static/product_Images/<%=element.image%>" alt="">
+                        <div class="categories__item set-bg" data-setbg="/static/product_Images/<%=element.image%>" >
                             <div class="categories__text">
                             <h4>  <%= element.name  %>   </h4>
-                            <p>358 items</p>
                             <a href="/shop?category=<%= element._id %>">Shop now</a>
                         </div>
                     </div>

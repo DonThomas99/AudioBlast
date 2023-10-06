@@ -139,7 +139,7 @@ exports.verifyLoggin = async (req, res) => {
         ])
         const amountOfUsers = await User.find({}).count()
         const amountOfBlockedUsers = await User.find({ is_blocked: true }).count()
-        const amountOfOrders = await User.aggregate([
+       const amountOfOrders = await User.aggregate([
             { $unwind: "$orders" },
             { $unwind: "$orders.products" },
             { $count: "ordersCount" }
@@ -169,7 +169,7 @@ exports.verifyLoggin = async (req, res) => {
             monthSales,
             paymentTypeSales,
             amountOfUsers,
-            amountOfOrders: amountOfOrders[0].ordersCount,
+            amountOfOrders: amountOfOrders[0]?.ordersCount,
             totalAmount,
             // amountOfBlockedUsers,
             // amountOfCanceledOrders: amountOfCanceledOrders[0].ordersCount
@@ -272,12 +272,14 @@ res.redirect('/admin/categoryList')
     try { 
 
       const nameRegex = /^[a-zA-Z ]+$/; 
+      const image = req.file.filename
 
       console.log("entering addition");
       //console.log(req.body.name);
       const newcategory = new category({
         name:req.body.name.toUpperCase(),
-        is_unlisted : req.body.is_unlisted
+        is_unlisted : req.body.is_unlisted,
+        image
        
       })
   
