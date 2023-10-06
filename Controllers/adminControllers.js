@@ -579,6 +579,87 @@ exports.saveBanner = async(req,res)=>{
     console.log(error.message);
   }
 }
+exports.salesReport = async(req,res)=>{
+  try {
+          const from = req.query.from
+          const to = req.query.to
+          let selectedStatus=''
+          let salesReport
+          if(req.query.status){
+              selectedStatus=req.query.status
+              salesReport = await User.aggregate([
+                  { $unwind: "$orders" },
+                  { $unwind: "$orders.products" },
+                  { $match: { "orders.products.status": selectedStatus } },
+                  {
+                      $lookup: {
+                          from: "products",
+                          localField: "orders.products.productId",
+                          foreignField: "_id",
+                          as: "products_details"
+                      }
+                  },
+                  { $unwind: "$products_details" },
+                  {
+                      $project: {
+                          order_id: "$orders._id",
+                          products_details: "$products_details",
+                          qty: "$orders.products.quantity",
+                          total_amount: "$orders.products.discountPrice",
+                          order_date: "$orders.createdAt",
+                          payment_method: "$orders.PaymentMethod",
+                          consumer: "$email",
+                      }
+                  },
+                  { $sort: { "order_id": -1 } }
+              ])
+          }else{
+              salesReport = await User.aggregate([
+                  { $unwind: "$orders" },
+                  { $unwind: "$orders.products" },
+                  {
+                      $lookup: {
+                          from: "products",
+                          localField: "orders.products.productId",
+                          foreignField: "_id",
+                          as: "products_details"
+                      }
+                  },
+                  { $unwind: "$products_details" },
+                  {
+                      $project: {
+                          order_id: "$orders._id",
+                          products_details: "$products_details",
+                          qty: "$orders.products.quantity",
+                          total_amount: "$orders.products.discountPrice",
+                          order_date: "$orders.createdAt",
+                          payment_method: "$orders.PaymentMethod",
+                          consumer: "$email",
+                      }
+                  },
+                  { $sort: { "order_id": -1 } }
+              ])
+          }
+          if (from && to) {
+              const fromDate = new Date(from);
+              const toDate = new Date(to);
 
+              salesReport = salesReport.filter((prd) => {
+                  const orderDate = new Date(prd.order_date);
+                  return orderDate >= fromDate && orderDate <= toDate;
+              });
+              console.log(salesReport)
+          }
+
+          res.render('salesReport', { salesReport,selectedStatus })
+      
+      
+  
+
+
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
  

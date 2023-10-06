@@ -101,9 +101,12 @@ admin_route.get('/addCoupon',adminController.addCoupon)
  admin_route.get('/editCoupon',adminController.editCoupon)
  admin_route.post('/editCoupon',adminController.updateCoupon)
 
+ //Banner control
  admin_route.get('/loadBanners',adminController.loadBanners)
  admin_route.get('/addBanner',adminController.addBanner)
  admin_route.post('/addBanner',upload.array("image",4),adminController.saveBanner)
 
+ //Generate sales report 
+ admin_route.get('/salesReport',adminController.salesReport)
 
 module.exports = admin_route;
