@@ -51,7 +51,7 @@ admin_route.get('/',adminController.loadLoggin)
 admin_route.post('/logg',adminController.verifyLoggin)
 
 //for dashboard 
-admin_route.get('/Dashboard',adminController.loadDashboard)
+admin_route.get('/dashboard',adminController.loadDashboard)
 //for userslist 
 admin_route.get('/userslist',adminController.userslist)
 //for blocking users
