@@ -164,7 +164,7 @@ exports.verifyLoggin = async (req, res) => {
         // console.log("no. of users:",amountOfUsers)
         // console.log("monthly sales :",monthSales);
         // console.log("category sales",categoriesSales);
-        res.render('dashboard', {
+        res.render('Dashboard', {
             categoriesSales,
             categoriesList,
             monthSales,
