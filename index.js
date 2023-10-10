@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 require("dotenv").config();
+const morgan = require('morgan');
 const mongoURI = process.env.MONGODB_URI;
 //mongoose.connect()
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true, w: 'majority' })
@@ -16,7 +17,7 @@ const nocache = require('nocache');
 
 const app = express()
 app.use(nocache())
-
+app.use(morgan("short"))
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
