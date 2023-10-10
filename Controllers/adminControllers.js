@@ -665,7 +665,7 @@ exports.downloadReport = async(req,res)=>{
   try {
     const data = req.body
     let file =[]
-    for(let i=0; i<data.length; i++) {
+    for(let i=0; i<data.date.length; i++) {
       const row={
         date: data.date[i],
         order_id: data.order_id[i],
@@ -677,13 +677,16 @@ exports.downloadReport = async(req,res)=>{
       };
       file.push(row);
     }
-    console.log(file);
-    const json2csv = new Parser()
-    const csv = json2csv.parse(file)
+    if (file.length > 0) {
+      const json2csv = new Parser();
+      const csv = json2csv.parse(file);
 
-    res.attachment(`report-${Date.now()}.csv`)
-    res.render('salesReport',{csv})
-    
+      res.attachment(`report-${Date.now()}.csv`);
+      res.send(csv); // Sending the CSV content as response
+    } else {
+      // Handle the case when there are no errors to generate the report for
+      res.status(404).send('No data found.');
+    }
   } catch (error) {
     console.log(error.message);
   }
