@@ -108,5 +108,6 @@ admin_route.get('/addCoupon',adminController.addCoupon)
 
  //Generate sales report 
  admin_route.get('/salesReport',adminController.salesReport)
+ admin_route.post('/salesReport/downloadReport',adminController.downloadReport)
 
 module.exports = admin_route;

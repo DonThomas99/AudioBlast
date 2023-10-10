@@ -5,6 +5,7 @@ const randomstring = require('randomstring');
 const category = require('../Models/categoryModel')
 const Coupon = require('../Models/couponModel');
 const Banner = require('../Models/bannerModel')
+const {Parser} = require('json2csv')
 
 
 const securePassword = async(password)=>{
@@ -648,7 +649,6 @@ exports.salesReport = async(req,res)=>{
                   const orderDate = new Date(prd.order_date);
                   return orderDate >= fromDate && orderDate <= toDate;
               });
-              console.log(salesReport)
           }
 
           res.render('salesReport', { salesReport,selectedStatus })
@@ -660,6 +660,34 @@ exports.salesReport = async(req,res)=>{
   } catch (error) {
     console.log(error.message);
   }
+}
+exports.downloadReport = async(req,res)=>{
+  try {
+    const data = req.body
+    let file =[]
+    for(let i=0; i<data.length; i++) {
+      const row={
+        date: data.date[i],
+        order_id: data.order_id[i],
+        consumer: data.consumer[i],
+        product: data.product[i],
+        qty: data.qty[i],
+        payment: data.payment[i],
+        amount: data.amount[i]
+      };
+      file.push(row);
+    }
+    console.log(file);
+    const json2csv = new Parser()
+    const csv = json2csv.parse(file)
+
+    res.attachment(`report-${Date.now()}.csv`)
+    res.render('salesReport',{csv})
+    
+  } catch (error) {
+    console.log(error.message);
+  }
+
 }
 
  

@@ -774,7 +774,7 @@ body {
                 
                             </div>
                         </div>
-                        <div class="sales-tab  my-5  rounded border border-2 col-md-8" style="">
+                        <div class="sales-tab  my-5  rounded border border-2 col-md-8" >
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="options">
                                         <select id="statusFilter" class="ea-input" onchange="redirectToSelected()" >
@@ -797,7 +797,7 @@ body {
                                             <h3 class="text-secondary">All Sales Report</h3>
                                         <% } %>
                                     </div>
-                            <form action="/admin/sales-report/download-report" method="post">
+                            <form action="/admin/salesReport/downloadReport" method="post">
                 
                                     <% if (salesReport.length) { %>
                                         <div style="display: flex; justify-content:center;" class="  my-2 px-4">
@@ -841,7 +841,7 @@ body {
                                                     </td>
                                                     <input type="hidden" name="consumer" value="<%= sale.consumer %>">
                                                     <td class="product-name" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 100px;">
-                                                        <%= sale.products_details.prd_name %>
+                                                        <%= sale.products_details.productName %>
                                                     </td>
                                                     <input type="hidden" name="product" value="<%= sale.products_details.productName %>">
                                                     <td>
@@ -850,10 +850,10 @@ body {
                                                     <input type="hidden" name="qty" value="<%= sale.qty %>">
                                                     <td>
                                                         <p class="btn btn-sm bg-success fw-medium text-light">
-                                                            <%= sale.payment_method.split(' ').join('') %></p></td>
-                                                    <input type="hidden" name="payment" value="<%= sale.PaymentMethod %>">
+                                                            <%= sale.payment_method.split('').join('') %></p></td>
+                                                    <input type="hidden" name="payment" value="<%= sale.payment_method %>">
                                                     <td><b>₹<%= sale.total_amount %>/-</b></td>
-                                                    <input type="hidden" name="amount" value="<%= sale.totalAmount %>">
+                                                    <input type="hidden" name="amount" value="<%= sale.total_amount %>">
                                                 </tr>
                                             <% }) %>
                                         </tbody>
@@ -968,6 +968,13 @@ switchMode.addEventListener('change', function () {
 		document.body.classList.remove('dark');
 	}
 })
+	</script>
+	<script>
+		function filterSales(status){
+    const from=document.getElementById("start_date").value
+    const to=document.getElementById("end_date").value
+    window.location.href=`/admin/salesReport?from=${from}&to=${to}&status=${status}`
+}
 	</script>
 
 
