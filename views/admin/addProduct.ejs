@@ -785,7 +785,7 @@ form {
                                             <div class="col-sm-12 col-xl-12">
                                                 <div class="bg-light rounded h-100 p-4">
                                                     
-                                                    <form action="/admin/addProduct" method="post" enctype="multipart/form-data">
+                                                    <form action="/admin/addProduct" method="post" enctype="multipart/form-data" onsubmit="return validateProductForm()">
                                                         <div class="row mb-4">
                                                           <div class="col">
                                                             <label for="exampleInputEmail1" class="form-label">Product Name</label>
@@ -878,6 +878,9 @@ form {
                                                         </div>
                                                       
                                                         <button type="submit" class="btn btn-primary mt-2">Submit</button>
+														<!-- Add this element in your HTML form where you want to display error messages -->
+															<div id="error-message" class="error-message" style="color: #DB504A;"></div>
+
                                                       </form>
                                                       
                                                 </div>
@@ -904,6 +907,40 @@ form {
 	</section>
 	<!-- CONTENT -->
 	
+	<script>
+
+function validateProductForm() {
+    var productName = document.getElementById('exampleInputEmail1').value;
+    var brand = document.getElementById('exampleInputEmail1').value;
+    var connectivity = document.getElementById('exampleInputEmail1').value;
+    var actualPrice = document.getElementById('exampleInputEmail1').value;
+    var price = document.getElementById('exampleInputEmail1').value;
+    var discountPrice = document.getElementById('exampleInputEmail1').value;
+    var stock = document.getElementById('exampleInputEmail1').value;
+    var category = document.getElementById('exampleInputEmail1').value;
+    var description = document.getElementById('floatingTextarea').value;
+
+    // Trim spaces and check for empty values
+    if (productName.trim() === '' || brand.trim() === '' || connectivity.trim() === '' || actualPrice.trim() === '' ||
+        price.trim() === '' || discountPrice.trim() === '' || stock.trim() === '' || category.trim() === '' || description.trim() === '') {
+			document.getElementById('error-message').innerText = 'All fields are required';
+        return false;
+    }
+
+    // Check if price, actual price, discount price, and stock are numeric and not less than 0
+    if (isNaN(actualPrice) || actualPrice < 0 || isNaN(price) || price < 0 ||
+        isNaN(discountPrice) || discountPrice < 0 || isNaN(stock) || stock < 0) {
+			document.getElementById('error-message').innerText = 'Price, Actual Price, Discount Price, and Stock should be numeric values greater than or equal to 0';
+        return false;
+    }
+
+    // Additional validation logic can be added here if needed
+
+    return true;
+}
+
+
+	</script>
 
 	<script>
 		const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
