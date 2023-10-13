@@ -19,7 +19,7 @@
 <!-- Offcanvas Menu End -->
 <div class="offcanvas__logo">
     <a href="#">
-        <img src="/static/img/audioblast_black_theme.png" alt=""></a>
+        <img src="./static/img/audioblast_black_theme.png" alt=""></a>
 </div>
 <div id="mobile-menu-wrap"></div>
 
@@ -105,7 +105,7 @@
                 <div class="categories__item categories__large__item set-bg"
                 <% banners.forEach((banner) => { %>
                      
-                    data-setbg="/static/product_Images/<%= banner.image[0].filename %>" alt="">
+                    data-setbg="./static/product_Images/<%= banner.image[0].filename %>" alt="">
                         <% }); %>
                
                 <div class="categories__text">
@@ -362,7 +362,7 @@
                                 <a href=" <%= banner.url  %> ">Shop now
                                    <div style="width: 50%;">
 
-                                       <img src="/static/product_Images/<%= banner.image[0].filename %>" alt="">
+                                       <img src="./static/product_Images/<%= banner.image[0].filename %>" alt="">
                                    </div> 
                                     
                                 </a>
