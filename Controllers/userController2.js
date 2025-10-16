@@ -106,7 +106,7 @@ exports.verifyotp = async (req, res, next) => {
         { email: email },
         { $set: { is_verified: true } }
       );
-      res.render("login");
+      res.render("login", { hideHeaderNav: true });
     } else {
       res.render("otp", { message: "Incorrect OTP" });
     }
@@ -118,7 +118,7 @@ exports.verifyotp = async (req, res, next) => {
 
 exports.loadRegister = (req, res) => {
   try {
-    res.render("registration");
+    res.render("registration", { hideHeaderNav: true });
   } catch (error) {
     console.log(error.message);
   }
@@ -130,7 +130,7 @@ exports.loadHomepage = async (req, res) => {
     const user = await User.findOne({ _id: session });
     const banners = await banner.find({})
     let categorylist = await category.find({is_unlisted:1});
-    res.render("homepage", { user: user,categorylist: categorylist,banners: banners });
+    res.render("homepage", { user: user,categorylist: categorylist,banners: banners, hideHeaderNav:false });
   } catch (error) {
     console.log(error.message);
   }
@@ -138,7 +138,9 @@ exports.loadHomepage = async (req, res) => {
 
 exports.loadLogin = async (req, res) => {
   try {
-    res.render("login");
+    const session = req.session.user_id;
+    const user = await User.findOne({ _id: session });
+    res.render("login", { user: user, hideHeaderNav: true });
   } catch (error) {
     console.log(error.message);
   }
@@ -157,16 +159,17 @@ exports.verifyLogin = async (req, res) => {
           req.session.user_id = userData._id;
           res.redirect("/");
         } else {
-          res.render("login", { message: "Invalid password" });
+          res.render("login", { message: "Invalid password", hideHeaderNav: true });
         }
       } else {
         res.render("login", {
           message:
             "You have been blocked, Please contact the administrator !!!",
+          hideHeaderNav: true
         });
       }
     } else {
-      res.render("login", { message: "Invalid email and password" });
+      res.render("login", { message: "Invalid email and password", hideHeaderNav: true });
     }
   } catch (error) {
     console.log(error.message);
@@ -233,6 +236,7 @@ exports.loadShop = async (req, res) => {
         categoryName,
         pdts: pdt,
         category: categorylist,
+        hideHeaderNav: false,
         totalPages: Math.ceil(count / limit),
 
         currentPage: page,
@@ -334,12 +338,12 @@ exports.updatePassword = async (req, res) => {
 exports.loadCart = async (req, res) => {
   try {
     const userId = req.session.user_id;
-
+    const user = await User.findOne({ _id: userId });
     const userData = await User.findById(userId).populate("cart.productId");
     // console.log(userData);
     const cartItems = userData.cart;
 
-    res.render("cart", { cartItems });
+    res.render("cart", { cartItems, hideHeaderNav: false, user: user });
     // Assuming you're rendering a view named 'cart'
   } catch (error) {
     console.log(error.message);
@@ -410,16 +414,16 @@ exports.deleteFromCart = async (req, res) => {
 
 exports.loadWishlist = async (req, res) => {
   try {
-    const userId = req.session.user_id;
-
+    const userId = req.session.user_id;    const user = await User.findOne({ _id: userId });
+    // const user = await user.findOne({_id:userId})
     const pdt = await User.findOne({ _id: userId }, { wishlist: 1 }).populate(
       "wishlist"
     );
     // console.log(pdt);
     if (pdt) {
-      res.render("wishlist", { pdts: pdt });
+      res.render("wishlist", { pdts: pdt, hideHeaderNav: false, user: user });
     } else {
-      res.render("wishlist", { message: "wishlist is empty" });
+      res.render("wishlist", { message: "wishlist is empty", hideHeaderNav: false, user: user });
     }
   } catch (error) {
     console.log(error.message);
