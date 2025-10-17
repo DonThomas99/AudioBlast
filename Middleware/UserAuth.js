@@ -7,7 +7,7 @@ exports.isLogin = async(req,res,next)=>{
                 next()
             }
             else{
-                res.session.destroy()
+                req.session.destroy()
                 res.redirect('/')
                 
             }

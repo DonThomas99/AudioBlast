@@ -258,7 +258,7 @@ exports.loadProductDetail = async (req, res) => {
       const isExist = user2.wishlist.find((prd) => prd == pdtId);
       const pdt = await product.findById(req.params.id).populate("category");
       if (pdt) {
-        res.render("productDetail", { user, products: pdt, isExist,pdt });
+        res.render("productDetail", { user, products: pdt, isExist,pdt, hideHeaderNav: false });
       }
     } else {
       //const isExist = user.wishlist.find(prd =>prd == pdtId)
@@ -269,7 +269,7 @@ exports.loadProductDetail = async (req, res) => {
   .limit(4);
 
       if (pdt) {
-        res.render("productDetail", { user, pdt: pdt, isExist: null,products: products});
+        res.render("productDetail", { user, pdt: pdt, isExist: null,products: products, hideHeaderNav: false });
       }
     }
   } catch (error) {
@@ -354,7 +354,7 @@ exports.addToCart = async (req, res) => {
   try {
     const pdtId = req.params.id;
     const userId = req.session.user_id;
-    const userData = await User.findById({ _id: userId });
+    // const userData = await User.findById({ _id: userId });
     const pdt = await product.findById({ _id: pdtId });
 
     const cartItem = {
@@ -489,6 +489,7 @@ exports.search = async (req, res) => {
 };
 exports.addWishlist = async (req, res) => {
   try {
+    
     const userId = req.session.user_id;
     const pdtId = req.query.id;
     await User.updateOne({ _id: userId }, { $push: { wishlist: pdtId } });
@@ -514,7 +515,7 @@ exports.userDashboard = async (req, res) => {
 
     const walletHistory = user.wallet.transactions.reverse();
 
-    res.render("userDashboard", { user, walletHistory });
+    res.render("userDashboard", { user, walletHistory, hideHeaderNav: false });
   } catch (error) {
     console.log(error.message);
   }
@@ -557,7 +558,7 @@ exports.loadCheckout = async (req, res) => {
     const coupons = await coupon.find({ listed: true });
 
     const userData = await User.findById(session).populate("cart.productId");
-    // console.log(userData);
+    
     const cartItems = userData.cart;
     if( req.session.couponDiscountedAmt ||req.session.CouponUsed || req.session.payAmount || req.session.walletBal  ){
       
@@ -567,7 +568,7 @@ exports.loadCheckout = async (req, res) => {
       delete req.session.walletBal
     }
 
-    res.render("checkout", { user, cartItems, coupons });
+    res.render("checkout", { user, cartItems, coupons, hideHeaderNav: true });
   } catch (error) {
     console.log(error.message);
   }
@@ -584,6 +585,7 @@ exports.loadAddAddress = async (req, res) => {
       parentPage: "user-dashboard",
       returnPage,
       user,
+      hideHeaderNav: false
     });
   } catch (error) {
     console.log(error.message);
@@ -846,6 +848,7 @@ exports.loadOrders = async (req, res) => {
       orderData: orderData,
       page: "My Orders",
       parentPage: "user-dashboard",
+      hideHeaderNav: false,
     }); // Render EJS template with data
   } catch (error) {
     console.error(error.message);
@@ -904,6 +907,7 @@ exports.orderDetails = async (req, res) => {
       parentPage: "My Orders",
       orderData: order,
       status,
+      hideHeaderNav: false
     });
   } catch (error) {
     console.log(error.message);
@@ -942,7 +946,7 @@ exports.cancelOrder = async (req, res) => {
 
     // console.log(pdt.status);
     if (cancelledBy == "admin") {
-      res.redirect(`/admin/detailPage/${orderId}`);
+      res.redirect(`/admin/detailPage/${orderId},{hideHeaderNav:false}`);
     } else if (cancelledBy == "user") {
       res.redirect(`/orderDetail/${orderId}`);
     }

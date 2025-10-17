@@ -22,10 +22,11 @@ user_route.get('/',userController2.loadHomepage)
 //forgot password
 user_route.get('/forgotPassword',userController2.loadForgotPassword)
 user_route.post('/forgotPassword',userController2.sendOtp)
+
+//update password
 user_route.post('/updatePassword',userController2.verifyOtp2)
 user_route.post('/updatePassword2',userController2.updatePassword)
 
-//update password
 
 //shop
 user_route.get('/shop',userController2.loadShop)
