@@ -100,6 +100,8 @@
                                 
                                 <ul class="product__hover">
                                     <li><a href="/static/Product_Images/<%= item.image[0].filename %>" class="image-popup"><span class="arrow_expand"></span></a></li>
+
+                                    <% if (user) { %>
                                         
                                     <li><a href="#" onclick="addToWishlist('<%= item._id %>'); return false;"><span class="icon_heart_alt"></span></a></li>
                                     
@@ -112,6 +114,20 @@
                                             </a>
                                         </li>
                                     <% } %>
+                                    <% }else{ %>
+                                        <li><a type="button" data-toggle="modal" data-target="#exampleModalCenter"><span class="icon_heart_alt"></span></a></li>
+                                    
+                                    
+                                        <% if (item.stock>0) { %>
+                                         
+                                            <li>
+                                                <a type="button" data-toggle="modal" data-target="#exampleModalCenter">
+                                                    <span class="icon_cart_alt"></span>
+                                                </a>
+                                            </li>
+                                        <% } %>
+                                    <% } %>
+
 
                                 </ul>
                             </div>
