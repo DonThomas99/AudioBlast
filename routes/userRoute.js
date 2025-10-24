@@ -4,6 +4,7 @@ const user_route = express()
 const config = require('../config/config')
 const userController2 = require('../Controllers/userController2')
 const auth = require('../Middleware/UserAuth')
+const wishlistChecker = require('../Middleware/wishlistChecker')
 
 
 user_route.use(session
@@ -67,7 +68,7 @@ user_route.patch('/cart_qty',userController2.updateQty)
 
 //wishlist
 user_route.get('/wishlist',userController2.loadWishlist)
-user_route.get('/add-wishlist',userController2.addWishlist)
+user_route.get('/add-wishlist',wishlistChecker.checkforduplicates,userController2.addWishlist)
 user_route.get('/remove-wishlist',userController2.removeWishlist)
 
 //checkout

@@ -489,13 +489,15 @@ exports.search = async (req, res) => {
 };
 exports.addWishlist = async (req, res) => {
   try {
-    
     const userId = req.session.user_id;
     const pdtId = req.query.id;
+    
+    // Add product to wishlist (middleware already checked for duplicates)
     await User.updateOne({ _id: userId }, { $push: { wishlist: pdtId } });
-    res.redirect(`/loadProductDetail/${pdtId}`);
+    res.redirect(`/loadProductDetail/${pdtId}?message=Product added to wishlist`);
   } catch (error) {
     console.log(error.message);
+    res.redirect(`/loadProductDetail/${req.query.id}?error=Failed to add to wishlist`);
   }
 };
 exports.removeWishlist = async (req, res) => {
