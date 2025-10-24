@@ -508,7 +508,7 @@ exports.removeWishlist = async (req, res) => {
     console.log(error.message);
   }
 };
-exports.userDashboard = async (req, res) => {
+exports.userDashboard = async (req, res) =>{
   try {
     const session = req.session.user_id;
     const user = await User.findOne({ _id: session });

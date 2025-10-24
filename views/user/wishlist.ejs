@@ -38,7 +38,11 @@
                     
                     <ul class="product__hover">
                         <li><a href="/static/Product_Images/<%= item.image[0].filename %>" class="image-popup"><span class="arrow_expand"></span></a></li>
-                      
+                        <li>
+                            <a  href="/remove-wishlist?id=<%= item._id%>">
+
+                                <span  class="icon_heart_alt"></span></li>
+                            </a>
                     </ul>
                 </div>
                 <div class="product__item__text">
