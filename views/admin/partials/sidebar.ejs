@@ -1,0 +1,61 @@
+<% const active = typeof activePage !== 'undefined' ? activePage : ''; %>
+
+<section id="sidebar">
+	<a href="#" class="brand">
+		<i class='bx bxs-speaker'></i>
+		<span class="text">AudioBlast</span>
+	</a>
+	<ul class="side-menu top">
+		<li <%= active === 'dashboard' ? 'class="active"' : '' %>>
+			<a href="/admin/dashboard">
+				<i class='bx bxs-dashboard'></i>
+				<span class="text">Dashboard</span>
+			</a>
+		</li>
+		<li <%= active === 'productList' ? 'class="active"' : '' %>>
+			<a href="/admin/productList">
+				<i class='bx bxs-shopping-bag-alt'></i>
+				<span class="text">Products</span>
+			</a>
+		</li>
+		<li <%= active === 'ordersList' ? 'class="active"' : '' %>>
+			<a href="/admin/ordersList">
+				<i class='bx bxs-truck'></i>
+				<span class="text">Shipping</span>
+			</a>
+		</li>
+		<li <%= active === 'couponList' ? 'class="active"' : '' %>>
+			<a href="/admin/couponList">
+				<i class='bx bxs-coupon'></i>
+				<span class="text">Coupons</span>
+			</a>
+		</li>
+		<li <%= active === 'usersList' ? 'class="active"' : '' %>>
+			<a href="/admin/userslist">
+				<i class='bx bxs-group'></i>
+				<span class="text">Customers</span>
+			</a>
+		</li>
+		<li <%= active === 'categoryList' ? 'class="active"' : '' %>>
+			<a href="/admin/categoryList">
+				<i class='bx bxs-box'></i>
+				<span class="text">Categories</span>
+			</a>
+		</li>
+		<li <%= active === 'bannerList' ? 'class="active"' : '' %>>
+			<a href="/admin/loadBanners">
+				<i class='bx bxs-image'></i>
+				<span class="text">Banners</span>
+			</a>
+		</li>
+	</ul>
+	<ul class="side-menu">
+		<li>
+			<a href="/admin/signout" class="logout">
+				<i class='bx bxs-log-out-circle'></i>
+				<span class="text">Logout</span>
+			</a>
+		</li>
+	</ul>
+</section>
+
